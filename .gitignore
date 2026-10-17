@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.slidev/
+*.pdf
+*.pptx
+Slides/artifacts/
+Slides/preview.log
+Slides/*.log
+
+# Local credentials and editor settings
+.env
+.env.*
+!.env.example
+.vscode/settings.json
+
+# Operating system metadata
+.DS_Store
+Thumbs.db

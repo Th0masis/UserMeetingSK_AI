@@ -1,0 +1,200 @@
+name: PR policy
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+
+permissions:
+  contents: read
+  pull-requests: read
+  statuses: write
+
+concurrency:
+  group: pr-policy-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  policy:
+    if: github.event.pull_request.base.ref == 'main'
+    name: Check PR scope
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check topic ownership and duplicate PRs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pull = context.payload.pull_request
+            const repo = context.repo
+            const status = {
+              ...repo,
+              sha: pull.head.sha,
+              context: 'PR policy',
+              target_url: `${context.serverUrl}/${repo.owner}/${repo.repo}/actions/runs/${context.runId}`,
+            }
+            await github.rest.repos.createCommitStatus({ ...status, state: 'pending', description: 'Checking PR scope' })
+            try {
+              if (pull.base.ref !== 'main') throw new Error('PR must target main')
+              if (pull.user.login.toLowerCase() !== 'th0masis') {
+                const reviews = await github.paginate(github.rest.pulls.listReviews, {
+                  ...repo, pull_number: pull.number, per_page: 100,
+                })
+                const coordinatorReviews = reviews
+                  .filter(review => review.user?.login.toLowerCase() === 'th0masis')
+                  .sort((left, right) => new Date(left.submitted_at) - new Date(right.submitted_at))
+                const latestReview = coordinatorReviews.at(-1)
+                if (latestReview?.state !== 'APPROVED' || latestReview.commit_id !== pull.head.sha) {
+                  throw new Error('A current-head approval from @Th0masis is required')
+                }
+              }
+              const files = await github.paginate(github.rest.pulls.listFiles, {
+                ...repo, pull_number: pull.number, per_page: 100,
+              })
+              const paths = files.flatMap(file => [file.filename, file.previous_filename].filter(Boolean))
+              const branch = pull.head.ref
+              if (branch === 'coord/chapter-openers') {
+                const sharedPaths = new Set([
+                  'Slides/style.css',
+                  'Slides/slides.md',
+                  'docs/graphic-notes.md',
+                ])
+                const topicPath = /^Slides\/topics\/([a-z0-9][a-z0-9-]*)\.md$/
+                const assetPath = /^Slides\/public\/topics\/([a-z0-9][a-z0-9-]*)\/chapter\.jpg$/
+                const topicIds = new Set()
+                const assetIds = new Set()
+
+                for (const path of paths) {
+                  if (sharedPaths.has(path)) continue
+                  const topicMatch = topicPath.exec(path)
+                  if (topicMatch) {
+                    topicIds.add(topicMatch[1])
+                    continue
+                  }
+                  const assetMatch = assetPath.exec(path)
+                  if (assetMatch) {
+                    assetIds.add(assetMatch[1])
+                    continue
+                  }
+                  throw new Error(`Unexpected path in chapter opener rollout: ${path}`)
+                }
+
+                if (!topicIds.size || topicIds.size !== assetIds.size || [...topicIds].some(topic => !assetIds.has(topic))) {
+                  throw new Error('Each changed topic must include its matching chapter.jpg asset')
+                }
+                if (files.some(file => file.status === 'removed')) {
+                  throw new Error('A chapter opener rollout cannot delete files')
+                }
+
+                const readText = async (path, ref) => {
+                  const { data } = await github.rest.repos.getContent({ ...repo, path, ref })
+                  if (Array.isArray(data) || !data.content) throw new Error(`Expected a file at ${path}`)
+                  return Buffer.from(data.content, 'base64').toString('utf8').replace(/\r\n/g, '\n')
+                }
+
+                for (const topic of topicIds) {
+                  const path = `Slides/topics/${topic}.md`
+                  await github.rest.repos.getContent({ ...repo, path, ref: pull.base.sha })
+                  const [baseText, headText] = await Promise.all([
+                    readText(path, pull.base.sha),
+                    readText(path, pull.head.sha),
+                  ])
+                  const imageLine = `<img class="chapter-image" src="/topics/${topic}/chapter.jpg" alt="">`
+                  const imageBlock = new RegExp(
+                    `<img class="chapter-image" src="/topics/${topic}/chapter\\.jpg" alt="">\\r?\\n\\r?\\n`,
+                    'm',
+                  )
+                  if ((headText.match(/^class: ot-slide chapter-slide\r?$/gm) ?? []).length !== 1 ||
+                      headText.split(imageLine).length !== 2 || !imageBlock.test(headText)) {
+                    throw new Error(`Topic ${topic} must add only its chapter-slide class and matching image`)
+                  }
+                  const normalizedHead = headText
+                    .replace(/^class: ot-slide chapter-slide\r?$/m, 'class: ot-slide')
+                    .replace(imageBlock, '')
+                  if (normalizedHead !== baseText) {
+                    throw new Error(`Topic ${topic} contains changes beyond its opening-slide image`)
+                  }
+                }
+
+                if (paths.includes('Slides/slides.md')) {
+                  const baseText = await readText('Slides/slides.md', pull.base.sha)
+                  const headText = await readText('Slides/slides.md', pull.head.sha)
+                  const coverChanges = [
+                    [
+                      '<img class="cover-logo" src="/br-template-logo.svg" alt="B&amp;R Industrial Automation">',
+                      '<img class="cover-logo" src="/Website_header 02.png" alt="B&amp;R Industrial Automation">',
+                    ],
+                    ['<p class="cover-sub">Telč</p>', '<p class="cover-sub">4. 11. 2026</p>'],
+                  ]
+                  let normalizedHead = headText
+                  for (const [updated, original] of coverChanges) {
+                    if (normalizedHead.split(updated).length !== 2 || !baseText.includes(original)) {
+                      throw new Error('Slides/slides.md may only apply the approved cover logo and subtitle changes')
+                    }
+                    normalizedHead = normalizedHead.replace(updated, original)
+                  }
+                  if (normalizedHead !== baseText) {
+                    throw new Error('Slides/slides.md contains changes beyond the approved cover adjustments')
+                  }
+                }
+              } else if (branch === 'coord/topic-isolation-and-validation') {
+                const topicFile = 'Slides/topics/as-cli.md'
+                if (paths.some(path => path.startsWith('Slides/public/topics/') ||
+                    (/^Slides\/topics\/[a-z0-9][a-z0-9-]*\.md$/.test(path) && path !== topicFile))) {
+                  throw new Error('The isolation rollout may only migrate AS CLI imports and root classes')
+                }
+                if (paths.includes(topicFile)) {
+                  const readText = async ref => {
+                    const { data } = await github.rest.repos.getContent({ ...repo, path: topicFile, ref })
+                    if (Array.isArray(data) || !data.content) throw new Error(`Expected a file at ${topicFile}`)
+                    return Buffer.from(data.content, 'base64').toString('utf8').replace(/\r\n/g, '\n')
+                  }
+                  const baseText = await readText(pull.base.sha)
+                  const headText = await readText(pull.head.sha)
+                  const styleImport = "<script setup>\nimport './as-cli/styles.css'\n</script>\n\n"
+                  const componentImport = "<script setup>\nimport './as-cli/styles.css'\nimport TerminalCli from './as-cli/components/TerminalCli.vue'\n</script>\n\n"
+                  const rootClass = /^(class: [^\n]*) topic-as-cli$/gm
+                  if (headText.split(styleImport).length !== 5 ||
+                      headText.split(componentImport).length !== 2 ||
+                      (headText.match(rootClass) ?? []).length !== 5) {
+                    throw new Error('AS CLI must add exactly five namespaced roots and their approved imports')
+                  }
+                  const normalizedHead = headText
+                    .replaceAll(styleImport, '')
+                    .replace(componentImport, '')
+                    .replace(rootClass, '$1')
+                  if (normalizedHead !== baseText) {
+                    throw new Error('AS CLI contains changes beyond the approved source migration')
+                  }
+                }
+              } else if (/^coord\/[a-z0-9][a-z0-9-]*$/.test(branch)) {
+                if (paths.some(path => /^Slides\/topics\/[a-z0-9][a-z0-9-]*\.md$/.test(path) || path.startsWith('Slides/public/topics/'))) {
+                  throw new Error('Topic content and assets must use their topic branch, not a coordination PR')
+                }
+              } else {
+                const match = /^topic\/([a-z0-9][a-z0-9-]*)$/.exec(branch)
+                if (!match) throw new Error('Use topic/<topic-id> or coord/<change-id>')
+                const topic = match[1]
+                const topicFile = `Slides/topics/${topic}.md`
+                const topicSource = `Slides/topics/${topic}/`
+                await github.rest.repos.getContent({ ...repo, path: topicFile, ref: pull.base.sha })
+                const assetRoot = `Slides/public/topics/${topic}/`
+                if (!paths.length || paths.some(path => path !== topicFile && !path.startsWith(topicSource) && !path.startsWith(assetRoot))) {
+                  throw new Error(`Only ${topicFile}, ${topicSource}, and ${assetRoot} may change in this PR`)
+                }
+                if (files.some(file => file.filename === topicFile && file.status === 'removed')) {
+                  throw new Error('A topic PR cannot delete its topic file')
+                }
+                const openPulls = await github.paginate(github.rest.pulls.list, {
+                  ...repo, state: 'open', base: 'main', per_page: 100,
+                })
+                const duplicate = openPulls.find(candidate => candidate.number !== pull.number && candidate.head.ref === branch)
+                if (duplicate) throw new Error(`Topic already has open PR #${duplicate.number}; collaborate there`)
+              }
+              await github.rest.repos.createCommitStatus({ ...status, state: 'success', description: 'PR scope is valid' })
+            } catch (error) {
+              core.setFailed(error.message)
+              await github.rest.repos.createCommitStatus({ ...status, state: 'failure', description: error.message.slice(0, 140) })
+            }

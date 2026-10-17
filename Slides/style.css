@@ -1,0 +1,213 @@
+:root {
+  --br-font: 'ABBvoice', 'ABBvoice Office', Arial, sans-serif;
+  --br-orange: #ff8800;
+  --br-orange-hot: #ffa947;
+  --ink: #262626;
+  --steel: #6e6e6e;
+  --muted: #6e6e6e;
+  --line: #d2d2d2;
+  --paper: #ffffff;
+  --white: #ffffff;
+  --type-title: 45px;
+  --type-section: 28px;
+  --type-block: 22px;
+  --type-body: 18px;
+  --type-caption: 14px;
+  --type-note: 12px;
+  --type-minor: 10px;
+  --type-slide-number: 14px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.slidev-layout {
+  position: relative;
+  overflow: hidden;
+  padding: 34px 70px 48px;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--br-font);
+  --text-role: body;
+  --text-size: var(--type-body);
+  --text-leading: 1.35;
+  --text-font: var(--br-font);
+}
+
+.slidev-layout::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  content: '';
+  background: url('/br-template-logo.svg') right 35px bottom 22px / 39px 20px no-repeat;
+}
+
+.slidev-layout > * {
+  position: relative;
+  z-index: 1;
+}
+
+.slidev-layout :where(h1, h2, h3, p, li, div, span, b, strong, em, small, time, code, pre, td, th) {
+  font-size: var(--text-size) !important;
+  line-height: var(--text-leading) !important;
+  font-family: var(--text-font) !important;
+  letter-spacing: 0 !important;
+}
+
+.slidev-layout h1 {
+  --text-role: title;
+  --text-size: var(--type-title);
+  --text-leading: 1.1;
+  max-width: 1050px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.slidev-layout.agenda-slide {
+  padding-top: 44px;
+}
+
+.slidev-layout h2 {
+  --text-role: section;
+  --text-size: var(--type-section);
+  --text-leading: 1.15;
+  font-weight: 700;
+}
+
+.slidev-layout h3 {
+  --text-role: block;
+  --text-size: var(--type-block);
+  --text-leading: 1.2;
+  font-weight: 700;
+}
+
+.slidev-layout p {
+  margin: 0;
+}
+
+.slidev-layout ul {
+  margin: 22px 0 0;
+  padding-left: 26px;
+}
+
+.slidev-layout li {
+  margin: 0 0 12px;
+}
+
+.slidev-layout.cover {
+  padding: 490px 35px 65px;
+  background: var(--paper);
+}
+
+.slidev-layout.cover::before {
+  z-index: 1;
+  background: url('/Website_header 02.png') top center / 100% 485px no-repeat;
+}
+
+.slidev-layout.cover::after {
+  position: absolute;
+  top: 457px;
+  left: 0;
+  z-index: 2;
+  width: min(335px, 27%);
+  height: 28px;
+  background: var(--br-orange);
+  content: '';
+}
+
+.slidev-layout.cover > .my-auto.w-full {
+  position: static;
+  z-index: auto;
+  margin: 0;
+}
+
+.slidev-layout.cover > .my-auto.w-full > * {
+  position: relative;
+  z-index: 2;
+}
+
+.slidev-layout.cover h1 {
+  width: 1140px;
+  max-width: 1140px;
+}
+
+.cover-sub {
+  width: 1100px;
+  margin-top: 12px !important;
+  color: var(--steel);
+}
+
+.cover-logo {
+  position: absolute !important;
+  right: 35px;
+  bottom: 39px;
+  z-index: 3 !important;
+  width: 68px;
+  height: auto;
+}
+
+.cover-event {
+  position: absolute !important;
+  left: 35px;
+  bottom: 22px;
+  display: flex;
+  gap: 12px;
+  color: var(--steel);
+  font-weight: 600;
+  --text-role: minor;
+  --text-size: var(--type-minor);
+  --text-leading: 1.2;
+  --text-font: 'IBM Plex Mono', monospace;
+}
+
+.cover-event span + span {
+  padding-left: 12px;
+  border-left: 2px solid var(--br-orange);
+}
+
+.talk-agenda {
+  display: grid;
+  gap: 14px 36px;
+  margin-top: 30px;
+}
+
+.talk-agenda > div {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: baseline;
+  gap: 14px;
+  min-height: 38px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.talk-agenda span,
+.section-duration,
+.agenda-total {
+  color: var(--br-orange);
+  --text-role: caption;
+  --text-size: var(--type-caption);
+  --text-leading: 1.3;
+}
+
+.talk-agenda strong {
+  font-weight: 700;
+}
+
+.agenda-total {
+  margin-top: 20px !important;
+  font-weight: 700;
+}
+
+.section-duration {
+  margin-top: 12px !important;
+}
