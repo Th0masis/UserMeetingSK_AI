@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { load } from '@slidev/parser/fs'
@@ -14,34 +15,51 @@ for (const markdown of Object.values(deck.markdownFiles)) {
 }
 
 assert.equal(deck.headmatter.title, 'AI v průmyslové automatizaci')
-assert.equal(deck.entry.slides.length, 8, 'Expected a cover, an outline and six topic slides')
+const parsedTitles = deck.slides.map(slide => slide.content.match(/<h1>(.*?)<\/h1>/)?.[1] ?? slide.content.match(/^# (.+)$/m)?.[1] ?? '(untitled)')
+assert.equal(deck.entry.slides.length, 21, `Expected the cover, outline and 19 active content slides; parsed: ${parsedTitles.join(' | ')}`)
 assert.ok(deck.entry.slides.every(slide => !slide.frontmatter.src), 'The starter deck must not import missing files')
 assert.equal(deck.entry.slides[0].frontmatter.layout, 'cover')
 
-const topics = [
-  ['Úvod', '2 min'],
-  ['Základy LLM', '5 min'],
-  ['Agentic Engineering', '15 min'],
-  ['Automation Studio Agentic Bridge', '13 min'],
-  ['Support Agent', '10 min'],
-  ['Příklady z praxe', '5 min'],
+const slideTitles = [
+  'AI v průmyslové automatizaci',
+  'Osnova',
+  'AI se z IT dostává do světa OT',
+  'LLM není kouzelná skříňka',
+  'Od promptingu ke kontext engineeringu',
+  'Ověřujme fakta i kód',
+  'Od autocomplete k agentovi',
+  'Kvalitu určuje postup, ne nálepka',
+  'Agentic workflow',
+  'Close the gap',
+  'Model, harness, MCP a skills',
+  'Jak vést k opakovatelnému výsledku',
+  'Automation Studio Agentic Bridge',
+  'Agentic Bridge: tři propojené části',
+  'Knowledge Hub: odborné podklady se zdrojem',
+  'AS Repository: postup pro projekt',
+  'Co je as-cli?',
+  'Co umí as-cli?',
+  'Bridge demo: plán, ne důkaz běhu',
+  'Co Bridge nezaručuje',
+  'AI & Agentic Engineering Day',
 ]
-const topicSlides = deck.slides.slice(2)
-assert.equal(topicSlides.length, topics.length)
 
-for (const [index, [title, duration]] of topics.entries()) {
-  const slide = topicSlides[index]
-  assert.ok(slide.content.includes(`# ${title}`), `Missing or misplaced topic: ${title}`)
-  assert.ok(slide.content.includes(duration), `Missing duration for ${title}`)
-  assert.ok(slide.content.trim(), `Empty topic slide: ${title}`)
+for (const [index, title] of slideTitles.entries()) {
+  const slide = deck.slides[index]
+  assert.ok(slide.content.includes(title), `Missing or misplaced slide: ${title}`)
+  assert.ok(slide.content.trim(), `Empty slide: ${title}`)
 }
 
-const durationTotal = topics.reduce((total, [, duration]) => total + Number.parseInt(duration, 10), 0)
-assert.equal(durationTotal, 50, 'Talk outline must total 50 minutes')
-assert.ok(deck.slides[1].content.includes('50 minut'), 'Outline slide must show the total duration')
+const sectionMinutes = [3, 5, 14, 14, 8, 6]
+const durationTotal = sectionMinutes.reduce((total, duration) => total + duration, 0)
+assert.equal(durationTotal, 50, 'The programme including reservations must total 50 minutes')
+assert.ok(deck.slides[1].content.includes('50 minut celkem'), 'Outline must show the 50-minute programme')
+assert.ok(deck.slides[1].content.includes('aktivní část 37:30'), 'Outline must show the active 37:30')
+assert.ok(deck.slides[1].content.includes('rezervace 12:30'), 'Outline must preserve the 12:30 reservation')
+assert.ok(!deck.slides.some(slide => /^# (Support Agent|Příklady z praxe)$/m.test(slide.content)), 'Deferred sections must not become content slides')
 
-for (const slide of deck.slides) {
-  assert.ok(slide.content.trim(), `Empty slide: ${slide.index + 1}`)
-}
+const source = readFileSync(resolve(root, 'slides.md'), 'utf8')
+const presenterNotes = source.match(/<!--\s*\r?\nZáměr a čas:[\s\S]*?-->/g) ?? []
+assert.equal(presenterNotes.length, deck.entry.slides.length, 'Every slide must have presenter notes')
 
-console.log(`Content checks passed: ${topics.length} topics, ${deck.slides.length} slides, ${durationTotal} minutes`)
+console.log(`Content checks passed: ${deck.slides.length} slides, ${durationTotal} planned minutes, ${presenterNotes.length} presenter notes`)
