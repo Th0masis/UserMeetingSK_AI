@@ -45,20 +45,20 @@ class: agenda-slide
 # Osnova
 
 <div class="talk-agenda">
-  <div><span>03 min</span><strong>Úvod</strong></div>
-  <div><span>05 min</span><strong>Základy LLM</strong></div>
-  <div><span>14 min</span><strong>Agentic Engineering</strong></div>
-  <div><span>14 min</span><strong>Automation Studio Agentic Bridge</strong></div>
-  <div><span>08 min</span><strong>Support Agent <span class="agenda-reservation">rezervace</span></strong></div>
-  <div><span>06 min</span><strong>Příklady z praxe <span class="agenda-reservation">rezervace 4:30</span> + pozvánka 1:30</strong></div>
+  <div class="has-bar"><i class="ot-icon"><mdi-hand-wave-outline /></i><span>03 min</span><strong>Úvod</strong><i class="agenda-bar" style="--m: 3;"></i></div>
+  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-blue);"><mdi-brain /></i><span>05 min</span><strong>Základy LLM</strong><i class="agenda-bar" style="--m: 5;"></i></div>
+  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-cyan);"><mdi-cog-play-outline /></i><span>14 min</span><strong>Agentic Engineering</strong><i class="agenda-bar" style="--m: 14;"></i></div>
+  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-purple);"><mdi-bridge /></i><span>14 min</span><strong>Automation Studio Agentic Bridge</strong><i class="agenda-bar" style="--m: 14;"></i></div>
+  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-green);"><mdi-face-agent /></i><span>08 min</span><strong>Support Agent</strong><i class="agenda-bar" style="--m: 8;"></i></div>
+  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-amber);"><mdi-factory /></i><span>06 min</span><strong>Příklady z praxe <span class="agenda-reservation">rezervace 4:30</span> + pozvánka 1:30</strong><i class="agenda-bars"><i class="agenda-bar is-reserve" style="--m: 4.5;"></i><i class="agenda-bar" style="--m: 1.5;"></i></i></div>
 </div>
 
-<p class="agenda-total">50 minut celkem · aktivní část 37:30 · rezervace 12:30</p>
+<p class="agenda-total">50 minut celkem · aktivní část 45:30 · rezervace 4:30</p>
 
 <!--
-Záměr a čas: 30 sekund. Orientujte publikum v šestidílném programu a ukažte, že 12:30 zůstává rezervováno.
+Záměr a čas: 30 sekund. Orientujte publikum v šestidílném programu a ukažte, že 4:30 zůstává rezervováno.
 Počáteční stav: všech šest řádků a součet 50 minut jsou viditelné; nic se neodhaluje.
-Řečový tah: titul i agenda jsou započítané. Support Agent má rezervaci 8 minut a příklady z praxe 4:30; aktivní pozvánka zabere posledních 1:30. Aktivní obsah proto trvá 37:30, nejde o hotovou padesátiminutovou prezentaci.
+Řečový tah: titul i agenda jsou započítané. Support Agent má aktivních 8 minut; příklady z praxe zůstávají rezervované na 4:30 a aktivní pozvánka zabere posledních 1:30. Aktivní obsah proto trvá 45:30; plných 50 minut je dosaženo pouze s doplněním příkladů.
 Přechod: začít otázkou, podle čeho poznáme použitelnost návrhu AI.
 -->
 
@@ -96,17 +96,29 @@ class: ot-slide
 
 <h1>LLM není kouzelná skříňka</h1>
 <p class="ot-lead">Statisticky odhaduje pravděpodobnost dalšího tokenu podle zadání a dostupného kontextu.</p>
-<div class="ot-grid cols-3 ot-flow" style="margin-top: 56px;">
-  <section class="ot-card"><div class="ot-card-head"><span class="ot-icon"><mdi-text-box-outline /></span><span class="ot-step">01 · VSTUP</span></div><h2>Cíl a kontext</h2><p>Prompt, podklady a dosavadní průběh konverzace.</p></section>
-  <section class="ot-card"><div class="ot-card-head"><span class="ot-icon"><mdi-chart-bar /></span><span class="ot-step">02 · ODHAD</span></div><h2>Další token</h2><p>Model vypočte pravděpodobné pokračování a vytvoří další token.</p></section>
-  <section class="ot-card"><div class="ot-card-head"><span class="ot-icon"><mdi-message-text-outline /></span><span class="ot-step">03 · VÝSTUP</span></div><h2>Odpověď</h2><p>Opakováním vzniká text, který může znít přesvědčivě, ale není tím ověřený.</p></section>
+<div class="ot-stage">
+<div class="ot-grid ot-flow" style="grid-template-columns: 0.9fr 1.3fr 0.9fr; --link-y: 56px;">
+  <section class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-text-box-outline /></span><span class="ot-step">01 · VSTUP</span></div><h2>Cíl a kontext</h2><p>Prompt, podklady a dosavadní průběh konverzace.</p><p class="t-command" style="color: var(--ink);">„Po přenosu startuje CPU do …“</p></section>
+  <section class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-chart-bar /></span><span class="ot-step">02 · ODHAD</span></div><h2>Další token</h2>
+    <div v-click="1" style="display: grid; gap: 8px;">
+      <div class="ot-prob" style="--p: 46%; --accent: var(--flow-blue);"><span class="t-command">SERVICE</span><i></i><span class="t-command">46 %</span></div>
+      <div class="ot-prob" style="--p: 31%; --accent: var(--flow-blue);"><span class="t-command">RUN</span><i></i><span class="t-command">31 %</span></div>
+      <div class="ot-prob is-low" style="--p: 9%;"><span class="t-command">BOOT</span><i></i><span class="t-command">9 %</span></div>
+      <p class="t-caption">Ilustrační hodnoty, nikoli výstup konkrétního modelu.</p>
+    </div>
+  </section>
+  <section class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-message-text-outline /></span><span class="ot-step">03 · VÝSTUP</span></div><h2>Odpověď</h2><p>Opakováním vzniká text, který může znít přesvědčivě, ale není tím ověřený.</p></section>
 </div>
-<div class="ot-callout" style="margin-top: 40px;"><mdi-alert-circle-outline /><p>Model předpovídá pokračování textu; sám tím nepotvrzuje pravdivost odpovědi.</p></div>
+<div class="ot-callout"><mdi-alert-circle-outline /><p>Model předpovídá pokračování textu; sám tím nepotvrzuje pravdivost odpovědi.</p></div>
+</div>
 
 <!--
 Záměr a čas: 1:30. Vysvětlete statistickou predikci dalšího tokenu a proč nejde o magickou ani ověřující schopnost.
-Počáteční stav: titulek, vysvětlení a tři části toku jsou viditelné; nic se neodhaluje.
-Řečový tah: model generuje text token po tokenu na základě promptu a kontextu, který má k dispozici. Nezaměňujte pravděpodobné pokračování za ověřený fakt.
+Počáteční stav: titulek, vysvětlení a tři části toku jsou viditelné; pravděpodobnosti kandidátních tokenů jsou skryté.
+Řečový tah: model generuje text token po tokenu na základě promptu a kontextu, který má k dispozici.
+[click]
+Sloupce ukazují ilustrační rozdělení pravděpodobnosti pro další slovo. Model vybere pravděpodobné pokračování; nejpravděpodobnější token ještě není ověřený fakt.
+Konečný stav: celý tok včetně ilustračních pravděpodobností.
 Přechod: proto záleží na cíli, který zadáme, i na kontextu, který modelu dodáme.
 -->
 
@@ -117,12 +129,14 @@ class: ot-slide
 
 <h1>Od promptingu ke kontext engineeringu</h1>
 <p class="ot-lead">Jasný cíl a relevantní kontext pomáhají model navést k užitečnější odpovědi.</p>
-<div style="display: grid; grid-template-columns: minmax(0, 1fr) 48px minmax(0, 1fr); align-items: stretch; margin-top: 48px;">
-  <section class="ot-card is-muted"><div class="ot-card-head"><span class="ot-icon"><mdi-help-circle-outline /></span><span class="ot-step">ŠIROKÝ DOTAZ</span></div><h2>„Je v AS6 podporován C30?“</h2><p style="margin-top: 8px;">Který model? Standardní, nebo upravená konfigurace? Která verze Automation Studia?</p></section>
-  <span style="display: grid; place-items: center; color: var(--br-orange);"><mdi-arrow-right-bold style="width: 32px; height: 32px;" /></span>
-  <section class="ot-card"><div class="ot-card-head"><span class="ot-icon"><mdi-target /></span><span class="ot-step">ZPŘESNĚNÝ CÍL</span></div><h2>„Najdi mi případy a konfigurace, kdy C30 není v AS6 podporován.“</h2><p style="margin-top: 8px;">Doplň konkrétní HW, verzi AS a požadavek na odkazy ke zdrojům.</p></section>
+<div class="ot-stage">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr); align-items: stretch;">
+  <section class="ot-card is-muted is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-help-circle-outline /></span><span class="ot-step">ŠIROKÝ DOTAZ</span></div><h2>„Je v AS6 podporován C30?“</h2><div class="ot-chips" style="margin-top: 8px;"><span class="ot-chip"><mdi-help /> Který model?</span><span class="ot-chip"><mdi-help /> Jaká konfigurace?</span><span class="ot-chip"><mdi-help /> Která verze AS?</span></div></section>
+  <span style="display: grid; place-items: center; color: var(--br-orange);"><mdi-arrow-right-bold style="width: 40px; height: 40px;" /></span>
+  <section class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-target /></span><span class="ot-step">ZPŘESNĚNÝ CÍL</span></div><h2>„Najdi mi případy a konfigurace, kdy C30 není v AS6 podporován.“</h2><div class="ot-chips" style="margin-top: 8px;"><span class="ot-chip"><mdi-chip /> konkrétní HW</span><span class="ot-chip"><mdi-tag-outline /> verze AS</span><span class="ot-chip"><mdi-link-variant /> odkazy ke zdrojům</span></div></section>
 </div>
-<div class="ot-callout" style="margin-top: 32px;"><mdi-information-outline /><p>Přesnější zadání mění hledaný rozsah; samo o sobě ale správnost odpovědi nezaručuje.</p></div>
+<div class="ot-callout"><mdi-information-outline /><p>Přesnější zadání mění hledaný rozsah; samo o sobě ale správnost odpovědi nezaručuje.</p></div>
+</div>
 
 <!--
 Záměr a čas: 2 minuty. Na příkladu C30 ukažte rozdíl mezi krátkým promptem a úkolem s konkrétním cílem a kontextem.
@@ -138,10 +152,12 @@ class: ot-slide
 
 # Ověřujme fakta i kód
 <p class="ot-lead">Jistý tón ani úspěšný build samy o sobě nedokazují správnost.</p>
-<div class="ot-grid cols-3 ot-flow" style="margin-top: 56px;">
-  <section v-click="1" class="ot-card is-muted"><div class="ot-card-head"><span class="ot-icon"><mdi-message-question-outline /></span><span class="ot-step">01 · PRVNÍ DOTAZ</span></div><h2>„Ano, C30 je podporován.“</h2><p>Odpověď zní rozhodně, ale otázka nevymezuje přesný model ani konfiguraci.</p></section>
-  <section v-click="2" class="ot-card" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon"><mdi-magnify /></span><span class="ot-step">02 · DOPTÁNÍ</span></div><h2>Hledej případy, kdy podporován není.</h2><p>Odpověď pak rozlišuje standardní C30, upravené panely a C70. To je vodítko k ověření, ne důkaz.</p></section>
-  <section v-click="3" class="ot-card" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon"><mdi-check-decagram-outline /></span><span class="ot-step">03 · OVĚŘENÍ</span></div><h2>Zkontroluj zdroj i výsledek.</h2><p>Fakta: Help, Community, přesný HW a verze. Kód: build, test chování a lidské review.</p></section>
+<div class="ot-stage">
+<div class="ot-grid cols-3 ot-flow" style="--link-y: 56px;">
+  <section v-click="1" class="ot-card is-muted is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-message-question-outline /></span><span class="ot-step">01 · PRVNÍ DOTAZ</span></div><h2>„Ano, C30 je podporován.“</h2><p>Odpověď zní rozhodně, ale otázka nevymezuje přesný model ani konfiguraci.</p></section>
+  <section v-click="2" class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-magnify /></span><span class="ot-step">02 · DOPTÁNÍ</span></div><h2>Hledej případy, kdy podporován není.</h2><p>Odpověď pak rozlišuje standardní C30, upravené panely a C70. To je vodítko k ověření, ne důkaz.</p></section>
+  <section v-click="3" class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-check-decagram-outline /></span><span class="ot-step">03 · OVĚŘENÍ</span></div><h2>Zkontroluj zdroj i výsledek.</h2><div class="ot-chips"><span class="ot-chip"><mdi-book-open-variant /> Help</span><span class="ot-chip"><mdi-forum-outline /> Community</span><span class="ot-chip"><mdi-hammer-wrench /> build</span><span class="ot-chip"><mdi-test-tube /> test</span><span class="ot-chip"><mdi-account-check-outline /> review</span></div></section>
+</div>
 </div>
 
 <!--
@@ -162,29 +178,21 @@ Přechod: od kontroly jednoho výstupu k agentnímu workflow.
 <h1>Od autocomplete k agentovi</h1>
 <p class="ot-lead">Postupně přibývá práce s projektem a nástroji; cíl i kontrola zůstávají u člověka.</p>
 
-<div class="ot-grid cols-3" style="align-items: end; margin-top: 32px;">
-  <section v-click="1" class="ot-card is-muted" style="min-height: 210px;">
-    <div class="ot-card-head"><span class="ot-icon"><mdi-keyboard-outline /></span><span class="ot-step">01</span></div>
-    <h2>Autocomplete</h2>
-    <p>Navrhuje další řádek nebo blok při psaní. Každý krok řídí vývojář.</p>
-  </section>
-  <section v-click="2" class="ot-card" style="--accent: var(--flow-amber); min-height: 260px;">
-    <div class="ot-card-head"><span class="ot-icon"><mdi-chat-processing-outline /></span><span class="ot-step">02</span></div>
-    <h2>Chat asistent</h2>
-    <p>Odpovídá na dotaz nebo vytvoří ukázku; člověk výsledek přenese do projektu.</p>
-  </section>
-  <section v-click="3" class="ot-card" style="min-height: 310px;">
-    <div class="ot-card-head"><span class="ot-icon"><mdi-robot-outline /></span><span class="ot-step">03</span></div>
-    <h2>Agent</h2>
-    <p>Pracuje s dostupným kontextem projektu, plánuje, mění soubory a volá povolené nástroje.</p>
-  </section>
+<div class="ot-stage">
+<div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 32px; align-items: center;">
+  <div class="ot-photo" style="height: 400px; background: #f7f7f5;"><img src="/evolution.png" alt="Ilustrace vývoje od AI asistenta přes AI agenta k agentní AI" style="object-fit: contain;"></div>
+  <div>
+    <section v-click="1" class="ot-row" style="--accent: var(--steel);"><span class="ot-icon"><mdi-keyboard-outline /></span><div><p class="t-block">Autocomplete</p><p>Navrhuje další řádek nebo blok. Každý krok řídí vývojář.</p></div></section>
+    <section v-click="2" class="ot-row" style="--accent: var(--flow-amber);"><span class="ot-icon"><mdi-chat-processing-outline /></span><div><p class="t-block">Chat asistent</p><p>Odpovídá nebo vytvoří ukázku; člověk ji přenese do projektu.</p></div></section>
+    <section v-click="3" class="ot-row"><span class="ot-icon"><mdi-robot-outline /></span><div><p class="t-block">Agent</p><p>Pracuje s kontextem projektu, plánuje, mění soubory a volá povolené nástroje.</p></div></section>
+  </div>
 </div>
-
-<div class="ot-callout" style="margin-top: 24px;"><mdi-account-check-outline /><p><strong>Člověk stanoví cíl a posuzuje výsledek.</strong></p></div>
+<div class="ot-callout"><mdi-account-check-outline /><p><strong>Člověk stanoví cíl a posuzuje výsledek.</strong></p></div>
+</div>
 
 <!--
 Záměr a čas: 2 minuty. Vysvětlete posun rozsahu práce, nikoli žebříček kvality nástrojů.
-Počáteční stav: titulek, podtitul a tři skryté stupně.
+Počáteční stav: titulek, podtitul a ilustrace vývoje; tři stupně vpravo jsou skryté. Ilustrace je obecná metafora, nikoli srovnání konkrétních produktů.
 [click]
 Autocompletion nabízí další řádek či blok; člověk rozhoduje o každém kroku.
 [click]
@@ -200,45 +208,47 @@ Zdroj pro přípravu: agentic-bridge/slides/s1/03-evolution.js.
 
 
 # Kvalitu určuje postup, ne nálepka
-<p class="ot-lead">„Vibe coding“ i Agentic Engineering mohou používat podobné nástroje; liší se způsobem řízení práce.</p>
+<p class="ot-lead">„Vibe coding“ a Agentic Engineering nejsou ostrým protikladem; liší se tím, kolik kroků po zadání řídí agent.</p>
 
-<div style="display: grid; gap: 16px; margin-top: 36px;">
+<div class="ot-stage">
+<div style="display: grid; gap: 16px;">
   <div class="ot-compare-row">
     <div class="ot-compare-cell is-muted"><mdi-weather-windy /><h2 style="margin: 0; color: var(--ink);">Vibe coding</h2></div>
     <span></span>
     <div class="ot-compare-cell is-accent"><mdi-cog-play-outline /><h2 style="margin: 0;">Agentic Engineering</h2></div>
   </div>
   <div v-click="1" class="ot-compare-row">
-    <div class="ot-compare-cell is-muted"><mdi-eye-outline /><p class="t-block">„Vypadá to správně.“</p></div>
-    <div class="ot-compare-label"><mdi-target /><span class="t-caption">CÍL</span></div>
-    <div class="ot-compare-cell is-accent"><mdi-clipboard-check-outline /><p class="t-block">Cíl a akceptační kritéria</p></div>
+    <div class="ot-compare-cell is-muted"><mdi-account-arrow-right-outline /><p class="t-block">Člověk zadává další krok</p></div>
+    <div class="ot-compare-label"><mdi-target /><span class="t-caption">WORKFLOW</span></div>
+    <div class="ot-compare-cell is-accent"><mdi-robot-outline /><p class="t-block">Agent může provádět povolené kroky</p></div>
   </div>
   <div v-click="2" class="ot-compare-row">
-    <div class="ot-compare-cell is-muted"><mdi-head-lightbulb-outline /><p class="t-block">Zůstává v hlavě člověka</p></div>
+    <div class="ot-compare-cell is-muted"><mdi-head-lightbulb-outline /><p class="t-block">Kontext dodává člověk v dialogu</p></div>
     <div class="ot-compare-label"><mdi-folder-text-outline /><span class="t-caption">KONTEXT</span></div>
-    <div class="ot-compare-cell is-accent"><mdi-file-send-outline /><p class="t-block">Je předaný agentovi</p></div>
+    <div class="ot-compare-cell is-accent"><mdi-file-send-outline /><p class="t-block">Agent pracuje s dostupným kontextem projektu</p></div>
   </div>
   <div v-click="3" class="ot-compare-row">
-    <div class="ot-compare-cell is-muted"><mdi-help-rhombus-outline /><p class="t-block">Bez kontroly nástrojem</p></div>
-    <div class="ot-compare-label"><mdi-shield-check-outline /><span class="t-caption">OVĚŘENÍ</span></div>
-    <div class="ot-compare-cell is-accent"><mdi-test-tube /><p class="t-block">Test a lidské review</p></div>
+    <div class="ot-compare-cell is-muted"><mdi-account-cog-outline /><p class="t-block">Člověk spouští build a testy</p></div>
+    <div class="ot-compare-label"><mdi-shield-check-outline /><span class="t-caption">KONTROLY</span></div>
+    <div class="ot-compare-cell is-accent"><mdi-test-tube /><p class="t-block">Agent může spustit povolené kontroly</p></div>
   </div>
 </div>
 
-<div class="ot-callout" style="margin-top: 28px;"><mdi-account-check-outline /><p>Agent přebírá část psaní, <strong>nikoli odpovědnost za změnu.</strong></p></div>
+<div class="ot-callout"><mdi-account-check-outline /><p>Odpovědnost za výsledek zůstává člověku; <strong>produkční vhodnost určuje ověření, ne nálepka.</strong></p></div>
+</div>
 
 <!--
 Záměr a čas: 2 minuty. Srovnávejte pracovní postupy bez zesměšňování neformálního přístupu.
-Počáteční stav: titulek, vysvětlení, záhlaví obou přístupů a tři skryté řádky srovnání.
+Počáteční stav: titulek, vysvětlení, záhlaví obou přístupů a závěrečné upozornění; tři řádky srovnání jsou skryté.
 [click]
-První skupina porovná dojem „vypadá správně“ s výslovným cílem a kritérii přijetí.
+První skupina porovná člověkem řízený další krok s kroky, které může agent provádět v rámci svých oprávnění.
 [click]
-Druhá skupina porovná kontext pouze v hlavě člověka s kontextem předaným agentovi.
+Druhá skupina porovná kontext zadávaný v dialogu s projektovým kontextem dostupným agentovi.
 [click]
-Třetí skupina porovná absenci kontroly s testem a lidským review. Závěrečná věta připomíná, že odpovědnost nepřechází na agenta.
+Třetí skupina porovná ruční spouštění buildů a testů s možností, aby agent spustil povolené kontroly. Názvy přístupů nejsou pevné kategorie: i vibe coding může být použit v produkci, pokud následuje odpovídající ověření a lidské review.
 Konečný stav: všechny tři páry jsou viditelné.
-Přechod: jasná kritéria se promítnou do opakovatelné pracovní smyčky.
-Zdroj pro přípravu: agentic-bridge/slides/s1/04-agentic-engineering.js.
+Přechod: automatizované kroky se propojí do pracovní smyčky.
+Zdroj pro přípravu: agentic-bridge/slides/s1/04-agentic-engineering.js; [B&R Community: Vibe Coding vs. Agentic Engineering](https://community.br-automation.com/t/vibe-coding-vs-agentic-engineering-what-is-the-difference/12094).
 -->
 
 ---
@@ -249,15 +259,17 @@ class: ot-slide
 # Agentic workflow
 <p class="ot-lead">Plan → Implement → Verify → Test, s průběžným dohledem člověka.</p>
 
-<div class="ot-grid cols-4 ot-flow" style="margin-top: 48px;">
-  <section v-click="1" class="ot-card"><div class="ot-card-head"><span class="ot-icon"><mdi-map-marker-path /></span><span class="ot-step">01</span></div><h2>Plan</h2><p>Vymezit cíl, rozsah a postup.</p></section>
-  <section v-click="2" class="ot-card" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon"><mdi-code-braces /></span><span class="ot-step">02</span></div><h2>Implement</h2><p>Provést změnu v projektu.</p></section>
-  <section v-click="3" class="ot-card" style="--accent: var(--flow-cyan);"><div class="ot-card-head"><span class="ot-icon"><mdi-hammer-wrench /></span><span class="ot-step">03</span></div><h2>Verify</h2><p>Ověřit sestavení a konfiguraci.</p></section>
-  <section v-click="4" class="ot-card" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon"><mdi-test-tube /></span><span class="ot-step">04</span></div><h2>Test</h2><p>Prověřit očekávané chování.</p></section>
+<div class="ot-stage" style="gap: 0;">
+<div class="ot-grid cols-4 ot-flow" style="--link-y: 56px;">
+  <section v-click="1" class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-map-marker-path /></span><span class="ot-step">01</span></div><h2>Plan</h2><p>Vymezit cíl, rozsah a postup.</p></section>
+  <section v-click="2" class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-code-braces /></span><span class="ot-step">02</span></div><h2>Implement</h2><p>Provést změnu v projektu.</p></section>
+  <section v-click="3" class="ot-card is-feature" style="--accent: var(--flow-cyan);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-hammer-wrench /></span><span class="ot-step">03</span></div><h2>Verify</h2><p>Ověřit sestavení a konfiguraci.</p></section>
+  <section v-click="4" class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-test-tube /></span><span class="ot-step">04</span></div><h2>Test</h2><p>Prověřit očekávané chování.</p></section>
 </div>
 
 <div v-click="4" class="ot-loop" style="margin: 0 11%;"><span class="ot-loop-label"><mdi-backup-restore />Chyba nebo výsledek testu se vrací do kontextu agenta.</span></div>
-<div v-click="5" class="ot-callout" style="margin-top: 40px;"><mdi-account-check-outline /><p><strong>Člověk může schválit plán a po testu kontroluje změnu i důkazy.</strong></p></div>
+<div v-click="5" class="ot-callout" style="margin-top: 48px;"><mdi-account-check-outline /><p><strong>Člověk může schválit plán a po testu kontroluje změnu i důkazy.</strong></p></div>
+</div>
 
 <!--
 Záměr a čas: 3 minuty. Projděte řízenou smyčku a odlište Verify od Test.
@@ -331,17 +343,19 @@ Zdroj pro postup: AI_Event_CZ/Slides/topics/as-repository.md, část „Od poža
 
 ---
 layout: default
-class: ot-slide
+class: dark-slide ot-slide
 ---
 
 # Model, harness, MCP a skills
 <p class="ot-lead">Čtyři různé role v agentním pracovním prostředí.</p>
 
-<div style="display: grid; gap: 12px; margin-top: 40px;">
-  <section v-click="1" class="ot-layer"><span class="ot-icon"><mdi-brain /></span><div><p class="t-caption" style="font-weight: 700;">MODEL</p><h3 style="margin: 0;">Tvoří návrh</h3></div><p>Vychází z dostupného zadání a kontextu.</p></section>
-  <section v-click="2" class="ot-layer" style="--accent: var(--flow-blue);"><span class="ot-icon"><mdi-cog-transfer-outline /></span><div><p class="t-caption" style="font-weight: 700;">HARNESS</p><h3 style="margin: 0;">Řídí práci agenta</h3></div><p>Předává kontext, zprostředkuje povolená volání a vrací výsledky.</p></section>
-  <section v-click="3" class="ot-layer" style="--accent: var(--flow-green);"><span class="ot-icon"><mdi-connection /></span><div><p class="t-caption" style="font-weight: 700;">MCP</p><h3 style="margin: 0;">Propojuje nástroje a zdroje</h3></div><p>Je přístupové rozhraní, nikoli model ani znalostní báze.</p></section>
-  <section v-click="4" class="ot-layer" style="--accent: var(--flow-purple);"><span class="ot-icon"><mdi-school-outline /></span><div><p class="t-caption" style="font-weight: 700;">SKILLS</p><h3 style="margin: 0;">Dodávají odborný postup</h3></div><p>Instrukce a reference pro konkrétní typ úlohy.</p></section>
+<div class="ot-stage">
+<div style="display: grid; gap: 12px;">
+  <section v-click="1" class="ot-layer"><span class="ot-icon is-lg"><mdi-brain /></span><div><p class="t-caption" style="font-weight: 700;">MODEL</p><h3 style="margin: 0;">Tvoří návrh</h3></div><p>Vychází z dostupného zadání a kontextu.</p></section>
+  <section v-click="2" class="ot-layer" style="--accent: var(--flow-blue);"><span class="ot-icon is-lg"><mdi-cog-transfer-outline /></span><div><p class="t-caption" style="font-weight: 700;">HARNESS</p><h3 style="margin: 0;">Řídí práci agenta</h3></div><p>Předává kontext, zprostředkuje povolená volání a vrací výsledky.</p></section>
+  <section v-click="3" class="ot-layer" style="--accent: var(--flow-green);"><span class="ot-icon is-lg"><mdi-connection /></span><div><p class="t-caption" style="font-weight: 700;">MCP</p><h3 style="margin: 0;">Propojuje nástroje a zdroje</h3></div><p>Je přístupové rozhraní, nikoli model ani znalostní báze.</p></section>
+  <section v-click="4" class="ot-layer" style="--accent: var(--flow-purple);"><span class="ot-icon is-lg"><mdi-school-outline /></span><div><p class="t-caption" style="font-weight: 700;">SKILLS</p><h3 style="margin: 0;">Dodávají odborný postup</h3></div><p>Instrukce a reference pro konkrétní typ úlohy.</p></section>
+</div>
 </div>
 
 <!--
@@ -368,13 +382,15 @@ class: ot-slide
 # Jak vést k opakovatelnému výsledku
 <p class="ot-lead">Nezaručujeme totožný text modelu; zpřesňujeme proces a ověřujeme výsledek.</p>
 
-<div class="ot-grid cols-3 ot-flow" style="margin-top: 56px;">
-  <section v-click="1" class="ot-card" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon"><mdi-lightbulb-on-outline /></span><span class="ot-step">01</span></div><h2>Pravděpodobný návrh</h2><p>Jasné zadání a relevantní projektový kontext.</p></section>
-  <section v-click="2" class="ot-card" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon"><mdi-ruler-square /></span><span class="ot-step">02</span></div><h2>Pevné kritérium</h2><p>Build, test nebo jiný kontrolovatelný výsledek nástroje.</p></section>
-  <section v-click="3" class="ot-card"><div class="ot-card-head"><span class="ot-icon"><mdi-account-check-outline /></span><span class="ot-step">03</span></div><h2>Oprava a přijetí</h2><p>Chyba se vrátí do kontextu; člověk posoudí změnu podle cíle.</p></section>
+<div class="ot-stage" style="gap: 0;">
+<div class="ot-grid cols-3 ot-flow" style="--link-y: 56px;">
+  <section v-click="1" class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-lightbulb-on-outline /></span><span class="ot-step">01</span></div><h2>Pravděpodobný návrh</h2><p>Jasné zadání a relevantní projektový kontext.</p></section>
+  <section v-click="2" class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-ruler-square /></span><span class="ot-step">02</span></div><h2>Pevné kritérium</h2><p>Build, test nebo jiný kontrolovatelný výsledek nástroje.</p></section>
+  <section v-click="3" class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-account-check-outline /></span><span class="ot-step">03</span></div><h2>Oprava a přijetí</h2><p>Chyba se vrátí do kontextu; člověk posoudí změnu podle cíle.</p></section>
 </div>
 
 <div v-click="3" class="ot-loop" style="margin: 0 15%;"><span class="ot-loop-label"><mdi-backup-restore />Chyba → zpět do kontextu</span></div>
+</div>
 
 <!--
 Záměr a čas: 2 minuty. Vysvětlete, jak proces pracuje s variabilitou, aniž by sliboval deterministický text.
@@ -415,16 +431,18 @@ class: ot-slide
 ---
 
 <h1>Agentic Bridge: tři propojené části</h1>
-<div class="ot-band" style="margin-top: 32px;"><mdi-robot-outline /><span>Agent + zvolený model a harness</span></div>
+<div class="ot-stage" style="gap: 0;">
+<div class="ot-band"><mdi-robot-outline /><span>Agent + zvolený model a harness</span></div>
 <p class="t-caption" style="margin-top: 8px; text-align: center; color: var(--steel);">využívá podle potřeby</p>
 
 <div class="ot-grid cols-3 ot-linked-v" style="margin-top: 28px;">
-  <section v-click="1" class="ot-card" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon"><mdi-book-search-outline /></span></div><h2>Knowledge Hub</h2><p>Odborné podklady dohledané pro dotaz, včetně zdrojů.</p></section>
-  <section v-click="2" class="ot-card" style="--accent: var(--flow-purple);"><div class="ot-card-head"><span class="ot-icon"><mdi-source-repository /></span></div><h2>AS Repository</h2><p>Instrukce, skills a postup pro práci na projektu.</p></section>
-  <section v-click="3" class="ot-card" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon"><mdi-console /></span></div><h2>AS CLI</h2><p>Podporované operace a návrat výsledků nástrojů.</p></section>
+  <section v-click="1" class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon is-lg"><mdi-book-search-outline /></span><h2>Knowledge Hub</h2></div><p>Odborné podklady dohledané pro dotaz, včetně zdrojů.</p></section>
+  <section v-click="2" class="ot-card is-feature" style="--accent: var(--flow-purple);"><div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon is-lg"><mdi-source-repository /></span><h2>AS Repository</h2></div><p>Instrukce, skills a postup pro práci na projektu.</p></section>
+  <section v-click="3" class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon is-lg"><mdi-console /></span><h2>AS CLI</h2></div><p>Podporované operace a návrat výsledků nástrojů.</p></section>
 </div>
 
 <div class="ot-band is-light" style="margin-top: 28px;"><mdi-factory /><span>Automation Studio + konkrétní projekt</span></div>
+</div>
 
 <!--
 Záměr a čas: 1 minuta. Pojmenujte části Bridge jejich skutečnými názvy; role jsou vysvětlení pod názvy.
@@ -580,32 +598,41 @@ Zdroj pro přípravu: agentic-engineering-in-automation-studio/docs/agentic-brid
 
 ---
 layout: default
-class: ot-slide
+class: dark-slide ot-slide
 ---
 
 <h1>Co umí as-cli?</h1>
-<table class="ot-table" style="margin-top: 24px;">
-  <thead><tr><th>Oblast</th><th>Skupina</th><th>Příklad příkazu</th></tr></thead>
-  <tbody>
-    <tr><td><mdi-folder-cog-outline />Projekt a konfigurace</td><td><code>project</code>, <code>config</code></td><td><code>as project status</code></td></tr>
-    <tr><td><mdi-file-tree-outline />Logical view</td><td><code>logical</code>, <code>library</code>, <code>tp</code></td><td><code>as logical add StProgram Conveyor --parent Machine</code></td></tr>
-    <tr><td><mdi-chip />Hardware</td><td><code>hardware</code></td><td><code>as hardware module list</code></td></tr>
-    <tr><td><mdi-tune-variant />Konfigurace technologií</td><td><code>config</code></td><td><code>as config schema read .axis</code></td></tr>
-    <tr><td><mdi-monitor-dashboard />mappView HMI</td><td><code>mappview</code></td><td><code>as mappview widget add</code></td></tr>
-    <tr><td><mdi-magnify />Symboly</td><td><code>symbol</code></td><td><code>as symbol search motor</code></td></tr>
-    <tr><td><mdi-hammer-wrench />Build a balíčky</td><td><code>build</code></td><td><code>as build --filter errors</code></td></tr>
-    <tr><td><mdi-play-circle-outline />Simulace (ARsim)</td><td><code>sim</code></td><td><code>as sim enable</code></td></tr>
-    <tr><td><mdi-upload-network-outline />Transfer</td><td><code>transfer</code></td><td><code>as transfer online --ip &lt;PLC_IP&gt;</code></td></tr>
-    <tr><td><mdi-gauge />Online PLC (PVI)</td><td><code>plc</code></td><td><code>as plc var read gLift.Status</code></td></tr>
-    <tr><td><mdi-lan />Síť</td><td><code>network</code></td><td><code>as network scan</code></td></tr>
-  </tbody>
-</table>
-<div class="ot-callout" style="margin-top: 16px;"><mdi-console /><p>Přesný a aktuální seznam příkazů zjistíte pomocí <code class="t-command">as --help</code>.</p></div>
+<div class="ot-stage" style="gap: 20px;">
+  <div class="ot-cli-groups">
+    <section class="ot-card is-feature ot-cli-group" style="--accent: var(--flow-blue);">
+      <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon is-lg"><mdi-file-cog-outline /></span><h2>Projekt a tvorba</h2></div>
+      <div class="ot-cli-command-list">
+        <div class="ot-cli-command-row"><span>Projekt / konfigurace</span><code>as project status</code></div>
+        <div class="ot-cli-command-row"><span>Logical view</span><code>as logical add StProgram Conveyor --parent Machine</code></div>
+        <div class="ot-cli-command-row"><span>Hardware</span><code>as hardware module list</code></div>
+        <div class="ot-cli-command-row"><span>Technologie</span><code>as config schema read .axis</code></div>
+        <div class="ot-cli-command-row"><span>mappView HMI</span><code>as mappview widget add</code></div>
+        <div class="ot-cli-command-row"><span>Symboly</span><code>as symbol search motor</code></div>
+      </div>
+    </section>
+    <section class="ot-card is-feature ot-cli-group" style="--accent: var(--flow-green);">
+      <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon is-lg"><mdi-hammer-wrench /></span><h2>Build a provoz</h2></div>
+      <div class="ot-cli-command-list">
+        <div class="ot-cli-command-row"><span>Build</span><code>as build --filter errors</code></div>
+        <div class="ot-cli-command-row"><span>Simulace (ARsim)</span><code>as sim enable</code></div>
+        <div class="ot-cli-command-row"><span>Transfer</span><code>as transfer online --ip &lt;PLC_IP&gt;</code></div>
+        <div class="ot-cli-command-row"><span>Online PLC (PVI)</span><code>as plc var read gLift.Status</code></div>
+        <div class="ot-cli-command-row"><span>Síť</span><code>as network scan</code></div>
+      </div>
+    </section>
+  </div>
+  <div class="ot-callout"><mdi-console /><p>Přesný a aktuální seznam příkazů zjistíte pomocí <code class="t-command">as --help</code>.</p></div>
+</div>
 
 <!--
 Záměr a čas: 1 minuta. Ukažte šíři příkazových skupin a jeden příklad jejich zápisu.
-Počáteční stav: celý přehled oblastí, skupin a ukázkových příkazů je viditelný; nic se neodhaluje.
-Řečový tah: příklady pokrývají projekt, logiku, hardware, build, simulaci i online PLC. Jsou převzaté z materiálů S5; nejde o výpis skutečně spuštěných příkazů ani záruku jejich dostupnosti ve všech verzích. Příkaz transfer používá zástupný symbol adresy, nikoli skutečnou PLC adresu.
+Počáteční stav: obě tematické skupiny a všech jedenáct příkladů jsou viditelné; nic se neodhaluje.
+Řečový tah: Projekt a tvorba pokrývá projekt, Logical view, hardware, konfiguraci technologií, mappView a symboly. Build a provoz zahrnuje ARsim, transfer, online PLC a síť. Příklady jsou převzaté z materiálů S5; nejde o příkazy skutečně spuštěné ani o záruku dostupnosti ve všech verzích. Transfer používá zástupný symbol adresy, nikoli skutečnou PLC adresu.
 Závěr: před použitím ověřit přesnou syntaxi a dostupné možnosti přes `as --help`.
 Přechod: od přehledu možností k plánované ukázce, jejíž běh stále není doložen.
 Zdroj pro přípravu: agentic-engineering-in-automation-studio/docs/agentic-bridge/slides/s5/09-capabilities.js.
@@ -649,14 +676,16 @@ class: ot-slide
 
 # Co Bridge nezaručuje
 
-<div class="ot-grid cols-2" style="margin-top: 40px;">
-  <section class="ot-card"><div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-package-variant-closed /></span><h3>Build není runtime test</h3></div><p>Sestavitelný projekt ještě nedokazuje očekávané chování.</p></section>
-  <section class="ot-card" style="--accent: var(--flow-blue);"><div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-file-lock-outline /></span><h3>Instrukce nejsou oprávnění</h3></div><p>Textová pravidla sama nevynucují přístup ani ochranu dat.</p></section>
-  <section class="ot-card" style="--accent: var(--flow-green);"><div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-test-tube /></span><h3>Test není schválení nasazení</h3></div><p>Výsledek platí pro ověřené podmínky a rozsah testu.</p></section>
-  <section class="ot-card" style="--accent: var(--flow-purple);"><div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-account-tie-outline /></span><h3>Agent nepřebírá odpovědnost</h3></div><p>Člověk kontroluje změnu, důkazy a rozhoduje o dalším použití.</p></section>
+<div class="ot-stage">
+<div class="ot-grid cols-2">
+  <section class="ot-card is-feature"><div class="ot-neq"><span><mdi-package-variant-closed />Build</span><span class="ot-neq-sign"><mdi-not-equal-variant /></span><span><mdi-play-circle-outline />Runtime test</span></div><p>Sestavitelný projekt ještě nedokazuje očekávané chování.</p></section>
+  <section class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-neq"><span><mdi-file-document-outline />Instrukce</span><span class="ot-neq-sign"><mdi-not-equal-variant /></span><span><mdi-file-lock-outline />Oprávnění</span></div><p>Textová pravidla sama nevynucují přístup ani ochranu dat.</p></section>
+  <section class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-neq"><span><mdi-test-tube />Test</span><span class="ot-neq-sign"><mdi-not-equal-variant /></span><span><mdi-rocket-launch-outline />Schválení nasazení</span></div><p>Výsledek platí pro ověřené podmínky a rozsah testu.</p></section>
+  <section class="ot-card is-feature" style="--accent: var(--flow-purple);"><div class="ot-neq"><span><mdi-robot-outline />Agent</span><span class="ot-neq-sign"><mdi-not-equal-variant /></span><span><mdi-account-tie-outline />Odpovědnost</span></div><p>Člověk kontroluje změnu, důkazy a rozhoduje o dalším použití.</p></section>
 </div>
 
-<div class="ot-callout" style="margin-top: 32px;"><mdi-school-outline /><p>Pro hlubší práci lze navázat workshopem na konkrétní téma.</p></div>
+<div class="ot-callout"><mdi-school-outline /><p>Pro hlubší práci lze navázat workshopem na konkrétní téma.</p></div>
+</div>
 
 <!--
 Záměr a čas: 1 minuta. Vymezte limity pracovního postupu bez nepodložených produktových slibů.
@@ -669,21 +698,131 @@ Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-repository.md, část „Guar
 
 ---
 layout: default
+class: ot-slide chapter-slide
+---
+
+<img class="chapter-image" src="/topics/support-agent/chapter.jpg" alt="">
+<div style="position: absolute; top: 457px; left: 0; width: min(335px, 27%); height: 28px; background: var(--br-orange);"></div>
+
+<h1 style="position: absolute; top: 535px; left: 35px; max-width: 1050px;">B&amp;R Support Agent</h1>
+
+<p style="position: absolute; top: 590px; left: 35px; color: var(--steel);">Interní AI asistent pro práci B&amp;R support inženýrů</p>
+
+<!--
+Záměr a čas: 30 sekund. Uveďte konkrétní interní nástroj jako příklad AI v práci podpory.
+Počáteční stav: obraz, název a podtitul jsou viditelné; nic se neodhaluje.
+Řečový tah: nejde o produkt nabízený zákazníkům ani o návod k instalaci. Ukážeme schválenou ukázku rozhraní a pracovní možnosti podpory, ne přístup k nástroji.
+Přechod: začít tím, jaké typy dotazů lze z úvodní obrazovky otevřít.
+-->
+
+---
+layout: default
 class: ot-slide
 ---
 
-# AI & Agentic Engineering Day
+<h1>Od dotazu k prvnímu vodítku</h1>
+<p class="ot-lead">Asistent nabízí startovní body pro běžná témata B&amp;R automatizace.</p>
 
-<div style="display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 48px; align-items: stretch; margin-top: 40px;">
-  <div style="display: flex; flex-direction: column; gap: 16px;">
-    <div class="ot-row" style="border: 0;"><span class="ot-icon"><mdi-calendar-month-outline /></span><h2 style="margin: 0;">4. listopadu 2026</h2></div>
-    <div class="ot-row" style="border: 0;"><span class="ot-icon"><mdi-map-marker-outline /></span><p class="t-block">Panský dvůr · Telč</p></div>
-    <section class="ot-card" style="margin-top: 16px; border-style: dashed; border-top-style: solid;">
-      <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-qrcode /></span><h3>Registrace</h3></div>
-      <p>Odkaz nebo QR čeká na potvrzení pořadatelem.</p>
-    </section>
+<div style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 32px; align-items: center; margin-top: 28px;">
+  <div>
+    <h2 style="margin: 0;">Příklady v rozhraní</h2>
+    <div class="ot-row" style="margin-top: 16px;"><span class="ot-icon"><mdi-cog-outline /></span><p>Konfigurace ACOPOS servo drive</p></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-file-tree-outline /></span><p>Struktura projektu Automation Studio 6</p></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-bug-outline /></span><p>Ladění programu řízení pohybu</p></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-forum-outline /></span><p>Hledání v B&amp;R Community</p></div>
+    <p class="t-caption" style="margin-top: 16px; color: var(--steel);">Jde o návrhy na úvodní obrazovce, nikoli o skutečné odpovědi nebo doklad vyřešeného případu.</p>
   </div>
-  <div class="ot-photo" style="height: 420px;"><img src="/topics/ai-management/chapter.jpg" alt="Ilustrační fotografie: dva kolegové spolupracují u počítače"></div>
+  <div class="ot-photo" style="height: 410px;"><img src="/topics/support-agent/support-agent-start-screen.png" alt="Úvodní obrazovka B&amp;R Support Agentu s návrhy témat pro nové dotazy"></div>
+</div>
+
+<!--
+Záměr a čas: 2 minuty. Ukázkou schváleného screenshotu vysvětlete, jak support inženýr zahájí práci s asistentem.
+Počáteční stav: čtyři příklady témat i celý screenshot jsou viditelné; nic se neodhaluje.
+Řečový tah: rozhraní nabízí dotazy k ACOPOS servopohonu, struktuře AS6, ladění motion programu a hledání ve fóru. Jsou to pouze předsazené návrhy; screenshot neukazuje konverzaci, správnost odpovědi ani úspěšný výsledek.
+Hranice: použít pouze screenshot schválený zadavatelem pro externí prezentaci. Nezobrazovat ani nesdílet přístup, instalátor nebo interní oznámení.
+Přechod: přínos pracovního postupu spočívá také v kontextu, který může inženýr předat.
+-->
+
+---
+layout: default
+class: ot-slide
+---
+
+<h1>Odpověď získává kontext z více míst</h1>
+<p class="ot-lead">K lokální nápovědě lze přidat zkušenosti komunity i konkrétní projekt.</p>
+
+<div class="ot-stage">
+<div class="ot-grid cols-3 ot-flow" style="--link-y: 56px;">
+  <section class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-book-open-page-variant-outline /></span><span class="t-caption">DOKUMENTACE</span></div><h2>Help AS4 / AS6</h2><p>Nápověda se indexuje lokálně z vlastní instalace Automation Studia.</p></section>
+  <section class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-forum-outline /></span><span class="t-caption">KOMUNITA</span></div><h2>B&amp;R Community</h2><p>Odpovědi odkazují také na zkušenosti sdílené ve fóru.</p></section>
+  <section class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-folder-open-outline /></span><span class="t-caption">PROJEKT</span></div><h2>Workspace</h2><p>Inženýr může připojit projekt AS jako kontext pro konkrétnější dotaz.</p></section>
+</div>
+
+<div class="ot-callout"><mdi-information-outline /><p>Rozsah odpovědi závisí na dotazu a předaném kontextu; výsledek je nutné ověřit vůči projektu a verzi.</p></div>
+</div>
+
+<!--
+Záměr a čas: 3 minuty. Vysvětlete tři zdroje kontextu uvedené v interním oznámení Support Agenta.
+Počáteční stav: všechny tři zdroje a upozornění jsou viditelné; nic se neodhaluje.
+Řečový tah: nápověda AS4/AS6 se indexuje z lokální instalace; nástroj také křížově odkazuje Community a lze mu připojit AS projekt. Nezaměňujte tyto možnosti za garanci úplnosti či správnosti. Volitelnou integraci WorkIQ zde neukazujeme.
+Přechod: i s více kontextem zůstává odborné posouzení na člověku.
+-->
+
+---
+layout: default
+class: ot-slide
+---
+
+<h1>AI pomáhá hledat. Inženýr rozhoduje.</h1>
+
+<div class="ot-stage">
+<div class="ot-grid cols-2">
+  <section class="ot-card" style="--accent: var(--flow-blue);">
+    <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-robot-outline /></span><h2>Asistent pomáhá</h2></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-magnify /></span><p>Dohledat relevantní místa v dokumentaci.</p></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-forum-outline /></span><p>Najít související zkušenosti z Community.</p></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-folder-search-outline /></span><p>Vztáhnout otázku k připojenému projektu.</p></div>
+  </section>
+  <section class="ot-card" style="--accent: var(--flow-green);">
+    <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-account-check-outline /></span><h2>Inženýr ověřuje</h2></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-tag-search-outline /></span><p>Verzi Automation Studia a konfiguraci.</p></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-check-decagram-outline /></span><p>Zda podklad odpovídá konkrétnímu případu.</p></div>
+    <div class="ot-row"><span class="ot-icon"><mdi-shield-check-outline /></span><p>Jakou odpověď a další krok lze bezpečně doporučit.</p></div>
+  </section>
+</div>
+
+<div class="ot-callout"><mdi-chart-box-outline /><p>Ukázka popisuje pracovní postup; neobsahuje měření úspory času, přesnosti ani úspěšnosti.</p></div>
+</div>
+
+<!--
+Záměr a čas: 2:30. Uzavřete téma přínosem v pracovním postupu a jasnou odpovědností inženýra.
+Počáteční stav: obě strany rozdělení a upozornění na chybějící metriky jsou viditelné; nic se neodhaluje.
+Řečový tah: asistent zjednodušuje dohledání materiálů a práci s kontextem; inženýr dál posuzuje verzi, relevanci, bezpečnost doporučení i další postup. Neuvádět konkrétní úsporu nebo úspěšnost — zdrojové materiály je neměří a screenshot neukazuje výsledek.
+Přechod: po příkladu interního nástroje se vraťte k pozvánce na AI & Agentic Engineering Day.
+-->
+
+---
+layout: default
+class: ot-slide
+---
+
+# Další akce <span style="color: var(--br-orange);">2026</span>
+
+<div class="ot-stage" style="gap: 32px;">
+  <div class="ot-photo" style="height: 320px;"><img src="/topics/ai-management/chapter.jpg" alt="Ilustrační fotografie: dva kolegové spolupracují u počítače"></div>
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: center;">
+    <div>
+      <h2 style="margin: 0;">AI & Agentic Engineering Day</h2>
+      <div style="display: flex; gap: 40px; margin-top: 12px;">
+        <div><p class="t-caption">Datum</p><p class="t-block">4. listopadu 2026</p></div>
+        <div><p class="t-caption">Místo</p><p class="t-block">Panský dvůr · Telč</p></div>
+      </div>
+    </div>
+    <div class="ot-row" style="max-width: 340px; border: 0;">
+      <span class="ot-icon"><mdi-qrcode /></span>
+      <div><p style="font-weight: 700;">Registrace</p><p>Odkaz nebo QR čeká na potvrzení pořadatelem.</p></div>
+    </div>
+  </div>
 </div>
 
 <!--

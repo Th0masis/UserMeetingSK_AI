@@ -319,7 +319,6 @@
   --text-role: caption;
   --text-size: var(--type-caption);
   --text-leading: 1.3;
-  --text-font: 'IBM Plex Mono', monospace;
   color: var(--steel);
   font-weight: 700;
 }
@@ -473,7 +472,7 @@
 .ot-layer {
   --accent: var(--br-orange);
   display: grid;
-  grid-template-columns: 44px 260px minmax(0, 1fr);
+  grid-template-columns: auto 340px minmax(0, 1fr);
   gap: var(--space-xl);
   align-items: center;
   padding: var(--space-md) var(--space-lg);
@@ -684,9 +683,237 @@
   content: '';
 }
 
+/* Stage: fills the space under the title so content sits in the optical centre. */
+.slidev-layout.ot-slide:not(.chapter-slide) {
+  display: flex;
+  flex-direction: column;
+}
+
+.ot-stage {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2xl);
+  min-height: 0;
+  /* Lift the block to the optical centre, slightly above the geometric one. */
+  padding-bottom: var(--space-3xl);
+}
+
+.ot-icon.is-lg {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+}
+
+.ot-icon.is-lg svg {
+  width: 36px;
+  height: 36px;
+}
+
+.ot-card.is-feature {
+  gap: var(--space-md);
+  padding: var(--space-xl);
+}
+
+/* Revealed icons settle from a slightly smaller scale. */
+.slidev-vclick-target .ot-icon {
+  transition: scale 520ms var(--ease-out) 120ms;
+}
+
+.slidev-vclick-hidden .ot-icon {
+  scale: 0.7;
+}
+
+/* Agenda: icon, title and a bar proportional to the block length (--m minutes). */
+.talk-agenda > div.has-bar {
+  grid-template-columns: 44px 72px minmax(0, 1fr) 280px;
+  align-items: center;
+}
+
+.agenda-bar {
+  display: block;
+  width: calc(var(--m) / 14 * 100%);
+  height: 10px;
+  background: var(--br-orange);
+  border-radius: 5px;
+}
+
+.agenda-bar.is-reserve {
+  background: repeating-linear-gradient(135deg, var(--br-orange-hot) 0 6px, var(--paper) 6px 10px);
+  border: 1px solid var(--br-orange-hot);
+}
+
+.agenda-bars {
+  display: flex;
+  gap: 2px;
+}
+
+/* Token probability bars: grow when their reveal group is shown. */
+.ot-prob {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) 44px;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.ot-prob > i {
+  display: block;
+  width: var(--p);
+  height: 12px;
+  background: var(--accent, var(--br-orange));
+  border-radius: 6px;
+  transform-origin: left center;
+  transition: transform 700ms var(--ease-out) 200ms;
+}
+
+.ot-prob.is-low > i {
+  --accent: var(--line);
+}
+
+.slidev-vclick-hidden .ot-prob > i,
+.slidev-vclick-hidden.ot-prob > i {
+  transform: scaleX(0);
+}
+
+.ot-prob > span:last-child {
+  text-align: right;
+}
+
+/* "A is not B" statement: two facts separated by a not-equal sign. */
+.ot-neq {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.ot-neq > span:not(.ot-neq-sign) {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: color-mix(in srgb, var(--line) 25%, var(--paper));
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.ot-neq > span:not(.ot-neq-sign) svg {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--accent, var(--br-orange));
+}
+
+.ot-neq-sign {
+  display: grid;
+  place-items: center;
+  color: var(--danger);
+}
+
+.ot-neq-sign svg {
+  width: 28px;
+  height: 28px;
+}
+
+.ot-cli-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+}
+
+.ot-cli-group {
+  align-content: start;
+}
+
+.ot-cli-command-list {
+  display: grid;
+}
+
+.ot-cli-command-row {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  gap: var(--space-sm);
+  align-items: start;
+  padding: 7px 0;
+  border-top: 1px solid var(--line);
+}
+
+.ot-cli-command-row > span {
+  color: var(--steel);
+  font-weight: 700;
+}
+
+.ot-cli-command-row code {
+  --text-role: command;
+  --text-size: 14px;
+  --text-leading: 1.35;
+  --text-font: 'IBM Plex Mono', monospace;
+  padding: 2px 4px;
+  color: var(--ink);
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  hyphens: none;
+  background: color-mix(in srgb, var(--br-orange) 10%, var(--paper));
+  border-radius: 3px;
+}
+
+/* Dark technical variant: same layout hierarchy, inverted contrast. */
+.slidev-layout.dark-slide {
+  --steel: #d9e0e3;
+  --muted: #c7cdd1;
+  --line: #4a4a4a;
+  --paper: #262626;
+  color: var(--white);
+  background: var(--ink);
+}
+
+.slidev-layout.dark-slide::before {
+  background: url('/B&R_Logo_Screen_RGB_White_with_orange_bar_33px_B&R_Logo_Screen_RGB_White_with_orange_bar_33px.svg') right 24.49px bottom 11.64px / 60.1px auto no-repeat;
+}
+
+.dark-slide .ot-layer {
+  background: color-mix(in srgb, var(--accent) 16%, #262626);
+  border-left: 4px solid var(--accent);
+}
+
+.dark-slide .ot-icon {
+  background: color-mix(in srgb, var(--accent) 22%, #262626);
+}
+
+.dark-slide .ot-table th {
+  color: var(--white);
+  background: color-mix(in srgb, var(--br-orange) 18%, #262626);
+}
+
+.slidev-layout.dark-slide code {
+  color: var(--br-orange-hot);
+  background: #383838;
+}
+
+.dark-slide .ot-callout {
+  background: color-mix(in srgb, var(--br-orange) 16%, #262626);
+}
+
+.dark-slide .ot-band {
+  color: var(--ink);
+  background: var(--br-orange);
+}
+
+.dark-slide .ot-band svg {
+  color: var(--ink);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .slidev-layout .slidev-vclick-target {
+  .slidev-layout .slidev-vclick-target,
+  .slidev-vclick-target .ot-icon,
+  .ot-prob > i {
     transition: opacity 150ms linear;
+  }
+
+  .slidev-vclick-hidden .ot-icon {
+    scale: none;
   }
 
   .slidev-layout .slidev-vclick-hidden {
