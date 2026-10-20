@@ -313,6 +313,9 @@ async function checkDesign(layout, label) {
 
 async function checkRevealSequence(layout, slide, click) {
   const classes = String(slide.frontmatter.class ?? '').split(/\s+/)
+  if (classes.includes('knowledge-hub-slide')) {
+    await checkKnowledgeHubExamples(layout)
+  }
   if (classes.includes('agent-layers-slide')) {
     const visible = await layout.locator('.agent-layers-table tbody tr').evaluateAll(rows =>
       rows.filter(row => row.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }))
@@ -338,6 +341,92 @@ async function checkRevealSequence(layout, slide, click) {
     `Wrong Knowledge Hub sequence on slide ${slide.index + 1} after click ${click}`)
     assert.equal(await layout.locator('.bridge-knowledge-popup').count(), 0, 'Details must start closed after a reveal change')
     if (click === 4 || click === 5) await checkKnowledgeInteractions(layout, click)
+  }
+}
+
+async function checkKnowledgeHubExamples(layout) {
+  const icons = layout.locator('.ot-flow.is-nodes > .ot-node .ot-icon')
+  assert.equal(await icons.count(), 6, 'Knowledge Hub must keep all six flow icons')
+  assert.deepEqual(await icons.evaluateAll(nodes => nodes.map(node => [
+    getComputedStyle(node).width,
+    getComputedStyle(node.querySelector('svg')).width,
+  ])), Array.from({ length: 6 }, () => ['124px', '80px']), 'Knowledge Hub icons must be enlarged consistently')
+  const arrows = await layout.locator('.ot-flow.is-nodes > .ot-node:nth-child(n + 2)').evaluateAll(nodes => nodes.map(node => ({
+    lineLeft: getComputedStyle(node, '::before').left,
+    lineHeight: getComputedStyle(node, '::before').height,
+    arrowLeft: getComputedStyle(node, '::after').left,
+    arrowTop: getComputedStyle(node, '::after').borderTopWidth,
+    arrowBottom: getComputedStyle(node, '::after').borderBottomWidth,
+    arrowLength: getComputedStyle(node, '::after').borderLeftWidth,
+    arrowOffset: getComputedStyle(node, '::after').top,
+  })))
+  assert.deepEqual(arrows, Array.from({ length: 5 }, () => ({
+    lineLeft: '-49px',
+    lineHeight: '3px',
+    arrowLeft: '-38px',
+    arrowTop: '9px',
+    arrowBottom: '9px',
+    arrowLength: '18px',
+    arrowOffset: '53px',
+  })), 'Knowledge Hub arrows must be enlarged and centered on the icons')
+  const arrowClearance = await layout.locator('.ot-flow.is-nodes > .ot-node:nth-child(n + 2)').evaluateAll(nodes => {
+    const icons = [...nodes[0].parentElement.querySelectorAll(':scope > .ot-node .ot-icon')]
+    return nodes.map((node, index) => {
+      const icon = node.querySelector('.ot-icon')
+      const previous = icons[index].getBoundingClientRect()
+      const next = icon.getBoundingClientRect()
+      const nodeLeft = node.getBoundingClientRect().left
+      const scale = next.width / parseFloat(getComputedStyle(icon).width)
+      const line = getComputedStyle(node, '::before')
+      const arrow = getComputedStyle(node, '::after')
+      const start = nodeLeft + parseFloat(line.left) * scale
+      const end = nodeLeft + (parseFloat(arrow.left) + parseFloat(arrow.borderLeftWidth)) * scale
+      return {
+        midpointError: Math.abs((start + end) / 2 - (previous.right + next.left) / 2),
+        previousIconClearance: start - previous.right,
+        nextIconClearance: next.left - end,
+      }
+    })
+  })
+  for (const clearance of arrowClearance) {
+    assert.ok(clearance.midpointError <= 1, 'Knowledge Hub arrows must be centered between adjacent icons')
+    assert.ok(clearance.previousIconClearance > 0 && clearance.nextIconClearance > 0, 'Knowledge Hub arrows must not touch either icon')
+  }
+
+  const page = layout.page()
+  const url = page.url()
+  for (const detail of ['mcp', 'rag']) {
+    const trigger = layout.locator(`[data-example="${detail}"] .ot-icon`)
+    const tooltip = layout.locator(`#${detail}-example`)
+    assert.equal(await tooltip.isVisible(), false, `${detail} example must start closed`)
+    assert.equal(await trigger.getAttribute('aria-describedby'), `${detail}-example`)
+    await trigger.hover()
+    assert.equal(await tooltip.isVisible(), true, `${detail} example must open on hover`)
+    const content = await tooltip.textContent()
+    if (detail === 'mcp') {
+      assert.ok(content.includes('bnr_knowledge_base_rag'))
+      assert.deepEqual(JSON.parse(await tooltip.locator('pre code').textContent()), {
+        query: 'X20 PLC starts in SERVICE after transfer to project causes possible reasons',
+        top_k: 5,
+        include_images: false,
+      })
+      assert.ok(content.includes('nikoli živé volání'))
+    } else {
+      assert.ok(content.includes('Source 2 · Rebuilding the active configuration'))
+      assert.ok(content.includes("Source 1 · The axis isn't ready for power on anymore"))
+      assert.ok(content.includes('ne živý výsledek ani diagnóza'))
+    }
+    await checkDesign(layout, `Knowledge Hub ${detail} hover`)
+    await layout.locator('h1').hover()
+    await tooltip.waitFor({ state: 'hidden' })
+    assert.equal(await tooltip.isVisible(), false, `${detail} hover example must close on pointer leave`)
+    await trigger.focus()
+    assert.equal(await tooltip.isVisible(), true, `${detail} example must open on keyboard focus`)
+    await page.mouse.move(0, 0)
+    await trigger.evaluate(node => node.blur())
+    await tooltip.waitFor({ state: 'hidden' })
+    assert.equal(await tooltip.isVisible(), false, `${detail} focus example must close on blur`)
+    assert.equal(page.url(), url, 'Knowledge Hub examples must not advance the slide')
   }
 }
 
