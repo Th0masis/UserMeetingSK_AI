@@ -456,6 +456,53 @@ async function checkChatInteractions(layout, slideNumber, click) {
   })
 }
 
+async function checkRepoPluginInteractions(layout) {
+  const cards = layout.locator('.repo-plugin-card')
+  if (await cards.count() === 0) return
+  assert.equal(await cards.count(), 3, 'The plugin overview must show three cards')
+  const page = layout.page()
+  const url = page.url()
+  const expectedDetails = [
+    ['as-skills · 14 doménových skills', 'Structured Text', 'mapp IO', 'as-cli'],
+    ['HTML → mappView', 'Build validace', 'read-only'],
+    ['goToDefinition', 'findReferences', 'Rename*'],
+  ]
+  for (const [index, expected] of expectedDetails.entries()) {
+    const details = cards.nth(index).locator('.repo-plugin-details')
+    const summary = details.locator('summary')
+    assert.equal(await details.getAttribute('open'), null, 'Plugin details must start closed')
+    await summary.focus()
+    await summary.press('Enter')
+    assert.notEqual(await details.getAttribute('open'), null, 'Keyboard activation must open plugin details')
+    const popover = details.locator('.repo-plugin-popover')
+    const content = await popover.innerText()
+    for (const capability of expected) assert.ok(content.includes(capability), `Plugin details must include ${capability}`)
+    const skillSpacing = index === 0
+      ? popover.locator('.repo-plugin-skill-groups')
+      : popover.locator(':scope > .repo-plugin-skill-list')
+    const spacing = await skillSpacing.evaluate(node => ({
+      top: getComputedStyle(node).marginTop,
+      bottom: getComputedStyle(node).marginBottom,
+    }))
+    assert.deepEqual(spacing, { top: '12px', bottom: '12px' }, 'Plugin skill lists must share the same vertical spacing')
+    if (index === 0) assert.equal(await popover.locator('.repo-plugin-skill-group').count(), 3, 'as-skills details must be grouped into three capability areas')
+    assert.equal(await popover.evaluate(node => node.scrollHeight > node.clientHeight), false, 'Plugin details must be visible without an inner scrollbar')
+    const popupBounds = await popover.boundingBox()
+    const footnoteBounds = await layout.locator('.repo-plugin-footnote').boundingBox()
+    assert.ok(popupBounds.y + popupBounds.height <= footnoteBounds.y + 1, 'Plugin popup must not overlap the slide footnote')
+    await checkDesign(layout, `${activeViewport.name}, plugin ${index + 1} details`)
+    await page.keyboard.press('Escape')
+    assert.equal(await details.getAttribute('open'), null, 'Escape must close plugin details')
+    assert.equal(await summary.evaluate(node => node === document.activeElement), true, 'Escape must restore focus to the summary')
+    await summary.press('Enter')
+    assert.notEqual(await details.getAttribute('open'), null, 'Plugin details must remain reopenable after Escape')
+    await details.getByRole('button', { name: 'Zavřít detail' }).click()
+    assert.equal(await details.getAttribute('open'), null, 'Keyboard activation must close plugin details')
+    assert.equal(await summary.evaluate(node => node === document.activeElement), true, 'Closing details must restore focus to the summary')
+    assert.equal(page.url(), url, 'Plugin details must not advance the slide')
+  }
+}
+
 async function checkKnowledgeInteractions(layout, click) {
   const page = layout.page()
   const url = page.url()
@@ -568,6 +615,7 @@ try {
       await page.waitForFunction(() => document.fonts.status === 'loaded', null, { timeout: 15000 })
       await checkRevealSequence(layout, slide, 0)
       await checkDesign(layout, `${viewport.name}, slide ${slideNumber}, initial`)
+      await checkRepoPluginInteractions(layout)
       await checkChatInteractions(layout, slideNumber, 0)
       await checkMechanismInteractions(layout)
       const clicks = Math.max(Number(slide.frontmatter.clicks) || 0, await layout.locator('[data-slidev-clicks-start]').evaluateAll(nodes =>

@@ -492,7 +492,23 @@ Taková spolupráce má smysl, když máme jasná kritéria a ověřování.
 -->
 
 ---
+layout: default
+class: ot-slide chapter-slide
+---
 
+<img class="chapter-image" src="/topics/agentic-engineering/chapter.jpg" alt="" style="position: absolute; top: 0; left: 0; width: 1280px; height: 485px; object-fit: cover;">
+<div style="position: absolute; top: 457px; left: 0; width: min(335px, 27%); height: 28px; background: var(--br-orange);"></div>
+
+<h1 style="position: absolute; top: 535px; left: 35px; max-width: 1050px;">Agentic Engineering</h1>
+
+<!--
+*Záměr a čas: 30 sekund. Zahajte část Agentic Engineering a připravte publikum na porovnání stylů práce.*
+*Počáteční stav: obraz a název kapitoly jsou viditelné; nic se neodhaluje.*
+
+Začíná část o Agentic Engineeringu. Nejprve rozlišíme neformální práci s AI od řízeného workflow, potom projdeme samotnou pracovní smyčku.
+-->
+
+---
 
 # Kvalitu určuje postup, ne nálepka
 <p class="ot-lead">„Vibe coding“ a Agentic Engineering nejsou ostrým protikladem; liší se tím, kolik kroků po zadání řídí agent.</p>
@@ -650,22 +666,6 @@ Když se spojí kontext, kontrola a zpětná vazba, může agent pracovat na kon
 Pojďme si rozdělit, které vrstvy tyto funkce dodávají.
 *Inspirace: slide 11 prezentace EventAiAndDevOps. Obsah přizpůsoben této prezentaci; nejde o garanci produktových funkcí.*
 *Zdroj pro postup: AI_Event_CZ/Slides/topics/as-repository.md, část „Od požadavku k ověřené změně“.*
--->
-
----
-layout: default
-class: ot-slide chapter-slide
----
-
-<img class="chapter-image" src="/topics/agentic-engineering/chapter.jpg" alt="" style="position: absolute; top: 0; left: 0; width: 1280px; height: 485px; object-fit: cover;">
-<div style="position: absolute; top: 457px; left: 0; width: min(335px, 27%); height: 28px; background: var(--br-orange);"></div>
-
-<h1 style="position: absolute; top: 535px; left: 35px; max-width: 1050px;">Agentic Engineering</h1>
-
-<!--
-*Záměr a čas: 30 sekund. Oddělte část o agentním workflow od dalšího rozpracování platformy a nástrojů.*
-
-Teď přejdeme od agentního workflow k tomu, kdo jednotlivé vrstvy prostředí dodává.
 -->
 
 ---
@@ -832,51 +832,71 @@ class: ot-slide
 ---
 
 <h1>AS Repository: postup pro projekt</h1>
-<p class="ot-lead">Šablona projektu a sdílené B&amp;R dovednosti dávají agentovi správný pracovní kontext.</p>
+<p class="ot-lead">Tři pluginy rozšiřují agentní prostředí o doménové skills, HMI workflow a práci se Structured Text.</p>
 
-<div class="ot-grid cols-2" style="margin-top: 28px;">
-  <section v-click="1" class="ot-card">
-    <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-folder-cog-outline /></span><div><p class="t-caption" style="font-weight: 700;">ŠABLONA V PROJEKTU</p><h3>Pravidla + konfigurace</h3></div></div>
-    <pre class="ot-code">AGENTS.md                 architektura, zásady, routing
-.vscode/mcp.json          konfigurace MCP serverů
-.gitignore / .gitattributes
-Logical/ · Physical/ · *.apj</pre>
-    <p style="color: var(--ink);">AGENTS.md popisuje projekt, pravidla a který skill použít pro práci.</p>
-    <p class="t-caption">MCP servery se instalují samostatně; jejich konfigurace sama je nespouští.</p>
-  </section>
-  <section v-click="2" class="ot-card" style="--accent: var(--flow-purple);">
-    <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-puzzle-outline /></span><div><p class="t-caption" style="font-weight: 700;">PLUGIN PRO AGENTNÍ PROSTŘEDÍ</p><h3>as-skills</h3></div></div>
-    <p style="color: var(--ink);">Specializované postupy a reference pro práci s Automation Studiem.</p>
-    <div class="ot-chips"><span class="ot-chip">Structured Text</span><span class="ot-chip">ANSI C</span><span class="ot-chip">Physical konfigurace</span><span class="ot-chip">OPC UA</span><span class="ot-chip">mapp a motion</span></div>
-    <p>Skill se přibírá podle úlohy; šablona projektu žádné skills nekopíruje.</p>
-    <p class="t-caption">Repozitář obsahuje také projektového agenta, příkaz pro review větve, MCP návody, nástroje a školení.</p>
-  </section>
+<div class="repo-plugin-grid">
+  <article class="ot-card repo-plugin-card" style="--accent: var(--br-orange);">
+    <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-puzzle-outline /></span><div><p class="t-caption">ENGINEERING SKILLS</p><h2>as-skills</h2></div></div>
+    <p>Postupy pro vývoj a konfiguraci projektů Automation Studia.</p>
+    <details class="repo-plugin-details" @click.stop @keydown.esc.stop.prevent="$event.currentTarget.open = false; $event.currentTarget.querySelector('summary').focus()">
+      <summary class="t-caption"><mdi-text-box-search-outline />Skills a schopnosti</summary>
+      <div class="repo-plugin-popover">
+        <button type="button" class="repo-plugin-close" aria-label="Zavřít detail" @click.stop="$event.currentTarget.closest('details').open = false; $event.currentTarget.closest('details').querySelector('summary').focus()"><mdi-close /></button>
+        <p><strong>as-skills · 14 doménových skills</strong></p>
+        <div class="repo-plugin-skill-groups">
+          <section class="repo-plugin-skill-group"><p class="t-caption repo-plugin-skill-group-title">Jazyky a konfigurace</p><div class="repo-plugin-skill-list"><span class="t-caption">Structured Text</span><span class="t-caption">ANSI C</span><span class="t-caption">Physical konfigurace</span><span class="t-caption">OPC UA</span></div></section>
+          <section class="repo-plugin-skill-group"><p class="t-caption repo-plugin-skill-group-title">HMI a motion</p><div class="repo-plugin-skill-list"><span class="t-caption">mappView</span><span class="t-caption">mapp Motion</span><span class="t-caption">mapp6D</span><span class="t-caption">mappTrak</span><span class="t-caption">SuperTrak</span></div></section>
+          <section class="repo-plugin-skill-group"><p class="t-caption repo-plugin-skill-group-title">mapp služby</p><div class="repo-plugin-skill-list"><span class="t-caption">AlarmX</span><span class="t-caption">Audit</span><span class="t-caption">mapp IO</span><span class="t-caption">Recipe</span><span class="t-caption">UserX</span></div></section>
+        </div>
+        <p>Pomáhají vybrat správnou oblast, popisují vlastnictví souborů a vedou k ověřitelným postupům. Plugin obsahuje také projektového agenta a příkaz pro review větve. Operace s projektem využívají samostatný as-cli.</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="ot-card repo-plugin-card" style="--accent: var(--flow-blue);">
+    <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-monitor-dashboard /></span><div><p class="t-caption">HMI WORKFLOW</p><h2>mappView HMI Design</h2></div></div>
+    <p>Specializovaný postup pro návrh, převod a posouzení HMI.</p>
+    <details class="repo-plugin-details" @click.stop @keydown.esc.stop.prevent="$event.currentTarget.open = false; $event.currentTarget.querySelector('summary').focus()">
+      <summary class="t-caption"><mdi-text-box-search-outline />Skills a schopnosti</summary>
+      <div class="repo-plugin-popover">
+        <button type="button" class="repo-plugin-close" aria-label="Zavřít detail" @click.stop="$event.currentTarget.closest('details').open = false; $event.currentTarget.closest('details').querySelector('summary').focus()"><mdi-close /></button>
+        <p><strong>1 skill:</strong> mappView HMI Design and Conversion.</p>
+        <div class="repo-plugin-skill-list"><span class="t-caption">HMI design</span><span class="t-caption">HTML → mappView</span><span class="t-caption">Build validace</span><span class="t-caption">Runtime assessment</span></div>
+        <p>Provází návrhem průmyslového HMI, převodem schváleného HTML do existující vizualizace a kontrolou buildu. Nasazené HMI umí posoudit pouze read-only. Pro build validaci vyžaduje as-cli.</p>
+      </div>
+    </details>
+  </article>
+
+  <article class="ot-card repo-plugin-card" style="--accent: var(--flow-green);">
+    <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon"><mdi-code-braces /></span><div><p class="t-caption">LANGUAGE SERVER</p><h2>as-lsp</h2></div></div>
+    <p>Strukturovaná navigace ve Structured Text projektu.</p>
+    <details class="repo-plugin-details" @click.stop @keydown.esc.stop.prevent="$event.currentTarget.open = false; $event.currentTarget.querySelector('summary').focus()">
+      <summary class="t-caption"><mdi-text-box-search-outline />Skills a schopnosti</summary>
+      <div class="repo-plugin-popover">
+        <button type="button" class="repo-plugin-close" aria-label="Zavřít detail" @click.stop="$event.currentTarget.closest('details').open = false; $event.currentTarget.closest('details').querySelector('summary').focus()"><mdi-close /></button>
+        <p><strong>1 skill:</strong> as-lsp.</p>
+        <div class="repo-plugin-skill-list"><span class="t-caption">Definice</span><span class="t-caption">Reference</span><span class="t-caption">Hover a typy</span><span class="t-caption">Symbol search</span><span class="t-caption">Rename*</span></div>
+        <p>Napojí agenta na B&amp;R Structured Text language server. Zpřístupní goToDefinition, findReferences, hover a symbol search; přejmenování závisí na schopnostech harnessu.</p>
+        <p class="t-caption">* Některé harnessy podporují pouze čtení. Vyžaduje Windows, rozšíření br-automation.st-lsp, Node.js a projekt po buildu.</p>
+      </div>
+    </details>
+  </article>
 </div>
-<div v-click="3" style="margin-top: 24px;">
-  <div class="ot-chips"><span class="ot-chip"><mdi-file-document-outline />Projektová pravidla</span><mdi-arrow-right /><span class="ot-chip"><mdi-puzzle-outline />Odpovídající skill</span><mdi-arrow-right /><span class="ot-chip"><mdi-check-decagram-outline />Ověřená práce</span></div>
-  <p class="t-caption" style="margin-top: 8px; color: var(--steel);">as-cli je samostatný nástroj, ne součást projektové šablony. Instrukce nejsou oprávnění ani bezpečnostní kontrola.</p>
-</div>
+<div class="repo-plugin-footnote"><mdi-information-outline /><p>Pluginy se instalují do agentního prostředí samostatně. Skills předávají postupy; samy o sobě nejsou oprávnění ani bezpečnostní kontrola.</p></div>
 
 <!--
-*Záměr a čas: 2 minuty. Ukažte, co AS Repository skutečně dodává: šablonu pro projekt, sdílené agentní pluginy a související nástroje/podklady.*
+*Záměr a čas: 2 minuty. Rozlište tři pluginy podle jejich skutečné role a ukažte jejich podrobnosti na vyžádání.*
+*Počáteční stav: tři pluginy a jejich stručné zaměření jsou viditelné; podrobnosti se otevřou aktivací ovládacího prvku v kartě.*
 
-*Počáteční stav: titulek a vysvětlení jsou viditelné; dvě obsahové části a závěrečné shrnutí jsou skryté.*
+AS Repository obsahuje tři samostatně instalovatelné pluginy. První, as-skills, pokrývá čtrnáct oblastí od Structured Textu a konfigurace po motion a mapp služby. Druhý vede návrhem a převodem průmyslového HMI. Třetí zpřístupňuje agentovi jazykový server pro navigaci ve Structured Text projektu.
 
-[CLICK]
-
-Projektová šablona se používá vedle složek Logical a Physical a souboru projektu. AGENTS.md popisuje architekturu, zásady a vhodný skill. Konfigurace MCP nastaví připojení, ale samotné servery je třeba instalovat zvlášť.
-[CLICK]
-
-Plugin as-skills nabízí postupy a reference pro technologie, například Structured Text, ANSI C, Physical konfiguraci, OPC UA a mapp. Skills se vybírají podle úlohy, nekopírují se do projektové šablony. Repozitář obsahuje také projektového agenta, příkaz pro review větve a materiály k MCP.
-[CLICK]
-
-Projektová pravidla směrují agenta ke správnému skillu a harness podle něj pracuje s kontextem projektu. as-cli je samostatný nástroj. Dostupnost skillů a MCP závisí na instalaci a konfiguraci; textové instrukce samy nevynucují oprávnění ani bezpečnost.
+Podrobnosti si můžeme otevřít přímo v kartách. Jejich dostupnost závisí na instalaci a harnessu; například rename přes LSP nepodporují všechny harnessy. Skills popisují postup, ale sama o sobě nevynucují oprávnění ani bezpečnostní pravidla.
 
 *Poznámka: zdrojový README ještě uvádí as-script-task-skills, jeho vlastní README ale označuje tento postup za nahrazený as-cli. Neuvádějte jej jako aktuální doporučení.*
 
-*Konečný stav: rozlišeny jsou projektová šablona, pluginy a samostatný CLI nástroj; netvrďte, že repozitář automaticky aktivuje všechny funkce v každém prostředí.*
+*Konečný stav: jsou viditelné tři pluginy; jejich popisy zůstávají zavřené, dokud si je publikum neotevře.*
 
-Teď se podívejme na samostatný nástroj as-cli.
+Vedle těchto pluginů je samostatným nástrojem také as-cli.
 *Zdroj pro přípravu: C:\100_Projects\as-docs\agentic-engineering-in-automation-studio\README.md; plugins\as-skills\README.md; template\AGENTS.md; docs\agentic-bridge\slides\s4\03-project-structure.js.*
 -->
 
@@ -1036,7 +1056,8 @@ class: ot-slide
     <div class="ot-row"><span class="ot-icon"><mdi-file-tree-outline /></span><p>Struktura projektu Automation Studio 6</p></div>
     <div class="ot-row"><span class="ot-icon"><mdi-bug-outline /></span><p>Ladění programu řízení pohybu</p></div>
     <div class="ot-row"><span class="ot-icon"><mdi-forum-outline /></span><p>Hledání v B&amp;R Community</p></div>
-    <p class="t-caption" style="margin-top: 16px; color: var(--steel);">Jde o návrhy na úvodní obrazovce, nikoli o skutečné odpovědi nebo doklad vyřešeného případu.</p>
+    <div class="ot-row"><span class="ot-icon"><mdi-clipboard-text-clock-outline /></span><p>Historie interních ticketů (možné napojení)</p></div>
+    <p class="t-caption" style="margin-top: 16px; color: var(--steel);">Čtyři návrhy jsou na screenshotu. Ticketing je možné rozšíření; vyžaduje dostupné API a oprávnění.</p>
   </div>
   <div class="ot-photo" style="height: 410px;"><img src="/topics/support-agent/support-agent-start-screen.png" alt="Úvodní obrazovka B&amp;R Support Agentu s návrhy témat pro nové dotazy"></div>
 </div>
@@ -1044,9 +1065,9 @@ class: ot-slide
 <!--
 *Záměr a čas: 2 minuty. Ukázkou schváleného screenshotu vysvětlete, jak support inženýr zahájí práci s asistentem.*
 
-*Počáteční stav: čtyři příklady témat i celý screenshot jsou viditelné; nic se neodhaluje.*
+*Počáteční stav: čtyři témata ze screenshotu, možné napojení ticketingu i celý obrázek jsou viditelné; nic se neodhaluje.*
 
-Úvodní obrazovka nabízí několik návrhů: otázku k ACOPOS servopohonu, strukturu Automation Studia 6, ladění motion programu nebo hledání ve fóru. Jsou to jen návrhy začátku práce. Screenshot neukazuje konverzaci, správnost odpovědi ani výsledek řešení.
+Úvodní obrazovka nabízí čtyři návrhy: otázku k ACOPOS servopohonu, strukturu Automation Studia 6, ladění motion programu nebo hledání ve fóru. Nejde o skutečné odpovědi ani doklad vyřešených případů. Dalším možným zdrojem mohou být interní tickety, pokud je schválené napojení a dostupné potřebné API a oprávnění; screenshot tuto integraci neukazuje.
 
 *Hranice: používejte pouze screenshot schválený pro externí prezentaci. Nezobrazujte přístup, instalátor ani interní oznámení.*
 
@@ -1062,23 +1083,24 @@ class: ot-slide
 <p class="ot-lead">K lokální nápovědě lze přidat zkušenosti komunity i konkrétní projekt.</p>
 
 <div class="ot-stage">
-<div class="ot-grid cols-3 ot-flow" style="--link-y: 56px;">
+<div class="ot-grid cols-4">
   <section class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-book-open-page-variant-outline /></span><span class="t-caption">DOKUMENTACE</span></div><h2>Help AS4 / AS6</h2><p>Nápověda se indexuje lokálně z vlastní instalace Automation Studia.</p></section>
   <section class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-forum-outline /></span><span class="t-caption">KOMUNITA</span></div><h2>B&amp;R Community</h2><p>Odpovědi odkazují také na zkušenosti sdílené ve fóru.</p></section>
   <section class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-folder-open-outline /></span><span class="t-caption">PROJEKT</span></div><h2>Workspace</h2><p>Inženýr může připojit projekt AS jako kontext pro konkrétnější dotaz.</p></section>
+  <section class="ot-card is-feature" style="--accent: var(--flow-purple);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-clipboard-text-clock-outline /></span><span class="t-caption">INTERNÍ TICKETY</span></div><h2>Historie incidentů</h2><p>Kontext z dřívějších hlášení a ověřených řešení.</p></section>
 </div>
 
-<div class="ot-callout"><mdi-information-outline /><p>Rozsah odpovědi závisí na dotazu a předaném kontextu; výsledek je nutné ověřit vůči projektu a verzi.</p></div>
+<div class="ot-callout"><mdi-information-outline /><p>Ticketing je další možný zdroj. Skutečné napojení vyžaduje dostupné rozhraní, oprávnění a potvrzenou integraci.</p></div>
 </div>
 
 <!--
 *Záměr a čas: 3 minuty. Vysvětlete tři zdroje kontextu uvedené v interním oznámení Support Agenta.*
 
-*Počáteční stav: všechny tři zdroje a upozornění jsou viditelné; nic se neodhaluje.*
+*Počáteční stav: všechny čtyři zdroje a upozornění na stav integrace jsou viditelné; nic se neodhaluje.*
 
-Podle interního oznámení může Support Agent využít nápovědu AS4 a AS6 indexovanou z lokální instalace, odkazy do B&R Community a připojený projekt Automation Studia. Tyto zdroje rozšiřují kontext, ale nezaručují úplnost ani správnost odpovědi. Volitelnou integraci WorkIQ zde neukazujeme.
+Podle interního oznámení může Support Agent využít nápovědu AS4 a AS6 indexovanou z lokální instalace, odkazy do B&R Community a připojený projekt Automation Studia. Dalším zamýšleným zdrojem jsou interní tickety s historií incidentů a řešení. Z dostupných podkladů ale nemáme potvrzenou hotovou integraci; její dostupnost závisí na rozhraní a oprávněních.
 
-Ani s více kontextem nepřechází odborné posouzení z inženýra na asistenta.
+Všechny tyto zdroje mohou rozšířit kontext, ale nezaručují úplnost ani správnost odpovědi. Odborné posouzení zůstává na inženýrovi.
 -->
 
 ---
