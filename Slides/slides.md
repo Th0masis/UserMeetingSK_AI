@@ -73,27 +73,73 @@ layout: default
 class: ot-slide
 ---
 
-<h1>AI se z IT dostává do světa OT</h1>
+<h1>AI znovu rozevírá rozdíl mezi IT a OT</h1>
 
-<div style="display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: start; margin-top: 40px;">
-  <div>
-    <div class="ot-chips" style="margin-bottom: 24px;"><span class="ot-chip"><mdi-cloud-outline />IT</span><mdi-arrow-right /><span class="ot-chip"><mdi-factory />OT</span></div>
-    <h2 style="margin: 0;">Od textu k průmyslovému projektu</h2>
-    <p style="margin-top: 16px; color: var(--steel);">Jazykové modely a agenti vstupují i do práce s automatizačními projekty. V OT ale nestačí odpověď, která zní správně:</p>
-    <div style="margin-top: 16px;">
-      <div class="ot-row"><span class="ot-icon"><mdi-target /></span><p><strong>musí sedět na konkrétní projekt</strong></p></div>
-      <div class="ot-row" style="--accent: var(--flow-green);"><span class="ot-icon"><mdi-check-decagram-outline /></span><p><strong>a projít ověřením.</strong></p></div>
+<div class="it-ot-gap-slide">
+  <div class="it-ot-toolchain" aria-label="Nástroje společné pro IT a OT">
+    <strong class="it-ot-toolchain-label">Nástroje se sbližují</strong>
+    <div class="it-ot-toolchain-items">
+      <span><mdi-source-branch />Git</span>
+      <span><mdi-code-braces />VS Code</span>
+      <span><mdi-docker />Docker</span>
+      <span><mdi-console />CLI</span>
+      <span><mdi-api />API</span>
     </div>
   </div>
-  <div class="ot-photo" style="height: 400px;"><img src="/topics/agentic-engineering/chapter.jpg" alt="Vývojář pracuje s automatizačním softwarem a AI asistentem"></div>
+
+  <div class="it-ot-gap-grid">
+    <div class="it-ot-points">
+      <div class="it-ot-point">
+        <span class="it-ot-number">01</span>
+        <p><strong>Nástroje se sbližují.</strong><span>Automation Studio dnes používáme i ve VS Code a Dockeru.</span></p>
+      </div>
+      <div class="it-ot-point">
+        <span class="it-ot-number">02</span>
+        <p><strong>AI náskok IT znovu zvětšuje.</strong><span>Otevřené projekty dávají modelům bohatší kontext i zpětnou vazbu.</span></p>
+      </div>
+      <div class="it-ot-point">
+        <span class="it-ot-number">03</span>
+        <p><strong>V OT musíme kontext zpřístupnit.</strong><span>Platformu, know-how stroje, hardware, verze i bezpečnost.</span></p>
+      </div>
+    </div>
+
+  <div class="it-ot-context" aria-label="Rozdíl v kontextu dostupném pro AI">
+    <p class="it-ot-context-title">Z jakého kontextu AI vychází?</p>
+    <div class="it-ot-domains">
+      <section class="it-ot-domain is-it">
+        <div class="it-ot-domain-heading"><mdi-cloud-outline /><strong>IT</strong></div>
+        <p>Veřejné projekty<br>Standardní API a CLI<br>Sdílená diagnostika</p>
+        <strong class="it-ot-domain-summary">Otevřený ekosystém</strong>
+      </section>
+      <div class="it-ot-context-link" aria-hidden="true"><span>AI</span><mdi-arrow-left-right /></div>
+      <section class="it-ot-domain is-ot">
+        <div class="it-ot-domain-heading"><mdi-factory /><strong>OT</strong></div>
+        <p>Uzavřená platforma<br>Konkrétní stroj a proces<br>Hardware a bezpečnost</p>
+        <strong class="it-ot-domain-summary">Kontext je třeba dodat</strong>
+      </section>
+    </div>
+  </div>
+  </div>
+
+  <div class="it-ot-thesis"><p>Úkolem není zavést AI do OT. <strong>Úkolem je zpřístupnit OT pro AI.</strong></p></div>
 </div>
 
 <!--
-*Záměr a čas: 2 minuty. Ukázat rozdíl mezi dostupností AI v IT a potřebami OT.*
+*Záměr a čas: 2 minuty. Vysvětlete, že nástroje IT a OT se sbližují, ale otevřený ekosystém dává AI v IT náskok.*
+*Počáteční stav: řádek společných nástrojů, tři tvrzení a srovnání kontextu IT/OT jsou viditelné; nic se neodhaluje.*
 
-AI se dostává i do práce s automatizačními projekty, ale v OT má jiné podmínky. V IT jsou běžně dostupné nástroje, jako správa verzí, API, příkazová řádka a diagnostika. Modely se proto mohou opřít o veřejné projekty a zavedené zpětnovazební smyčky. V automatizaci bývá platforma i znalost konkrétního stroje hůře dostupná. Každý projekt navíc závisí na hardwaru, verzích a bezpečnostních omezeních a jeho výsledek může mít fyzické důsledky. Nejde o to, že by vývojáři OT neuměli používat nové nástroje. Potřebujeme AI dodat správný doménový kontext, přístup k projektu a způsob ověření. Úkolem tedy není jen přinést AI do OT, ale zpřístupnit OT pro AI tak, aby výsledek odpovídal projektu a prošel kontrolou.
+Už řadu let se mluví o tom, že se IT a OT budou prolínat. V nástrojích se to skutečně děje: automatizační projekty dnes vyvíjíme i ve VS Code a Dockeru. K cíli ale ještě nejsme.
 
-Než se podíváme na agenty, ujasněme si, jak jazykový model zpracovává vstup a vytváří odpověď.
+S nástupem AI se IT znovu vzdaluje. Ne proto, že bychom v OT neměli stejné schopnosti, ale protože vývoj v IT a open source ekosystém postupují velmi rychle. Modely mohou čerpat z rozsáhlého množství veřejných projektů a jejich zavedených nástrojů: verzování, API, CLI i diagnostiky. To jim dává kontext a zpětnou vazbu už přímo ve vývojovém prostředí.
+
+V OT bývá platforma i znalost konkrétního stroje uzavřená. Model sám neví, jak funguje slévací nebo lisovací stroj. Navíc pracujeme s hardwarem, verzemi, dlouhými životními cykly, bezpečností a fyzickými důsledky změn.
+
+Nejde tedy o nedostatek dovedností ani o pouhé zavedení AI do OT. Potřebujeme zpřístupnit OT platformu, projektový a doménový kontext i ověřitelnou zpětnou vazbu.
+
+Největší propast není v tom, zda AI dokáže kód vygenerovat, ale zda má správný kontext a jak výsledek ověříme. Abychom pochopili roli kontextu, podívejme se nejprve, jak jazykový model zpracovává vstup a vytváří odpověď.
+
+*Konečný stav: společné nástroje, rozdílný kontext IT/OT a hlavní sdělení jsou viditelné.*
+*Inspirace: slide 11 prezentace EventAiAndDevOps. Obsah přizpůsoben této prezentaci; nejde o garanci produktových funkcí.*
 -->
 
 ---
@@ -922,43 +968,6 @@ Před použitím ověřte aktuální syntaxi přes `as --help`. Adresa PLC v př
 
 Následující slide popisuje plán ukázky, nikoli důkaz, že už proběhla.
 *Zdroj pro přípravu: agentic-engineering-in-automation-studio/docs/agentic-bridge/slides/s5/09-capabilities.js.*
--->
-
----
-layout: default
-class: ot-slide
----
-
-# Bridge demo: plán, ne důkaz běhu
-
-<div class="ot-callout is-danger" style="margin-top: 16px;"><mdi-alert-outline /><p><strong>Plán demonstrace · běh zatím neověřen</strong></p></div>
-<p style="margin-top: 16px;">Ilustrační zadání z podkladů: <strong>„Přidej počítadlo hotových kusů a ověř reset.“</strong></p>
-
-<div class="ot-grid cols-5 ot-flow" style="margin-top: 36px;">
-  <section class="ot-card"><div class="ot-card-head"><span class="ot-icon"><mdi-file-document-outline /></span><span class="ot-step">1</span></div><h3>Kontext</h3><p>Projektová pravidla a potřebná dokumentace.</p></section>
-  <section class="ot-card" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon"><mdi-code-braces /></span><span class="ot-step">2</span></div><h3>Změna</h3><p>Agent připraví implementaci v projektu.</p></section>
-  <section class="ot-card" style="--accent: var(--flow-cyan);"><div class="ot-card-head"><span class="ot-icon"><mdi-hammer-wrench /></span><span class="ot-step">3</span></div><h3>Build</h3><p>Zaznamenat skutečný výsledek sestavení.</p></section>
-  <section class="ot-card" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon"><mdi-play-circle-outline /></span><span class="ot-step">4</span></div><h3>Test</h3><p>V ARsim ověřit přírůstek a reset na nulu.</p></section>
-  <section class="ot-card"><div class="ot-card-head"><span class="ot-icon"><mdi-account-check-outline /></span><span class="ot-step">5</span></div><h3>Review</h3><p>Člověk porovná změnu i důkazy s cílem.</p></section>
-</div>
-
-<div class="ot-callout" style="margin-top: 32px;"><mdi-information-outline /><p>Bez ověřeného běhu neukazujeme úspěch ani simulované výstupy.</p></div>
-
-<!--
-*Záměr a čas: 5 minut vyhrazených pro demonstraci; tento slide je zatím plán, nikoli dokončené demo.*
-
-*Počáteční stav: štítek „plán, běh neověřen“, ilustrační zadání a všech pět kroků jsou viditelné. Nic se neodhaluje.*
-
-Toto je plán pětiminutové demonstrace, nikoli dokončené demo. Ukázali bychom předání projektového kontextu, návrh změny, build a samostatný test chování. Očekávání je, že počítadlo po události vzroste a po resetu se vrátí na nulu. Dokud test skutečně neproběhne, je to pouze kritérium, ne výsledek.
-
-*Příprava: skutečný Automation Studio projekt, ověřená verze AS CLI, připravené ARsim, potřebná oprávnění a předem definovaná očekávání.*
-
-*Ověřitelný výsledek: autentický výpis buildu a skutečné runtime hodnoty před i po resetu; člověk následně kontroluje změnu i test.*
-
-*Plán B: pokud nejsou připravené projekt, CLI nebo ARsim, zůstaňte u plánu a vysvětlete kontroly. Statické výstupy z ukázkové komponenty nejsou důkazem.*
-
-A i úspěšný build a test samy o sobě ještě neznamenají bezpečné nasazení.
-*Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md; scénář je tam výslovně ilustrační.*
 -->
 
 ---

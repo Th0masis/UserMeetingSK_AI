@@ -24,7 +24,7 @@ assert.equal(deck.entry.slides[0].frontmatter.layout, 'cover')
 const slideTitles = [
   'AI v průmyslové automatizaci',
   'Osnova',
-  'AI se z IT dostává do světa OT',
+  'AI znovu rozevírá rozdíl mezi IT a OT',
   'Základy LLM',
   "{{ selectedMechanism === null ? 'LLM není kouzelná skříňka' : mechanismTitles[selectedMechanism] }}",
   'Probabilističtí agenti, deterministické nástroje',
@@ -55,6 +55,8 @@ for (const [index, title] of slideTitles.entries()) {
   assert.ok(normalizeText(slide.content).includes(normalizeText(title)), `Missing or misplaced slide: ${title}`)
   assert.ok(slide.content.trim(), `Empty slide: ${title}`)
 }
+
+assert.ok(deck.slides[2].content.includes('Úkolem je zpřístupnit OT pro AI.'), 'The IT/OT slide must state its AI-accessibility thesis')
 
 const agentStabilitySlide = deck.slides.find(slide => slide.content.includes('Instrukce a skills vedou práci. Kontext ji zpřesní. Testy ověřují výsledek.'))
 assert.ok(agentStabilitySlide, 'Agent guidance slide must include instructions, context and verification')
