@@ -196,6 +196,14 @@ line-height of 1.
       "chapter": [35, 535, 1050],
       "cover": [35, 490, 1140]
    },
+   "accentBar": {
+      "top": 457,
+      "left": 0,
+      "width": 335,
+      "height": 28,
+      "color": "#ff8800",
+      "imageBottom": 485
+   },
    "footer": {
       "logoWidth": 39,
       "logoRight": 35,

@@ -53,6 +53,18 @@ async function checkDesign(layout, label) {
     const chapter = element.classList.contains('chapter-slide')
     const dark = element.classList.contains('dark-slide')
     const [leftMargin, topMargin, rightMargin, bottomMargin] = rules.contentMargins
+    const parseColor = value => {
+      const channels = value.match(/[\\d.]+/g)?.map(Number)
+      return channels?.length >= 3 ? channels.slice(0, 3) : null
+    }
+    const luminance = color => color.map(channel => {
+      const normalized = channel / 255
+      return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4
+    }).reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0)
+    const contrast = (foreground, background) => {
+      const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a)
+      return (values[0] + 0.05) / (values[1] + 0.05)
+    }
     const safeContent = (rect, name) => {
       check(rect.left >= leftMargin - 1 && rect.left + rect.width <= rules.canvas[0] - rightMargin + 1, `Object violates side margins: ${name}`)
       check(rect.top >= topMargin - 1 && rect.top + rect.height <= rules.canvas[1] - bottomMargin + 1, `Object violates top/footer keepout: ${name}`)
@@ -81,6 +93,22 @@ async function checkDesign(layout, label) {
       check(near(parseFloat(style.lineHeight), expectedLineHeight), `Wrong ${role} line-height: ${name}`)
       check(style.fontFamily.includes(expected[2] === 'mono' ? 'IBM Plex Mono' : 'ABBvoice'), `Wrong ${role} font: ${name}`)
       check(['normal', '0px'].includes(style.letterSpacing), `Wrong letter spacing: ${name}`)
+      if (node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) {
+        let background = null
+        let hasImageBackground = false
+        for (let ancestor = node; ancestor; ancestor = ancestor.parentElement) {
+          const ancestorStyle = getComputedStyle(ancestor)
+          if (ancestorStyle.backgroundImage !== 'none') hasImageBackground = true
+          const candidate = parseColor(ancestorStyle.backgroundColor)
+          if (candidate && !ancestorStyle.backgroundColor.endsWith(', 0)')) background = candidate
+          if (ancestor === element) break
+        }
+        const foreground = parseColor(style.color)
+        if (!hasImageBackground && foreground && background) {
+          const large = parseFloat(style.fontSize) >= 24 || parseFloat(style.fontSize) >= 18.67 && Number(style.fontWeight) >= 700
+          check(contrast(foreground, background) >= (large ? 3 : 4.5), `Insufficient text contrast (${contrast(foreground, background).toFixed(2)}:1): ${name}`)
+        }
+      }
       if (slideNumber) check(style.fontWeight === String(rules.footer.numberWeight), 'Wrong slide-number weight')
       if (!node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue
       const rect = bounds(node)
@@ -224,6 +252,18 @@ async function checkDesign(layout, label) {
       check(near(rect.left, expected[0]) && near(rect.top, expected[1]), 'Wrong h1 position')
       check(rect.width <= expected[2] + 1 && rect.height <= parseFloat(style.lineHeight) * 2 + 1, 'H1 exceeds width or two-line limit')
       check(style.fontWeight === '700', 'Wrong h1 weight')
+    }
+    if (cover || chapter) {
+      const bar = cover ? getComputedStyle(element, '::after') : getComputedStyle(element.querySelector('[style*="--br-orange"]'))
+      const rect = cover ? {
+        left: parseFloat(bar.left), top: parseFloat(bar.top), width: parseFloat(bar.width), height: parseFloat(bar.height),
+      } : bounds(element.querySelector('[style*="--br-orange"]'))
+      const imageBottom = cover ? 485 : bounds(element.querySelector('.chapter-image')).top + bounds(element.querySelector('.chapter-image')).height
+      check(near(rect.left, rules.accentBar.left) && near(rect.top, rules.accentBar.top)
+        && near(rect.width, rules.accentBar.width) && near(rect.height, rules.accentBar.height), 'Wrong orange image-accent bar geometry')
+      check(parseColor(bar.backgroundColor)?.every((channel, index) => channel === parseColor(`rgb(${rules.accentBar.color.slice(1).match(/../g).map(value => parseInt(value, 16)).join(', ')})`)[index]),
+        'Wrong orange image-accent bar color')
+      check(near(imageBottom, rules.accentBar.imageBottom) && near(rect.top + rect.height, imageBottom), 'Orange bar must align with the image bottom edge')
     }
     const number = element.querySelector('.slide-id')
     if (number) {
