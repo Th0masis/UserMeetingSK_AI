@@ -1522,6 +1522,98 @@
   height: 36px;
 }
 
+.knowledge-hub-slide .ot-flow.is-nodes {
+  position: relative;
+  z-index: 2;
+  --link-y: 62px;
+}
+
+.knowledge-hub-slide .ot-flow.is-nodes > * + *::before {
+  left: -49px;
+  top: calc(var(--link-y) - 1.5px);
+  height: 3px;
+}
+
+.knowledge-hub-slide .ot-flow.is-nodes > * + *::after {
+  top: calc(var(--link-y) - 9px);
+  left: -38px;
+  border-top-width: 9px;
+  border-bottom-width: 9px;
+  border-left-width: 18px;
+}
+
+.knowledge-hub-slide .ot-flow.is-nodes .ot-icon {
+  width: 124px;
+  height: 124px;
+}
+
+.knowledge-hub-slide .ot-flow.is-nodes .ot-icon svg {
+  width: 80px;
+  height: 80px;
+}
+
+.knowledge-hub-slide .ot-node.has-example:hover,
+.knowledge-hub-slide .ot-node.has-example:focus-within {
+  z-index: 2;
+}
+
+.knowledge-hub-slide .ot-node.has-example .ot-icon {
+  cursor: help !important;
+}
+
+.knowledge-hub-slide .ot-node-example {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 3;
+  width: 400px;
+  max-height: 240px;
+  overflow: auto;
+  padding: var(--space-md);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 0 8px 20px rgb(38 38 38 / 14%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out), visibility 0s linear 160ms;
+}
+
+.knowledge-hub-slide .ot-node.has-example:hover .ot-node-example,
+.knowledge-hub-slide .ot-node.has-example:focus-within .ot-node-example {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+}
+
+.knowledge-hub-slide .ot-node-example p {
+  margin: 0;
+}
+
+.knowledge-hub-slide .ot-node-example p + p {
+  margin-top: var(--space-sm);
+}
+
+.knowledge-hub-slide .ot-node-example pre {
+  margin: var(--space-sm) 0 0;
+  white-space: pre-wrap;
+}
+
+.knowledge-hub-slide .ot-node.has-example .ot-icon:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .knowledge-hub-slide .ot-node-example {
+    transition: none;
+  }
+}
+
 .ot-card.is-feature {
   gap: var(--space-md);
   padding: var(--space-xl);

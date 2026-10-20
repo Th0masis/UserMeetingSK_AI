@@ -774,7 +774,7 @@ Začněme znalostní částí a rozlišme propojení MCP od vyhledávání RAG.
 
 ---
 layout: default
-class: ot-slide
+class: ot-slide knowledge-hub-slide
 ---
 
 <h1>Knowledge Hub: odborné podklady se zdrojem</h1>
@@ -783,13 +783,35 @@ class: ot-slide
 <div class="ot-grid ot-flow is-nodes" style="grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 28px;">
   <section class="ot-node"><span class="ot-icon"><mdi-account-question-outline /></span><p style="font-weight: 700;">Dotaz</p><p>Otázka uživatele</p></section>
   <section class="ot-node"><span class="ot-icon"><mdi-robot-outline /></span><p style="font-weight: 700;">Agent</p><p>Rozhodne, co dohledat</p></section>
-  <section class="ot-node"><span class="ot-icon" style="--accent: var(--flow-green);"><mdi-connection /></span><p style="font-weight: 700;">MCP nástroj</p><p>Předá požadavek službě</p></section>
-  <section class="ot-node"><span class="ot-icon" style="--accent: var(--flow-blue);"><mdi-database-search-outline /></span><p style="font-weight: 700;">RAG</p><p>Vyhledá podklady</p></section>
+  <section class="ot-node has-example" data-example="mcp">
+    <span class="ot-icon" tabindex="0" aria-label="Příklad MCP volání" aria-describedby="mcp-example" style="--accent: var(--flow-green);"><mdi-connection /></span>
+    <p style="font-weight: 700;">MCP nástroj</p><p>Předá požadavek službě</p>
+    <div id="mcp-example" class="ot-node-example" role="tooltip">
+      <p class="t-caption"><strong>Ukázka argumentů MCP volání</strong></p>
+      <p class="t-caption"><span class="t-command">bnr_knowledge_base_rag</span></p>
+      <pre class="t-command"><code>{
+  "query": "X20 PLC starts in SERVICE after transfer to project causes possible reasons",
+  "top_k": 5,
+  "include_images": false
+}</code></pre>
+      <p class="t-caption">Hodnoty z dodaného snímku, nikoli živé volání.</p>
+    </div>
+  </section>
+  <section class="ot-node has-example" data-example="rag">
+    <span class="ot-icon" tabindex="0" aria-label="Příklad pasáží nalezených pomocí RAG" aria-describedby="rag-example" style="--accent: var(--flow-blue);"><mdi-database-search-outline /></span>
+    <p style="font-weight: 700;">RAG</p><p>Vyhledá podklady</p>
+    <div id="rag-example" class="ot-node-example" role="tooltip">
+      <p class="t-caption"><strong>Ukázka vyhledaných pasáží, ne hotové odpovědi</strong></p>
+      <p class="t-caption"><strong>Source 2 · Rebuilding the active configuration</strong><br>Relevantní k transferu: před přenosem projektu má být PLC přepnuto do HALT režimu, zde kvůli sdíleným globálním proměnným ve více taskech.</p>
+      <p class="t-caption"><strong>Source 1 · The axis isn't ready for power on anymore</strong><br>Chyba osy sama nedokládá příčinu SERVICE na CPU.</p>
+      <p class="t-caption">Příklad z dodaného snímku vyhledávání; ne živý výsledek ani diagnóza.</p>
+    </div>
+  </section>
   <section class="ot-node"><span class="ot-icon" style="--accent: var(--flow-blue);"><mdi-file-document-multiple-outline /></span><p style="font-weight: 700;">Zdroje</p><p>Vrátí se do kontextu agenta</p></section>
   <section class="ot-node"><span class="ot-icon"><mdi-account-check-outline /></span><p style="font-weight: 700;">Odpověď</p><p>Posoudí ji člověk</p></section>
 </div>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 28px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 78px;">
   <section>
     <h3 style="margin: 0;">Vyhledávané zdroje</h3>
     <div class="ot-chips" style="margin-top: 12px;">
@@ -814,13 +836,13 @@ class: ot-slide
 
 <!--
 *Záměr a čas: 2 minuty. Vysvětlete tok dotazu, roli MCP a RAG, zdroje služby a provozní hranice.*
-*Počáteční stav: celý statický tok, seznam zdrojů, ilustrativní dotaz a omezení jsou viditelné; nic se neodhaluje.*
+*Počáteční stav: celý statický tok, seznam zdrojů, ilustrativní dotaz a omezení jsou viditelné; detaily MCP a RAG jsou zavřené. Hover nebo fokus na jejich ikoně otevře příklad.*
 
 Agent rozhodne, co potřebuje dohledat. MCP předá požadavek službě a RAG vyhledá podklady, které se zdroji vrátí do kontextu. Agent připraví odpověď, ale člověk stále posuzuje relevanci i verzi. MCP je rozhraní pro propojení, nikoli vyhledávač. Příklad s X20, který po přenosu startuje do SERVICE místo RUN, je pouze ilustrativní otázka ze školení, ne živé hledání ani ověřený diagnostický postup.
 
 *Zdroje a hranice: k dispozici jsou Automation Help, B&R Community, informace o verzích a schválený interní zdrojový kód; nejde o libovolný interní nebo zákaznický kód. Interní podklady uvádějí produkci od červnového vydání Automation Studio Code a čtvrtletní aktualizace, bez uvedení roku. Čtvrtletní aktualizace neznamenají živou synchronizaci ani úplnost; SAP support tickety nejsou zahrnuté.*
 
-*Konečný stav: je vidět celý tok, typy zdrojů, příklad dotazu i hranice služby; žádná odpověď asistenta není vydávána za ověřený fakt.*
+*Konečný stav: je vidět celý tok, typy zdrojů, příklad dotazu i hranice služby; žádný detail není otevřený a žádná odpověď asistenta není vydávána za ověřený fakt.*
 
 Znalostní část doplňuje AS Repository, které dodává postup a kontext projektu.
 *Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md, část „MCP Knowledge Hub: znalosti se zdrojem“.*
