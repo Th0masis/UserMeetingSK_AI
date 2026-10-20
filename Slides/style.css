@@ -284,9 +284,26 @@
 
 .ot-stage.ot-chat-stage {
   justify-content: start;
-  gap: 16px;
-  padding-top: 24px;
+  gap: 12px;
+  padding-top: 16px;
   padding-bottom: 0;
+}
+
+.support-chat-slide .ot-chat-header {
+  padding: 12px 16px;
+}
+
+.support-chat-slide .ot-chat-body {
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.support-chat-slide .ot-chat-user {
+  padding: 8px 12px;
+}
+
+.support-chat-slide .ot-chat-author {
+  margin-bottom: 4px;
 }
 
 .ot-chat-header {
@@ -348,8 +365,8 @@
 }
 
 .ot-chat-tool {
-  margin-bottom: 8px;
-  padding: 8px 12px;
+  margin-bottom: 4px;
+  padding: 6px 10px;
   border: 1px solid var(--line);
   border-radius: 4px;
   background: color-mix(in srgb, var(--line) 15%, var(--paper));
@@ -375,49 +392,17 @@
 }
 
 .ot-chat-tool > p {
-  margin-top: 8px;
+  margin-top: 4px;
   --text-role: caption;
   --text-size: var(--type-caption);
   --text-leading: 1.3;
 }
 
-.ot-chat-observation {
+.ot-stage.agent-stability-stage {
+  justify-content: flex-start;
+  gap: 20px;
   padding-top: 12px;
-  border-top: 1px solid var(--line);
-  font-weight: 600;
-}
-
-.ot-chat-disclaimer {
-  color: var(--steel);
-  --text-role: caption;
-  --text-size: var(--type-caption);
-  --text-leading: 1.3;
-}
-
-.ot-chat-review {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  align-items: start;
-  gap: 32px;
-}
-
-.ot-chat-history {
-  color: var(--steel);
-}
-
-.ot-chat-review .ot-chat-body {
-  gap: 16px;
-  padding: 16px 24px;
-}
-
-.ot-chat-verification {
-  display: grid;
-  gap: 24px;
-  padding-top: 16px;
-}
-
-.ot-chat-verification h2 {
-  margin: 0;
+  padding-bottom: 0;
 }
 
 .ot-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }

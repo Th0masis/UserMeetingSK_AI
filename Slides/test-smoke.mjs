@@ -413,22 +413,23 @@ async function checkMechanismInteractions(layout) {
 }
 
 async function checkChatInteractions(layout, slideNumber, click) {
-  if (![5, 6].includes(slideNumber)) return
+  if (slideNumber !== 7) return
   const page = layout.page()
   const url = page.url()
-  const groups = slideNumber === 5
-    ? [['.ot-chat-agent', 1], ['.ot-chat-user', 2], ['.ot-chat-agent', 3]]
-    : [['.ot-chat-user', 1], ['.ot-chat-tools', 2], ['.ot-chat-verification', 3]]
-  const targets = slideNumber === 5
-    ? [layout.locator(groups[0][0]).nth(0), layout.locator(groups[1][0]).nth(1), layout.locator(groups[2][0]).nth(1)]
-    : groups.map(([selector]) => layout.locator(selector))
-  for (const [index, target] of targets.entries()) {
+  const groups = [
+    ['.support-chat-first-answer', 1],
+    ['.support-chat-objection', 2],
+    ['.support-chat-tools', 3],
+    ['.support-chat-specific .ot-chat-user', 4],
+  ]
+  for (const [index, [selector, revealGroup]] of groups.entries()) {
+    const target = layout.locator(selector)
     assert.equal(await target.evaluate(node => node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })),
-      click >= groups[index][1], `Chat slide ${slideNumber}: wrong reveal group ${index + 1}`)
+      click >= revealGroup, `Chat slide ${slideNumber}: wrong reveal group ${index + 1}`)
   }
   if (click === 3) {
     const tools = layout.locator('.ot-chat-tool')
-    assert.equal(await tools.count(), slideNumber === 5 ? 1 : 2)
+    assert.equal(await tools.count(), 3)
     for (const tool of await tools.all()) {
       await tool.locator('summary').focus()
       await tool.locator('summary').press('Enter')

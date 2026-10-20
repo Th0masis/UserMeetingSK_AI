@@ -98,6 +98,22 @@ Než se podíváme na agenty, ujasněme si, jak jazykový model zpracovává vst
 
 ---
 layout: default
+class: ot-slide chapter-slide
+---
+
+<img class="chapter-image" src="/topics/proc-ai/chapter.jpg" alt="" style="position: absolute; top: 0; left: 0; width: 1280px; height: 485px; object-fit: cover;">
+<div style="position: absolute; top: 457px; left: 0; width: min(335px, 27%); height: 28px; background: var(--br-orange);"></div>
+
+<h1 style="position: absolute; top: 535px; left: 35px; max-width: 1050px;">Základy LLM</h1>
+
+<!--
+*Záměr a čas: 30 sekund. Rozdělte úvod a základní vysvětlení LLM na samostatnou kapitolu.*
+
+Nejprve si ujasníme, jak jazykový model zpracovává vstup a vytváří odpověď.
+-->
+
+---
+layout: default
 class: ot-slide
 ---
 
@@ -268,121 +284,128 @@ Podstatná je ta smyčka: další token se přidá k dosavadnímu textu a ovlivn
 
 *[Zpět na přehled.]*
 
-Zapamatujme si tedy tři věci: co se do kontextu nedostane, s tím model nemůže pracovat; souvislosti mění reprezentaci tokenů; a odpověď vzniká postupně. Na dalším slidu si ukážeme, proč z toho plyne tak velký rozdíl mezi konkrétním zadáním a obecným dotazem.
+Zapamatujme si tedy tři věci: co se do kontextu nedostane, s tím model nemůže pracovat; souvislosti mění reprezentaci tokenů; a odpověď vzniká postupně. Na dalším slidu si ukážeme, jak postup agenta vedeme instrukcemi, skills a kontextem a jak výsledek ověřujeme.
 -->
 
 ---
 layout: default
-class: ot-slide
+class: ot-slide agent-stability-slide
 ---
 
-<h1>Od promptingu ke kontext engineeringu</h1>
-<p class="ot-lead">Stejné téma. Jiné zadání. Jiný rozsah odpovědi — ne záruka správnosti.</p>
-<div class="ot-stage ot-chat-stage">
-<div class="ot-grid cols-2">
-  <section class="ot-chat" aria-label="Chat s vágním promptem">
-    <header class="ot-chat-header"><mdi-chat-outline /><strong>Vágní zadání</strong><span class="t-caption">nový chat</span></header>
-    <div class="ot-chat-body">
-      <div class="ot-chat-user"><span class="ot-chat-author">Vy</span><p>Je v AS6 podporován C30?</p></div>
-      <div v-click="1" class="ot-chat-agent">
-        <span class="ot-chat-author"><img src="/br-template-logo.svg" alt="">B&amp;R Support Agent</span>
-        <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Search help <span>10 výsledků</span></summary><p>Zkrácený záznam: proběhlo hledání v Helpu. Samotný počet výsledků neověřuje závěr.</p></details>
-        <p>Výborně! <strong>Ano, C30 je v Automation Studio 6 podporován.</strong></p>
-        <p class="ot-chat-observation">Rozhodné „ano“ bez rozlišení variant.</p>
-      </div>
-    </div>
-  </section>
-  <section class="ot-chat" aria-label="Chat s konkrétním promptem">
-    <header class="ot-chat-header"><mdi-chat-outline /><strong>Konkrétnější zadání</strong><span class="t-caption">nový chat</span></header>
-    <div class="ot-chat-body">
-      <div v-click="2" class="ot-chat-user"><span class="ot-chat-author">Vy</span><p>Jsou 4PPC30.xxx a 4PPC70.xxx podporovány v Automation Studio 6?</p></div>
-      <div v-click="3" class="ot-chat-agent">
-        <span class="ot-chat-author"><img src="/br-template-logo.svg" alt="">AI asistent</span>
-        <p><strong>Obě řady jsou podporovány…</strong><br>Některé varianty 4PPC70 ale již nejsou podporované v AS 6.x.</p>
-        <p class="ot-chat-observation">Více rozlišení, ale také rozpor v odpovědi.</p>
-      </div>
-    </div>
-  </section>
-</div>
-<p class="ot-chat-disclaimer">Zkrácená rekonstrukce dodaných chatů, překlad do češtiny. Vpravo nejsou volání nástrojů doložena. Nejde o potvrzení podpory HW.</p>
+<h1>Probabilističtí agenti, deterministické nástroje</h1>
+<p class="ot-lead">Stejný text negarantujeme. Vedeme záměr a ověřujeme výsledek.</p>
+
+<div class="ot-stage agent-stability-stage">
+  <div class="ot-grid cols-2 agent-stability-contrast">
+    <section>
+      <h2>Agent tvoří pravděpodobný návrh</h2>
+      <ul>
+        <li>Stejný prompt může přinést různé výsledky.</li>
+        <li><strong>Instrukce, skills a relevantní kontext</strong> vedou jeho postup.</li>
+        <li>Jistý tón sám o sobě není důkaz.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Nástroje dávají ověřitelný signál</h2>
+      <ul>
+        <li>Build, test a kontrola schématu vrací konkrétní výsledek.</li>
+        <li>Chyby a stav kontroly lze předat zpět agentovi.</li>
+        <li>Kontrolní kritérium určíme předem.</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="ot-grid cols-4 ot-flow agent-stability-loop">
+    <section class="ot-card"><span class="ot-icon"><mdi-bullseye-arrow /></span><h3>Cíl a kontext</h3><p>Instrukce · skills · projekt</p></section>
+    <section class="ot-card" style="--accent: var(--flow-blue);"><span class="ot-icon"><mdi-lightbulb-on-outline /></span><h3>Návrh agenta</h3><p>Pravděpodobný další krok</p></section>
+    <section class="ot-card" style="--accent: var(--flow-green);"><span class="ot-icon"><mdi-test-tube /></span><h3>Spustit kontrolu</h3><p>Build · test · schéma</p></section>
+    <section class="ot-card" style="--accent: var(--flow-amber);"><span class="ot-icon"><mdi-backup-restore /></span><h3>Vrátit a opakovat</h3><p>Chyba do kontextu; člověk posoudí výsledek</p></section>
+  </div>
+
+  <div class="ot-callout agent-stability-principle">
+    <mdi-link-variant />
+    <p><strong>Instrukce a skills vedou práci. Kontext ji zpřesní. Testy ověřují výsledek.</strong></p>
+  </div>
 </div>
 
 <!--
-*Záměr a čas: 2 minuty. Porovnat rozsah zadání na stejném tématu, ne slibovat správnou odpověď díky lepšímu promptu.*
-*Mapa odhalování: před prvním klikem jsou vidět oba rámečky, levý dotaz a upozornění. Skupina 1 odhalí levé hledání, odpověď i komentář. Skupina 2 odhalí pravý dotaz. Skupina 3 odhalí pravou odpověď i komentář. Rozbalení nástroje je samostatná interakce, neposouvá slide. Na konci jsou oba chaty viditelné, detail nástroje opět zavřete.*
+*Záměr a čas: 2 minuty. Ukažte, jak vedeme postup agenta a ověřujeme jeho výstup, aniž bychom slibovali totožný text.*
+*Počáteční stav: rozdíl mezi pravděpodobným návrhem a ověřitelnými kontrolami, všechny čtyři kroky smyčky i závěrečný princip jsou viditelné; nic se neodhaluje.*
 
-Porovnáváme dva dodané screenshoty různých běhů, nejde tedy o kontrolovaný experiment se stejným modelem. Vpravo je dotaz konkrétnější, ale stále neuvádí úplné objednací číslo ani přesnou verzi Automation Studia.
+Instrukce určují pravidla práce, skills přidávají oborový postup a relevantní projektový kontext zpřesňuje zadání. Tím vedeme záměr a postup, negarantujeme totožnou odpověď.
 
-[CLICK]
+Build, test nebo kontrola schématu vrací konkrétní signál. Při neúspěchu agent dostane chybu zpět do kontextu a může připravit další změnu. Člověk určuje cíl, vybírá kritéria a přijímá výsledek.
 
-Vágní dotaz spustil hledání v Helpu, ale odpověď přesto dává příliš široké ano. Samotné volání nástroje ani počet výsledků nepotvrzují, že je závěr správný.
+*Konečný stav: rozlišené vedení modelu (instrukce, skills, kontext) a ověřování výstupu (nástroje, testy, lidské rozhodnutí).*
 
-*[Otevřete řádek Search help, ukažte jeho záznam a detail zase zavřete. Neinterpretujte jej jako důkaz správnosti ani jako interní úvahu modelu.]*
-[CLICK]
-
-Druhý nový chat už rozlišuje dvě produktové řady a uvádí Automation Studio 6.
-[CLICK]
-
-Odpověď je konkrétnější, ale tvrzení o podpoře obou řad je v napětí s uvedenou výjimkou. Protože screenshot neukazuje použité nástroje, žádné si nedovozujeme a podporu zde nepotvrzujeme.
-
-*Konečný stav: oba prompty a obě odpovědi jsou viditelné; konkrétnější zadání rozšiřuje kontext, ale nemění odpověď na ověřený fakt.*
-
-Vraťme se k prvnímu chatu a podívejme se, co se stane, když uživatel odpověď zpochybní.
+Teď uvidíme, proč ani vyhledání v dokumentaci nezaručuje správnou odpověď.
 -->
 
 ---
 layout: default
-class: ot-slide
+class: ot-slide support-chat-slide
 ---
 
-# Ověřujme fakta i kód
-<p class="ot-lead">Pokračování prvního chatu: námitka spustí další hledání. Kdo ověří závěr?</p>
+<h1>Od vágní otázky k ověření</h1>
+<p class="ot-lead">Dva samostatné chaty ze screenshotů. Hledání ani přesnější dotaz nepotvrzují podporu HW.</p>
+
 <div class="ot-stage ot-chat-stage">
-<div class="ot-chat-review">
-  <section class="ot-chat" aria-label="Pokračování chatu po námitce">
-    <header class="ot-chat-header"><mdi-chat-outline /><strong>B&amp;R Support Agent</strong><span class="t-caption">pokračování</span></header>
-    <div class="ot-chat-body">
-      <p class="ot-chat-history">Předchozí odpověď: „Ano, C30 je v AS6 podporován.“</p>
-      <div v-click="1" class="ot-chat-user"><span class="ot-chat-author">Vy</span><p>Jak to, že je podporovaný? V Helpu je C30 uveden mezi HW, který podporovaný není.</p></div>
-      <div class="ot-chat-agent">
-        <span v-click="2" class="ot-chat-author"><img src="/br-template-logo.svg" alt="">B&amp;R Support Agent</span>
-        <div v-click="2" class="ot-chat-tools">
-          <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Search help <span>10 výsledků</span></summary><p>Další hledání v Helpu po námitce uživatele. Přesné argumenty nejsou na screenshotu vidět.</p></details>
-          <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Get page by id <span>3 breadcrumb</span></summary><p>Načtení stránky podle ID. „3 breadcrumb“ je údaj z rozhraní, nikoli počet nezávislých potvrzení.</p></details>
+  <div class="ot-grid cols-2 support-chat-comparison">
+    <section class="ot-chat" aria-label="Chat s otázkou na C30 a následnou námitkou">
+      <header class="ot-chat-header"><mdi-chat-outline /><strong>B&amp;R Support Agent</strong><span class="t-caption">konverzace</span></header>
+      <div class="ot-chat-body">
+        <div class="ot-chat-user"><span class="ot-chat-author">Vy</span><p>Je v AS6 podporován C30?</p></div>
+        <div v-click="1" class="ot-chat-agent support-chat-first-answer">
+          <span class="ot-chat-author"><img src="/br-template-logo.svg" alt="">B&amp;R Support Agent</span>
+          <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Search help <span>10 výsledků</span></summary><p>Počet výsledků závěr nepotvrzuje.</p></details>
+          <p>Výborně! <strong>Ano, C30 je v Automation Studio 6 podporován.</strong></p>
         </div>
-        <p v-click="3">Máte pravdu, omlouvuji se. Pojďme hledat konkrétnější informace o tom, který hardware je / není podporovaný.</p>
+        <div v-click="2" class="ot-chat-user support-chat-objection"><span class="ot-chat-author">Vy</span><p>Jak to, že je podporovaný? V Helpu je C30 uveden mezi HW, který podporovaný není.</p></div>
+        <div class="ot-chat-agent">
+          <span v-click="3" class="ot-chat-author"><img src="/br-template-logo.svg" alt="">B&amp;R Support Agent</span>
+          <div v-click="3" class="ot-chat-tools support-chat-tools">
+            <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Search help <span>10 výsledků</span></summary><p>Argumenty hledání nejsou na screenshotu vidět.</p></details>
+            <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Get page by id <span>3 breadcrumb</span></summary><p>Breadcrumb je údaj rozhraní, ne potvrzení.</p></details>
+          </div>
+          <p v-click="3">Máte pravdu, omlouvám se. Ověřím podporu HW.</p>
+        </div>
       </div>
-    </div>
-  </section>
-  <aside v-click="3" class="ot-chat-verification">
-    <h2>Omluva není ověření.</h2>
-    <p><strong>U informace</strong><br>Přesný HW, verze AS a příslušná stránka Helpu.</p>
-    <p><strong>U kódu</strong><br>Build, test chování a review člověkem.</p>
-    <p>Volání nástroje dokládá krok, ne správnost závěru.</p>
-  </aside>
-</div>
-<p class="ot-chat-disclaimer">Zkrácená rekonstrukce dodaného chatu. Zobrazeny jsou operace nástrojů, ne interní uvažování modelu. Podpora HW zde není ověřena.</p>
+    </section>
+    <section class="ot-chat support-chat-specific" aria-label="Samostatný konkrétnější dotaz">
+      <header class="ot-chat-header"><mdi-chat-outline /><strong>Konkrétnější dotaz</strong><span class="t-caption">samostatný chat</span></header>
+      <div class="ot-chat-body">
+        <div v-click="4" class="ot-chat-user"><span class="ot-chat-author">Vy</span><p>Jsou 4PPC30.xxx a 4PPC70.xxx podporovány v Automation Studio 6?</p></div>
+        <div v-click="4" class="ot-chat-agent">
+          <span class="ot-chat-author"><img src="/br-template-logo.svg" alt="">AI asistent</span>
+          <p><strong>Obě řady jsou podporovány…</strong><br>Některé varianty 4PPC70 ale již nejsou podporované v AS 6.x.</p>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>
 
 <!--
-*Záměr a čas: 1:30. Od porovnání promptů přejít k ověření tvrzení a skutečně viditelným operacím nástrojů.*
-*Mapa odhalování: počáteční stav obsahuje rám chatu, předchozí tvrzení a upozornění. Skupina 1 odhalí námitku uživatele. Skupina 2 současně odhalí autora a oba nástroje; nejsou to tři různé kliky. Skupina 3 současně odhalí reakci asistenta a pravý blok ověření. Každý nástroj lze samostatně rozbalit bez posunu prezentace; na konci oba detaily zavřete.*
+*Záměr a čas: 3:30 minuty. Spojte obecný dotaz, námitku z dokumentace a samostatný konkrétnější prompt do jedné ukázky hranic odpovědi agenta.*
+*Počáteční stav: úvodní C30 dotaz v levém chatu a hlavičky obou chatů. Skupina 1 odhalí první hledání i příliš širokou odpověď. Skupina 2 odhalí námitku uživatele. Skupina 3 současně odhalí další hledání, načtení stránky a omluvu. Skupina 4 odhalí zprávy v samostatném chatu s konkrétnějším dotazem. Tři záznamy nástrojů lze rozbalit bez posunu slidu. Konečný stav obsahuje oba průběhy; výsledky zůstávají neověřené.*
 
 [CLICK]
 
-Uživatel namítá, že Help uvádí C30 mezi nepodporovaným hardwarem. Je to důvod dohledat konkrétní zdroj, ne automaticky přijmout kteroukoli z obou odpovědí.
+Nejprve vágní dotaz: „Je v AS6 podporován C30?“
 [CLICK]
 
-Asistent spouští další hledání a načítá stránku podle ID. Počet výsledků ani breadcrumb nejsou nezávislým potvrzením závěru.
-
-*[Postupně rozbalte oba záznamy nástrojů a zase je zavřete. Neodvozujte z nich argumenty ani text stránky, které screenshot neukazuje.]*
+Agent prohledal Help a odpověděl sebejistým „ano“. Volání nástroje i počet výsledků ukazují, že hledal; nedokazují, že závěr správně vyložil.
 [CLICK]
 
-Asistent se omluví a navrhne další hledání, ale screenshot už neukazuje ověřený verdikt. Ověření proto musí provést člověk: u informace zkontrolovat přesný hardware, verzi a zdroj; u kódu oddělit build od testu chování.
+Uživatel namítá, že Help uvádí C30 mezi nepodporovanými. Následuje další hledání a načtení stránky. Počet výsledků ani breadcrumb nejsou nezávislým potvrzením závěru. Asistent se omluví, ale ve screenshotu ověřený verdikt chybí.
 
-*Konečný stav: námitka, obě operace nástrojů, reakce asistenta i kontrolní postup jsou viditelné; podpora C30 zůstává nerozhodnutá.*
+*[Otevřete postupně tři záznamy Search help / Get page by id a znovu je zavřete. Neodvozujte z nich argumenty ani obsah stránky, které screenshot neukazuje.]*
+[CLICK]
 
-Od kontroly jedné odpovědi teď přejděme k tomu, jak se mění rozsah práce asistenta.
+V samostatném chatu se uživatel ptá konkrétněji na řady 4PPC30 a 4PPC70. Odpověď zmiňuje výjimky, ale sama nedokládá podporu konkrétního objednacího čísla ani verze.
+
+*Konečný stav: vidět je první odpověď i její oprava po námitce a samostatný konkrétnější dotaz. Hledání ani konkrétnější prompt samy o sobě nepotvrzují technický fakt.*
+
+Zprávy pocházejí ze dvou samostatných chatů; nejde o jeden souvislý běh ani kontrolovaný experiment. Odpovědi jsou ilustrací nutnosti ověření, ne zdrojem pravdy.
 -->
 
 ---
@@ -585,6 +608,22 @@ Pojďme si rozdělit, které vrstvy tyto funkce dodávají.
 
 ---
 layout: default
+class: ot-slide chapter-slide
+---
+
+<img class="chapter-image" src="/topics/agentic-engineering/chapter.jpg" alt="" style="position: absolute; top: 0; left: 0; width: 1280px; height: 485px; object-fit: cover;">
+<div style="position: absolute; top: 457px; left: 0; width: min(335px, 27%); height: 28px; background: var(--br-orange);"></div>
+
+<h1 style="position: absolute; top: 535px; left: 35px; max-width: 1050px;">Agentic Engineering</h1>
+
+<!--
+*Záměr a čas: 30 sekund. Oddělte část o agentním workflow od dalšího rozpracování platformy a nástrojů.*
+
+Teď přejdeme od agentního workflow k tomu, kdo jednotlivé vrstvy prostředí dodává.
+-->
+
+---
+layout: default
 class: ot-slide agent-layers-slide
 ---
 
@@ -633,44 +672,6 @@ Jak může kombinace těchto vrstev zlepšit opakovatelnost, aniž bychom slibov
 
 ---
 layout: default
-class: ot-slide
----
-
-# Jak vést k opakovatelnému výsledku
-<p class="ot-lead">Nezaručujeme totožný text modelu; zpřesňujeme proces a ověřujeme výsledek.</p>
-
-<div class="ot-stage" style="gap: 0;">
-<div class="ot-grid cols-3 ot-flow" style="--link-y: 56px;">
-  <section v-click="1" class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-lightbulb-on-outline /></span><span class="ot-step">01</span></div><h2>Pravděpodobný návrh</h2><p>Jasné zadání a relevantní projektový kontext.</p></section>
-  <section v-click="2" class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-ruler-square /></span><span class="ot-step">02</span></div><h2>Pevné kritérium</h2><p>Build, test nebo jiný kontrolovatelný výsledek nástroje.</p></section>
-  <section v-click="3" class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-account-check-outline /></span><span class="ot-step">03</span></div><h2>Oprava a přijetí</h2><p>Chyba se vrátí do kontextu; člověk posoudí změnu podle cíle.</p></section>
-</div>
-
-<div v-click="3" class="ot-loop" style="margin: 0 15%;"><span class="ot-loop-label"><mdi-backup-restore />Chyba → zpět do kontextu</span></div>
-</div>
-
-<!--
-*Záměr a čas: 2 minuty. Vysvětlete, jak proces pracuje s variabilitou, aniž by sliboval deterministický text.*
-*Počáteční stav: titulek a upozornění; tři kroky jsou skryté.*
-
-[CLICK]
-
-Model vytvoří pravděpodobný návrh podle zadání a kontextu, který dostal.
-[CLICK]
-
-Build nebo test může vrátit opakovatelný výsledek. Takový signál pomáhá, ale sám neodpovídá na všechny otázky kvality.
-[CLICK]
-
-Chyba se vrátí do kontextu pro opravu a člověk rozhodne o přijetí změny podle cíle a dostupných důkazů.
-
-*Konečný stav: tři kroky tvoří krátkou smyčku pro řízení variability.*
-
-Tyto vrstvy pro práci s Automation Studiem propojuje Agentic Bridge.
-*Zdroj pro přípravu: agentic-bridge/slides/s5/03-deterministic-vs-probabilistic.js a AI_Event_CZ/Slides/topics/as-repository.md.*
--->
-
----
-layout: default
 class: ot-slide chapter-slide
 ---
 
@@ -679,15 +680,11 @@ class: ot-slide chapter-slide
 
 <h1 style="position: absolute; top: 535px; left: 35px; max-width: 1050px;">Automation Studio Agentic Bridge</h1>
 
-<p style="position: absolute; top: 590px; left: 35px; color: var(--steel);">Propojení agenta s odbornými znalostmi, projektovým postupem a nástroji Automation Studia.</p>
-
 <!--
-*Záměr a čas: 1 minuta. Uveďte roli Bridge po obecném agentním workflow.*
-*Počáteční stav: název, podtitul a existující tematický obraz; nic se neodhaluje.*
+*Záměr a čas: 30 sekund. Uveďte novou kapitolu bez opakování jejího obsahu.*
+*Počáteční stav: název a existující tematický obraz; nic se neodhaluje.*
 
-Automation Studio Agentic Bridge propojuje vybrané agentní prostředí s postupy, znalostmi a akcemi pro práci s Automation Studiem. Není to nový jazykový model a konkrétní dostupnost závisí na konfiguraci.
-
-Tuto roli si rozdělíme na tři konkrétní části.
+Po obecném agentním workflow se teď podíváme na Automation Studio Agentic Bridge. Na následujícím slidu si představíme jeho tři části.
 *Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md, architektura Bridge.*
 -->
 ---

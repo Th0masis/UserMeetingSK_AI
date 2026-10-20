@@ -15,8 +15,9 @@ for (const markdown of Object.values(deck.markdownFiles)) {
 }
 
 assert.equal(deck.headmatter.title, 'AI v průmyslové automatizaci')
-const parsedTitles = deck.slides.map(slide => slide.content.match(/<h1>(.*?)<\/h1>/)?.[1] ?? slide.content.match(/^# (.+)$/m)?.[1] ?? '(untitled)')
-assert.equal(deck.entry.slides.length, 25, `Expected the cover, outline and 23 active content slides; parsed: ${parsedTitles.join(' | ')}`)
+const normalizeText = value => value.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ')
+const parsedTitles = deck.slides.map(slide => normalizeText(slide.content.match(/<h1\b[^>]*>(.*?)<\/h1>/)?.[1] ?? slide.content.match(/^# (.+)$/m)?.[1] ?? '(untitled)'))
+assert.equal(deck.entry.slides.length, 26, `Expected the cover, outline and 24 active content slides; parsed: ${parsedTitles.join(' | ')}`)
 assert.ok(deck.entry.slides.every(slide => !slide.frontmatter.src), 'The starter deck must not import missing files')
 assert.equal(deck.entry.slides[0].frontmatter.layout, 'cover')
 
@@ -24,15 +25,16 @@ const slideTitles = [
   'AI v průmyslové automatizaci',
   'Osnova',
   'AI se z IT dostává do světa OT',
-  'LLM není kouzelná skříňka',
-  'Od promptingu ke kontext engineeringu',
-  'Ověřujme fakta i kód',
+  'Základy LLM',
+  "{{ selectedMechanism === null ? 'LLM není kouzelná skříňka' : mechanismTitles[selectedMechanism] }}",
+  'Probabilističtí agenti, deterministické nástroje',
+  'Od vágní otázky k ověření',
   'Od autocomplete k agentovi',
   'Kvalitu určuje postup, ne nálepka',
   'Agentic workflow',
   'Close the gap',
+  'Agentic Engineering',
   'Model, harness, tools a skills',
-  'Jak vést k opakovatelnému výsledku',
   'Automation Studio Agentic Bridge',
   'Agentic Bridge: tři propojené části',
   'Knowledge Hub: odborné podklady se zdrojem',
@@ -45,14 +47,22 @@ const slideTitles = [
   'Od dotazu k prvnímu vodítku',
   'Odpověď získává kontext z více míst',
   'AI pomáhá hledat. Inženýr rozhoduje.',
-  'AI & Agentic Engineering Day',
+  'Další akce 2026',
 ]
 
 for (const [index, title] of slideTitles.entries()) {
   const slide = deck.slides[index]
-  assert.ok(slide.content.includes(title), `Missing or misplaced slide: ${title}`)
+  assert.ok(normalizeText(slide.content).includes(normalizeText(title)), `Missing or misplaced slide: ${title}`)
   assert.ok(slide.content.trim(), `Empty slide: ${title}`)
 }
+
+const agentStabilitySlide = deck.slides.find(slide => slide.content.includes('Instrukce a skills vedou práci. Kontext ji zpřesní. Testy ověřují výsledek.'))
+assert.ok(agentStabilitySlide, 'Agent guidance slide must include instructions, context and verification')
+assert.ok(agentStabilitySlide.content.includes('Build, test a kontrola schématu'), 'Agent output must be tied to verifiable checks')
+const supportChatSlide = deck.slides.find(slide => slide.content.includes('Od vágní otázky k ověření') && slide.content.includes('Konkrétnější dotaz'))
+assert.ok(supportChatSlide, 'The chat examples slide must include the support-claim progression and the specific follow-up example')
+assert.equal((supportChatSlide.content.match(/<details class="ot-chat-tool"/g) ?? []).length, 3, 'The combined chat must show all three tool records')
+assert.ok(!deck.slides.some(slide => /<h1\b[^>]*>Jak vést k opakovatelnému výsledku<\/h1>/.test(slide.content)), 'The redundant repeatability slide must be removed')
 
 const sectionMinutes = [3, 5, 14, 14, 8, 6]
 const durationTotal = sectionMinutes.reduce((total, duration) => total + duration, 0)
@@ -60,11 +70,12 @@ assert.equal(durationTotal, 50, 'The programme including reservations must total
 assert.ok(deck.slides[1].content.includes('50 minut celkem'), 'Outline must show the 50-minute programme')
 assert.ok(deck.slides[1].content.includes('aktivní část 45:30'), 'Outline must show the active 45:30')
 assert.ok(deck.slides[1].content.includes('rezervace 4:30'), 'Outline must preserve the 4:30 reservation')
-assert.ok(deck.slides[7].content.includes('nejsou ostrým protikladem'), 'Vibe coding and agentic engineering must not be presented as strict opposites')
-assert.ok(deck.slides[7].content.includes('produkční vhodnost určuje ověření, ne nálepka'), 'Production suitability must depend on verification, not the approach label')
+assert.ok(deck.slides[8].content.includes('nejsou ostrým protikladem'), 'Vibe coding and agentic engineering must not be presented as strict opposites')
+assert.ok(deck.slides[8].content.includes('produkční vhodnost určuje ověření, ne nálepka'), 'Production suitability must depend on verification, not the approach label')
 assert.ok(existsSync(resolve(root, 'public/topics/support-agent/support-agent-start-screen.png')), 'Support Agent screenshot must be available locally')
-assert.ok(deck.slides[21].content.includes('/topics/support-agent/support-agent-start-screen.png'), 'Support Agent screenshot must be included in its slide')
-const registrationSlide = deck.entry.slides[24].content
+const supportAgentSlide = deck.slides.find(slide => slide.content.includes('/topics/support-agent/support-agent-start-screen.png'))
+assert.ok(supportAgentSlide, 'Support Agent screenshot must be included in its slide')
+const registrationSlide = deck.entry.slides.at(-1).content
 assert.ok(registrationSlide.includes('href="https://events.bizzabo.com/AgenticEngineeringDay"'), 'Registration slide must link to the supplied event URL')
 assert.ok(registrationSlide.includes('src="/topics/zaver/agentic-engineering-day-registration.svg"'), 'Registration slide must include its local QR code')
 assert.ok(registrationSlide.includes('width: 450px; height: 450px;'), 'Registration QR code must be large enough for the projected room')

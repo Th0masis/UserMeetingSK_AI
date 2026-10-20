@@ -108,9 +108,10 @@ modrý transformer a zelené generování; aktivní fáze je označena také tex
 Kontroluje také návrat do přehledu bez posunu slidu. Snímky detailů ukládá
 jako `llm-*.png`. Ručně ověřte čitelnost popisků a soulad grafiky s poznámkami.
 
-Na slidech 5 a 6 smoke test kontroluje tři skupiny odhalování chatů.
-V konečném stavu otevře záznamy nástrojů klávesnicí, ověří jejich obsah
-a layout i při současném rozbalení a zavře je kliknutím bez posunu slidu.
-Snímky všech kroků a rozbalených nástrojů ukládá jako `chat-*.png`.
-Ukázky jsou zkrácené rekonstrukce dodaných chatů, nikoli ověření podpory HW;
-pravý chat na slidu 5 neobsahuje nedoložená volání nástrojů.
+Slide 6 vysvětluje vedení a ověřování výstupu agenta; smoke test kontroluje
+jeho rozložení na desktopu i mobilu. Na slidu 7 kontroluje čtyři skupiny
+odhalování sloučené ukázky chatů. Po třetím kliku otevře tři záznamy nástrojů
+klávesnicí, ověří jejich obsah a layout i při současném rozbalení a zavře je
+kliknutím bez posunu slidu. Snímky kroků a rozbalených nástrojů ukládá jako
+`chat-*.png`. Ukázky jsou zkrácené rekonstrukce dvou samostatných chatů
+z dodaných screenshotů, nikoli ověření podpory HW.
