@@ -31,10 +31,13 @@ layout: cover
 <div class="cover-event"><span>B&amp;R Industrial Automation</span><span>50 minut</span></div>
 
 <!--
-Záměr a čas: 30 sekund. Uveďte téma jako cestu od jazykových modelů k ověřitelné práci na automatizačním projektu.
-Počáteční stav: titul, podtitul a celková plánovaná délka programu; nic se neodhaluje.
-Řečový tah: AI zde nebudeme hodnotit podle přesvědčivosti textu, ale podle toho, jak zapadá do inženýrského pracovního postupu.
-Přechod: nejprve ukázat, jak je čas rozdělen mezi aktivní obsah a rezervované části.
+*Záměr a čas: 30 sekund. Uveďte téma jako cestu od jazykových modelů k ověřitelné práci na automatizačním projektu.*
+
+*Počáteční stav: titul, podtitul a celková plánovaná délka programu; nic se neodhaluje.*
+
+Dnes projdeme cestu od jazykových modelů k agentům, kteří pracují s konkrétním automatizačním projektem. Nebudeme hodnotit jen to, zda odpověď zní přesvědčivě, ale také zda odpovídá projektu a lze ji ověřit.
+
+Nejdřív si ukažme, jak je rozdělený čas.
 -->
 
 ---
@@ -56,10 +59,13 @@ class: agenda-slide
 <p class="agenda-total">50 minut celkem · aktivní část 45:30 · rezervace 4:30</p>
 
 <!--
-Záměr a čas: 30 sekund. Orientujte publikum v šestidílném programu a ukažte, že 4:30 zůstává rezervováno.
-Počáteční stav: všech šest řádků a součet 50 minut jsou viditelné; nic se neodhaluje.
-Řečový tah: titul i agenda jsou započítané. Support Agent má aktivních 8 minut; příklady z praxe zůstávají rezervované na 4:30 a aktivní pozvánka zabere posledních 1:30. Aktivní obsah proto trvá 45:30; plných 50 minut je dosaženo pouze s doplněním příkladů.
-Přechod: začít otázkou, podle čeho poznáme použitelnost návrhu AI.
+*Záměr a čas: 30 sekund. Orientujte publikum v šestidílném programu a ukažte, že 4:30 zůstává rezervováno.*
+
+*Počáteční stav: všech šest řádků a součet 50 minut jsou viditelné; nic se neodhaluje.*
+
+Program včetně úvodu a pozvánky má 50 minut. Z toho je připraveno 45 minut a 30 sekund obsahu; 4 minuty a 30 sekund zůstávají rezervované na příklady z praxe. Support Agentu věnujeme osm minut a závěr s pozvánkou minutu a půl.
+
+Začněme otázkou: podle čeho poznáme, že je návrh AI použitelný?
 -->
 
 ---
@@ -83,10 +89,11 @@ class: ot-slide
 </div>
 
 <!--
-Záměr a čas: 2 minuty. Přesuňte AI z obecného světa IT do prostředí průmyslové automatizace.
-Počáteční stav: titulek, sdělení i ilustrativní fotografie jsou viditelné; nic se neodhaluje.
-Řečový tah: inspirací je slide 10 prezentace EventAiAndDevOps. Vysvětlete, proč používání AI v OT vyžaduje znalost konkrétního projektu a ověřitelnou kontrolu; fotografie je ilustrace, nikoli důkaz schopností produktu.
-Přechod: než probereme agenty, podívejme se, jak jazykový model vytváří odpověď.
+*Záměr a čas: 2 minuty. Ukázat rozdíl mezi dostupností AI v IT a potřebami OT.*
+
+AI se dostává i do práce s automatizačními projekty, ale v OT má jiné podmínky. V IT jsou běžně dostupné nástroje, jako správa verzí, API, příkazová řádka a diagnostika. Modely se proto mohou opřít o veřejné projekty a zavedené zpětnovazební smyčky. V automatizaci bývá platforma i znalost konkrétního stroje hůře dostupná. Každý projekt navíc závisí na hardwaru, verzích a bezpečnostních omezeních a jeho výsledek může mít fyzické důsledky. Nejde o to, že by vývojáři OT neuměli používat nové nástroje. Potřebujeme AI dodat správný doménový kontext, přístup k projektu a způsob ověření. Úkolem tedy není jen přinést AI do OT, ale zpřístupnit OT pro AI tak, aby výsledek odpovídal projektu a prošel kontrolou.
+
+Než se podíváme na agenty, ujasněme si, jak jazykový model zpracovává vstup a vytváří odpověď.
 -->
 
 ---
@@ -94,32 +101,174 @@ layout: default
 class: ot-slide
 ---
 
-<h1>LLM není kouzelná skříňka</h1>
-<p class="ot-lead">Statisticky odhaduje pravděpodobnost dalšího tokenu podle zadání a dostupného kontextu.</p>
-<div class="ot-stage">
-<div class="ot-grid ot-flow" style="grid-template-columns: 0.9fr 1.3fr 0.9fr; --link-y: 56px;">
-  <section class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-text-box-outline /></span><span class="ot-step">01 · VSTUP</span></div><h2>Cíl a kontext</h2><p>Prompt, podklady a dosavadní průběh konverzace.</p><p class="t-command" style="color: var(--ink);">„Po přenosu startuje CPU do …“</p></section>
-  <section class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-chart-bar /></span><span class="ot-step">02 · ODHAD</span></div><h2>Další token</h2>
-    <div v-click="1" style="display: grid; gap: 8px;">
-      <div class="ot-prob" style="--p: 46%; --accent: var(--flow-blue);"><span class="t-command">SERVICE</span><i></i><span class="t-command">46 %</span></div>
-      <div class="ot-prob" style="--p: 31%; --accent: var(--flow-blue);"><span class="t-command">RUN</span><i></i><span class="t-command">31 %</span></div>
-      <div class="ot-prob is-low" style="--p: 9%;"><span class="t-command">BOOT</span><i></i><span class="t-command">9 %</span></div>
-      <p class="t-caption">Ilustrační hodnoty, nikoli výstup konkrétního modelu.</p>
-    </div>
-  </section>
-  <section class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-message-text-outline /></span><span class="ot-step">03 · VÝSTUP</span></div><h2>Odpověď</h2><p>Opakováním vzniká text, který může znít přesvědčivě, ale není tím ověřený.</p></section>
+<script setup>
+import { ref } from 'vue'
+
+const selectedMechanism = ref(null)
+const contextBudget = ref(8)
+const generationStep = ref(0)
+const promptTokens = [
+  { text: 'Customer', key: true }, { text: 'shared' },
+  { text: 'logger', key: true }, { text: 'output', key: true },
+  { text: 'with' }, { text: 'support', key: true },
+  { text: 'engineer', key: true }, { text: '.' }, { text: 'Is' },
+  { text: 'trace', key: true }, { text: 'still' },
+  { text: 'needed', key: true }, { text: '?' },
+]
+const vectorDimensions = [
+  { name: 'Osoba', before: 0.92, after: 0.54 },
+  { name: 'Důkaz', before: 0.16, after: 0.22 },
+  { name: 'Diagnóza', before: 0.24, after: 0.28 },
+  { name: 'Akce', before: 0.16, after: 0.17 },
+]
+const contextLabels = ['logger output', 'reviewing', 'trace needed', 'ostatní']
+const generationFrames = [
+  { weights: [34, 22, 18, 26], words: [], next: 'Prosím' },
+  { weights: [26, 18, 30, 26], words: ['Prosím'], next: 'pošlete' },
+  { weights: [18, 14, 42, 26], words: ['Prosím', 'pošlete'], next: 'trace' },
+  { weights: [18, 14, 42, 26], words: ['Prosím', 'pošlete', 'trace'], next: null },
+]
+const mechanismTitles = {
+  tokens: 'Od věty k dostupnému kontextu',
+  attention: 'Významy, váhy a změna vektoru',
+  output: 'Kontext se mění s každým dalším tokenem',
+}
+</script>
+<h1>{{ selectedMechanism === null ? 'LLM není kouzelná skříňka' : mechanismTitles[selectedMechanism] }}</h1>
+<p v-if="selectedMechanism === null" class="ot-lead">Od rozdělení textu na tokeny přes update jejich reprezentace až po generování odpovědi.</p>
+<div class="ot-stage" :class="{ 'ot-mechanism-stage': selectedMechanism !== null }">
+<div v-if="selectedMechanism === null" class="ot-grid ot-flow cols-3" style="--link-y: 56px;">
+  <button type="button" class="ot-card is-feature ot-mechanism-card" @click="selectedMechanism = 'tokens'"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-text-box-outline /></span><span class="ot-step">01 · TOKENIZACE · OTEVŘÍT DETAIL</span></div><h2>Tokeny a kontext</h2><p>Tokenizer rozdělí vstup na tokeny; model zpracuje prompt i dostupný kontext konverzace.</p><div class="ot-chips"><span class="ot-chip">customer</span><span class="ot-chip">logger</span><span class="ot-chip">support</span><span class="ot-chip">trace</span></div><p class="t-command" style="color: var(--ink);">Prompt → tokenizer → tokeny</p></button>
+  <button type="button" class="ot-card is-feature ot-mechanism-card" style="--accent: var(--flow-blue);" @click="selectedMechanism = 'attention'"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-chart-bar /></span><span class="ot-step">02 · TRANSFORMER · OTEVŘÍT DETAIL</span></div><h2>Váha a update</h2><p>Self-attention váží souvislosti a aktualizuje reprezentaci zpracovávaného tokenu.</p><p class="t-caption">Váha pro token „support“ · ilustrace</p><div class="ot-prob" style="--p: 13.7%; --accent: var(--flow-blue);"><span class="t-command">engineer</span><i></i><span class="t-command">13,7 %</span></div><div class="ot-prob" style="--p: 8.3%; --accent: var(--flow-blue);"><span class="t-command">reviewing</span><i></i><span class="t-command">8,3 %</span></div><div class="ot-prob" style="--p: 6.3%; --accent: var(--flow-blue);"><span class="t-command">needed</span><i></i><span class="t-command">6,3 %</span></div></button>
+  <button type="button" class="ot-card is-feature ot-mechanism-card" style="--accent: var(--flow-green);" @click="selectedMechanism = 'output'"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-message-text-outline /></span><span class="ot-step">03 · GENEROVÁNÍ · OTEVŘÍT DETAIL</span></div><h2>Výstup: od váženého kontextu k odpovědi</h2><p>Model odhadne další token, přidá ho do kontextu a pokračuje.</p><div class="ot-prob" style="--p: 34%;"><span class="t-command">logger output</span><i></i><span class="t-command">34 %</span></div><div class="ot-prob" style="--p: 22%;"><span class="t-command">reviewing</span><i></i><span class="t-command">22 %</span></div><div class="ot-prob" style="--p: 18%;"><span class="t-command">trace needed</span><i></i><span class="t-command">18 %</span></div><p class="t-command" style="color: var(--ink);">Prosím → pošlete → trace</p></button>
 </div>
-<div class="ot-callout"><mdi-alert-circle-outline /><p>Model předpovídá pokračování textu; sám tím nepotvrzuje pravdivost odpovědi.</p></div>
+<section v-else class="ot-mechanism-detail" :data-mechanism="selectedMechanism" aria-label="Grafický detail fungování LLM">
+  <div class="ot-mechanism-key" aria-label="Přiřazení diagramu ke kartám">
+    <span class="t-caption" :aria-current="selectedMechanism === 'tokens' ? 'step' : null" style="--accent: var(--br-orange);">01 · Tokeny a kontext</span>
+    <span class="t-caption" :aria-current="selectedMechanism === 'attention' ? 'step' : null" style="--accent: var(--flow-blue);">02 · Transformer</span>
+    <span class="t-caption" :aria-current="selectedMechanism === 'output' ? 'step' : null" style="--accent: var(--flow-green);">03 · Generování odpovědi</span>
+  </div>
+  <div class="ot-mechanism-toolbar">
+  <button type="button" class="ot-mechanism-back" @click="selectedMechanism = null"><mdi-arrow-left /> Zpět na přehled</button>
+  <div v-if="selectedMechanism === 'tokens'" class="ot-mechanism-controls" role="group" aria-label="Rozpočet kontextu">
+    <span class="t-caption">Rozpočet</span>
+    <button v-for="budget in [8, 13]" :key="budget" type="button" :aria-pressed="contextBudget === budget" @click="contextBudget = budget">{{ budget }} tokenů</button>
+  </div>
+  </div>
+  <div v-if="selectedMechanism === 'tokens'" class="ot-token-diagram">
+    <p class="ot-mechanism-sentence">Customer shared logger output with support engineer. Is trace still needed?</p>
+    <div class="ot-mechanism-direction"><mdi-arrow-down /><span>Rozpad věty · 13 slovních tokenů v této ukázce</span></div>
+    <div class="ot-token-stream" aria-label="Tokeny věty podle rozpočtu">
+      <span v-for="(token, index) in promptTokens" :key="index" class="ot-token" :class="{ 'is-key': token.key, 'is-outside': index < promptTokens.length - contextBudget }" :data-in-context="index >= promptTokens.length - contextBudget"><small>{{ index + 1 }}</small>{{ token.text }}</span>
+    </div>
+    <div class="ot-context-window">
+      <div class="ot-mechanism-toolbar"><h2>V kontextu zůstává</h2><strong class="ot-context-count">{{ contextBudget }} / {{ promptTokens.length }}</strong></div>
+      <div class="ot-context-meter"><i :style="{ width: `${contextBudget / promptTokens.length * 100}%` }"></i></div>
+      <div class="ot-chips"><span v-for="(token, index) in promptTokens.slice(-contextBudget)" :key="index" class="ot-chip" :class="{ 'is-key': token.key }">{{ token.text }}</span></div>
+    </div>
+    <p class="t-caption"><strong>Oranžově: významová vodítka.</strong> Limit nevybírá důležitá slova; zde pro ilustraci ponecháváme konec věty.</p>
+  </div>
+  <div v-else-if="selectedMechanism === 'attention'" class="ot-mechanism-columns">
+    <section class="ot-mechanism-panel"><h2>1 · Podobné významy</h2>
+      <div class="ot-chips"><span class="ot-chip">customer · support</span><span class="ot-chip is-key">logger · trace</span></div>
+      <svg class="ot-vector-map" viewBox="0 0 340 230" role="img" aria-label="Zjednodušené vektory: customer a support leží blízko v dimenzi Osoba; logger a trace v dimenzi Důkaz.">
+        <path d="M30 185H325M30 185V15" class="ot-vector-axis" />
+        <path d="M30 185L267 157M30 185L257 160" class="ot-vector-person" />
+        <path d="M30 185L59 39M30 185L54 51" class="ot-vector-evidence" />
+        <circle cx="267" cy="157" r="5" fill="var(--ink)" /><circle cx="257" cy="160" r="5" fill="var(--flow-blue)" />
+        <circle cx="59" cy="39" r="5" fill="var(--br-orange)" /><circle cx="54" cy="51" r="5" fill="var(--br-orange)" />
+        <text x="220" y="140">customer</text><text x="225" y="183">support</text><text x="72" y="37">logger</text><text x="72" y="61">trace</text>
+        <text x="270" y="218">Osoba</text><text x="4" y="14">Důkaz</text>
+      </svg>
+      <p class="t-caption">Embedding = vektor. Blízkost zachycuje podobnost, ještě ne konkrétní roli.</p>
+    </section>
+    <section class="ot-mechanism-panel"><h2>2 · Kam míří váha</h2>
+      <div class="ot-mechanism-focus">support <mdi-arrow-right /></div>
+      <div class="ot-attention-row"><strong>engineer</strong><span>13,7 %</span><div><i style="width: 13.7%;"></i></div></div>
+      <div class="ot-attention-row"><strong>reviewing</strong><span>8,3 %</span><div><i style="width: 8.3%;"></i></div></div>
+      <div class="ot-attention-row"><strong>needed</strong><span>6,3 %</span><div><i style="width: 6.3%;"></i></div></div>
+      <p class="t-caption">Nejsilnější vazby jedné ukázkové vrstvy. Zbytek váhy míří na další tokeny.</p>
+    </section>
+    <section class="ot-mechanism-panel"><h2>3 · Update vektoru</h2>
+      <div class="ot-vector-row t-caption"><span>support</span><span>Před</span><span>Po</span></div>
+      <div v-for="dimension in vectorDimensions" :key="dimension.name" class="ot-vector-row">
+        <span>{{ dimension.name }}</span><div><b>{{ dimension.before.toFixed(2) }}</b><i :style="{ width: `${dimension.before * 100}%` }"></i></div><div class="is-updated"><b>{{ dimension.after.toFixed(2) }}</b><i :style="{ width: `${dimension.after * 100}%` }"></i></div>
+      </div>
+      <p class="t-caption">Méně obecná „osoba“, více role spojené s důkazem a diagnózou.</p>
+    </section>
+  </div>
+  <div v-else class="ot-generation-diagram">
+    <div class="ot-mechanism-columns">
+      <section class="ot-mechanism-panel"><h2>1 · Dostupný kontext</h2>
+        <div class="ot-context-stack"><span class="ot-chip">logger output</span><span class="ot-chip">support engineer</span><span class="ot-chip">trace still needed</span></div>
+        <div class="ot-mechanism-direction"><mdi-arrow-down /><span>+ dosavadní odpověď</span></div>
+        <div class="ot-generated-context" aria-live="polite"><span v-if="generationFrames[generationStep].words.length === 0" class="t-caption">Zatím prázdná</span><span v-for="word in generationFrames[generationStep].words" :key="word" class="ot-chip is-key">{{ word }}</span></div>
+      </section>
+      <section class="ot-mechanism-panel"><h2>2 · Nové váhy</h2>
+        <div v-for="(weight, index) in generationFrames[generationStep].weights" :key="contextLabels[index]" class="ot-attention-row" :data-weight="weight"><strong>{{ contextLabels[index] }}</strong><span>{{ weight }} %</span><div><i :style="{ width: `${weight}%` }"></i></div></div>
+        <p class="t-caption">S přidanými tokeny se vážený pohled znovu přepočítá.</p>
+      </section>
+      <section class="ot-mechanism-panel"><h2>3 · Další token</h2>
+        <div class="ot-next-token" aria-live="polite">{{ generationFrames[generationStep].next ?? 'Hotovo' }}</div>
+        <div class="ot-mechanism-direction"><mdi-arrow-down /><span>Připojit k odpovědi</span></div>
+        <p class="ot-generation-answer" aria-live="polite">{{ generationFrames[generationStep].words.join(' ') || '…' }}</p>
+      </section>
+    </div>
+    <div class="ot-generation-controls ot-mechanism-controls">
+      <button type="button" @click="generationStep = 0" :disabled="generationStep === 0">Od začátku</button>
+      <span class="t-caption">Krok {{ generationStep }} / 3</span>
+      <button type="button" @click="generationStep++" :disabled="generationStep === 3">Přidat token <mdi-arrow-right /></button>
+    </div>
+  </div>
+  <p class="t-caption">Zjednodušená výuková ilustrace: slovní tokeny, pojmenované dimenze i změny vah nejsou měřením skutečného LLM.</p>
+</section>
 </div>
 
 <!--
-Záměr a čas: 1:30. Vysvětlete statistickou predikci dalšího tokenu a proč nejde o magickou ani ověřující schopnost.
-Počáteční stav: titulek, vysvětlení a tři části toku jsou viditelné; pravděpodobnosti kandidátních tokenů jsou skryté.
-Řečový tah: model generuje text token po tokenu na základě promptu a kontextu, který má k dispozici.
-[click]
-Sloupce ukazují ilustrační rozdělení pravděpodobnosti pro další slovo. Model vybere pravděpodobné pokračování; nejpravděpodobnější token ještě není ověřený fakt.
-Konečný stav: celý tok včetně ilustračních pravděpodobností.
-Přechod: proto záleží na cíli, který zadáme, i na kontextu, který modelu dodáme.
+*Záměr a čas: přibližně 4 minuty včetně tří grafických detailů.*
+*Mapa interakcí: zpočátku jsou vidět všechny tři karty. Nejsou zde sekvenční v-click odhalení. Karta otevře detail; barevné pruhy nad ním označují fáze a zvýrazněný název aktuální kartu. Rozpočet má stavy 8 a 13 tokenů, generování kroky 0 až 3. „Zpět na přehled“ zachovává stav. Před opakováním ukázky nastavte 8 tokenů a generování vraťte tlačítkem „Od začátku“. Konečný stav výkladu: návrat ke třem kartám. Pokyny v hranatých závorkách se nečtou nahlas.*
+
+Než se pustíme do agentů, pojďme si jednoduše ukázat, co se děje uvnitř jazykového modelu. Není to kouzelná skříňka, která najednou vymyslí celou odpověď. Projdeme tři kroky: oranžově vstup a kontext, modře práci se souvislostmi a zeleně vznik odpovědi. Stejné barvy najdete i v detailech.
+
+*[Otevřít oranžovou kartu Tokeny a kontext; rozpočet 8.]*
+
+Máme zákazníka, který poslal logger podpoře a ptá se, zda je ještě potřeba trace. Model ale nepracuje přímo s větou tak, jak ji čteme my. Tokenizer ji převede na menší části, tokeny. Pro přehlednost tu používáme slova a interpunkci; skutečný tokenizer může jedno slovo rozdělit i na několik částí.
+
+Teď máme třináct těchto výukových tokenů, ale rozpočet jen osm. V této ukázce ponecháváme konec věty. Podívejte se na přeškrtnutý začátek: vypadl zákazník i informace o loggeru. To jsou přitom důležité údaje. Limit kontextu tedy neznamená, že se automaticky vyberou nejdůležitější slova. Oranžově jsme významová vodítka zvýraznili my, abychom se v příkladu lépe orientovali.
+
+*[Přepnout rozpočet na 13 tokenů.]*
+
+S větším rozpočtem se vejde celý vstup. To je první praktická věc: model může pracovat jen s tím, co má skutečně k dispozici. A do kontextu nepatří jen naše poslední věta, ale také historie, instrukce nebo dodané podklady.
+
+*[Zpět na přehled; otevřít modrou kartu Transformer.]*
+
+Teď už máme text uvnitř modelu. Každý token dostane číselnou reprezentaci, vektor. Vlevo je zjednodušená mapa: customer a support mají blízko k osobám, logger a trace k důkazům. Osy jsme pojmenovali pro výuku; skutečný model nemá takto jednoduše popsané přihrádky.
+
+Samotná podobnost ale ještě neříká, kdo v našem příběhu co dělá. Proto se podívejme doprostřed na token support. Attention propojuje jeho reprezentaci s dalšími tokeny. Tady má nejsilnější zobrazenou vazbu na engineer, potom reviewing a needed. Díky souvislostem se upřesňuje, že jde o podporu, která něco kontroluje a rozhoduje o potřebě dalšího důkazu.
+
+Vpravo vidíte výsledek jedné takové aktualizace: vektor před a po vrstvě. V našem výukovém příkladu slábne obecný signál osoby a trochu sílí důkaz a diagnóza. Nejde o přepis slova, ale o změnu jeho reprezentace v daném kontextu. Skutečný transformer takových operací dělá mnoho, v mnoha vrstvách. Tato čísla jsou ilustrace, ne měření konkrétního modelu.
+
+*[Zpět na přehled; otevřít zelenou kartu Generování. Je-li potřeba, stisknout „Od začátku“.]*
+
+A teď z tohoto kontextu vzniká odpověď. Vlevo máme dostupné podklady, uprostřed jejich ilustrační váhy a vpravo další navržený token. Na začátku je odpověď prázdná a dalším tokenem je Prosím.
+
+*[Stisknout „Přidat token“ jednou.]*
+
+Prosím se připojilo k odpovědi a zároveň se stalo součástí kontextu pro další krok. Všimněte si, že se změnily i prostřední pruhy. Dalším tokenem je teď pošlete.
+
+*[Stisknout „Přidat token“ podruhé.]*
+
+Teď už model pokračuje za textem Prosím pošlete. Znovu pracuje s rozšířeným kontextem a dalším tokenem je trace.
+
+*[Stisknout „Přidat token“ potřetí.]*
+
+Takto postupně vzniklo Prosím pošlete trace. Tady ukázku zastavujeme. Skutečný model by mohl pokračovat dál až k ukončení odpovědi. Prostřední procenta jsou ručně sestavené váhy pro názornost, ne pravděpodobnosti správnosti ani skutečný záznam výpočtu modelu.
+
+Podstatná je ta smyčka: další token se přidá k dosavadnímu textu a ovlivní následující krok. Model nepíše odpověď celou najednou. A to, že takto vzniklá věta zní přesvědčivě, ještě neověřuje její pravdivost.
+
+*[Zpět na přehled.]*
+
+Zapamatujme si tedy tři věci: co se do kontextu nedostane, s tím model nemůže pracovat; souvislosti mění reprezentaci tokenů; a odpověď vzniká postupně. Na dalším slidu si ukážeme, proč z toho plyne tak velký rozdíl mezi konkrétním zadáním a obecným dotazem.
 -->
 
 ---
@@ -128,21 +277,57 @@ class: ot-slide
 ---
 
 <h1>Od promptingu ke kontext engineeringu</h1>
-<p class="ot-lead">Jasný cíl a relevantní kontext pomáhají model navést k užitečnější odpovědi.</p>
-<div class="ot-stage">
-<div style="display: grid; grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr); align-items: stretch;">
-  <section class="ot-card is-muted is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-help-circle-outline /></span><span class="ot-step">ŠIROKÝ DOTAZ</span></div><h2>„Je v AS6 podporován C30?“</h2><div class="ot-chips" style="margin-top: 8px;"><span class="ot-chip"><mdi-help /> Který model?</span><span class="ot-chip"><mdi-help /> Jaká konfigurace?</span><span class="ot-chip"><mdi-help /> Která verze AS?</span></div></section>
-  <span style="display: grid; place-items: center; color: var(--br-orange);"><mdi-arrow-right-bold style="width: 40px; height: 40px;" /></span>
-  <section class="ot-card is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-target /></span><span class="ot-step">ZPŘESNĚNÝ CÍL</span></div><h2>„Najdi mi případy a konfigurace, kdy C30 není v AS6 podporován.“</h2><div class="ot-chips" style="margin-top: 8px;"><span class="ot-chip"><mdi-chip /> konkrétní HW</span><span class="ot-chip"><mdi-tag-outline /> verze AS</span><span class="ot-chip"><mdi-link-variant /> odkazy ke zdrojům</span></div></section>
+<p class="ot-lead">Stejné téma. Jiné zadání. Jiný rozsah odpovědi — ne záruka správnosti.</p>
+<div class="ot-stage ot-chat-stage">
+<div class="ot-grid cols-2">
+  <section class="ot-chat" aria-label="Chat s vágním promptem">
+    <header class="ot-chat-header"><mdi-chat-outline /><strong>Vágní zadání</strong><span class="t-caption">nový chat</span></header>
+    <div class="ot-chat-body">
+      <div class="ot-chat-user"><span class="ot-chat-author">Vy</span><p>Je v AS6 podporován C30?</p></div>
+      <div v-click="1" class="ot-chat-agent">
+        <span class="ot-chat-author"><img src="/br-template-logo.svg" alt="">B&amp;R Support Agent</span>
+        <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Search help <span>10 výsledků</span></summary><p>Zkrácený záznam: proběhlo hledání v Helpu. Samotný počet výsledků neověřuje závěr.</p></details>
+        <p>Výborně! <strong>Ano, C30 je v Automation Studio 6 podporován.</strong></p>
+        <p class="ot-chat-observation">Rozhodné „ano“ bez rozlišení variant.</p>
+      </div>
+    </div>
+  </section>
+  <section class="ot-chat" aria-label="Chat s konkrétním promptem">
+    <header class="ot-chat-header"><mdi-chat-outline /><strong>Konkrétnější zadání</strong><span class="t-caption">nový chat</span></header>
+    <div class="ot-chat-body">
+      <div v-click="2" class="ot-chat-user"><span class="ot-chat-author">Vy</span><p>Jsou 4PPC30.xxx a 4PPC70.xxx podporovány v Automation Studio 6?</p></div>
+      <div v-click="3" class="ot-chat-agent">
+        <span class="ot-chat-author"><img src="/br-template-logo.svg" alt="">AI asistent</span>
+        <p><strong>Obě řady jsou podporovány…</strong><br>Některé varianty 4PPC70 ale již nejsou podporované v AS 6.x.</p>
+        <p class="ot-chat-observation">Více rozlišení, ale také rozpor v odpovědi.</p>
+      </div>
+    </div>
+  </section>
 </div>
-<div class="ot-callout"><mdi-information-outline /><p>Přesnější zadání mění hledaný rozsah; samo o sobě ale správnost odpovědi nezaručuje.</p></div>
+<p class="ot-chat-disclaimer">Zkrácená rekonstrukce dodaných chatů, překlad do češtiny. Vpravo nejsou volání nástrojů doložena. Nejde o potvrzení podpory HW.</p>
 </div>
 
 <!--
-Záměr a čas: 2 minuty. Na příkladu C30 ukažte rozdíl mezi krátkým promptem a úkolem s konkrétním cílem a kontextem.
-Počáteční stav: oba dotazy a doplňující informace jsou viditelné; nic se neodhaluje.
-Řečový tah: první otázka neříká, zda jde o konkrétní typ panelu, HW konfiguraci ani verzi. Upravený dotaz mění cíl z obecného ano/ne na hledání výjimek. Doporučení doplnit model, verzi a zdroje je návrh pro lepší ověřitelnost; přesnější prompt není zárukou správné odpovědi.
-Přechod: podívejme se, proč odpověď na takový dotaz musíme dále ověřit.
+*Záměr a čas: 2 minuty. Porovnat rozsah zadání na stejném tématu, ne slibovat správnou odpověď díky lepšímu promptu.*
+*Mapa odhalování: před prvním klikem jsou vidět oba rámečky, levý dotaz a upozornění. Skupina 1 odhalí levé hledání, odpověď i komentář. Skupina 2 odhalí pravý dotaz. Skupina 3 odhalí pravou odpověď i komentář. Rozbalení nástroje je samostatná interakce, neposouvá slide. Na konci jsou oba chaty viditelné, detail nástroje opět zavřete.*
+
+Porovnáváme dva dodané screenshoty různých běhů, nejde tedy o kontrolovaný experiment se stejným modelem. Vpravo je dotaz konkrétnější, ale stále neuvádí úplné objednací číslo ani přesnou verzi Automation Studia.
+
+[CLICK]
+
+Vágní dotaz spustil hledání v Helpu, ale odpověď přesto dává příliš široké ano. Samotné volání nástroje ani počet výsledků nepotvrzují, že je závěr správný.
+
+*[Otevřete řádek Search help, ukažte jeho záznam a detail zase zavřete. Neinterpretujte jej jako důkaz správnosti ani jako interní úvahu modelu.]*
+[CLICK]
+
+Druhý nový chat už rozlišuje dvě produktové řady a uvádí Automation Studio 6.
+[CLICK]
+
+Odpověď je konkrétnější, ale tvrzení o podpoře obou řad je v napětí s uvedenou výjimkou. Protože screenshot neukazuje použité nástroje, žádné si nedovozujeme a podporu zde nepotvrzujeme.
+
+*Konečný stav: oba prompty a obě odpovědi jsou viditelné; konkrétnější zadání rozšiřuje kontext, ale nemění odpověď na ověřený fakt.*
+
+Vraťme se k prvnímu chatu a podívejme se, co se stane, když uživatel odpověď zpochybní.
 -->
 
 ---
@@ -151,26 +336,53 @@ class: ot-slide
 ---
 
 # Ověřujme fakta i kód
-<p class="ot-lead">Jistý tón ani úspěšný build samy o sobě nedokazují správnost.</p>
-<div class="ot-stage">
-<div class="ot-grid cols-3 ot-flow" style="--link-y: 56px;">
-  <section v-click="1" class="ot-card is-muted is-feature"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-message-question-outline /></span><span class="ot-step">01 · PRVNÍ DOTAZ</span></div><h2>„Ano, C30 je podporován.“</h2><p>Odpověď zní rozhodně, ale otázka nevymezuje přesný model ani konfiguraci.</p></section>
-  <section v-click="2" class="ot-card is-feature" style="--accent: var(--flow-blue);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-magnify /></span><span class="ot-step">02 · DOPTÁNÍ</span></div><h2>Hledej případy, kdy podporován není.</h2><p>Odpověď pak rozlišuje standardní C30, upravené panely a C70. To je vodítko k ověření, ne důkaz.</p></section>
-  <section v-click="3" class="ot-card is-feature" style="--accent: var(--flow-green);"><div class="ot-card-head"><span class="ot-icon is-lg"><mdi-check-decagram-outline /></span><span class="ot-step">03 · OVĚŘENÍ</span></div><h2>Zkontroluj zdroj i výsledek.</h2><div class="ot-chips"><span class="ot-chip"><mdi-book-open-variant /> Help</span><span class="ot-chip"><mdi-forum-outline /> Community</span><span class="ot-chip"><mdi-hammer-wrench /> build</span><span class="ot-chip"><mdi-test-tube /> test</span><span class="ot-chip"><mdi-account-check-outline /> review</span></div></section>
+<p class="ot-lead">Pokračování prvního chatu: námitka spustí další hledání. Kdo ověří závěr?</p>
+<div class="ot-stage ot-chat-stage">
+<div class="ot-chat-review">
+  <section class="ot-chat" aria-label="Pokračování chatu po námitce">
+    <header class="ot-chat-header"><mdi-chat-outline /><strong>B&amp;R Support Agent</strong><span class="t-caption">pokračování</span></header>
+    <div class="ot-chat-body">
+      <p class="ot-chat-history">Předchozí odpověď: „Ano, C30 je v AS6 podporován.“</p>
+      <div v-click="1" class="ot-chat-user"><span class="ot-chat-author">Vy</span><p>Jak to, že je podporovaný? V Helpu je C30 uveden mezi HW, který podporovaný není.</p></div>
+      <div class="ot-chat-agent">
+        <span v-click="2" class="ot-chat-author"><img src="/br-template-logo.svg" alt="">B&amp;R Support Agent</span>
+        <div v-click="2" class="ot-chat-tools">
+          <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Search help <span>10 výsledků</span></summary><p>Další hledání v Helpu po námitce uživatele. Přesné argumenty nejsou na screenshotu vidět.</p></details>
+          <details class="ot-chat-tool" @click.stop @keydown.stop><summary>as-help-6 / Get page by id <span>3 breadcrumb</span></summary><p>Načtení stránky podle ID. „3 breadcrumb“ je údaj z rozhraní, nikoli počet nezávislých potvrzení.</p></details>
+        </div>
+        <p v-click="3">Máte pravdu, omlouvuji se. Pojďme hledat konkrétnější informace o tom, který hardware je / není podporovaný.</p>
+      </div>
+    </div>
+  </section>
+  <aside v-click="3" class="ot-chat-verification">
+    <h2>Omluva není ověření.</h2>
+    <p><strong>U informace</strong><br>Přesný HW, verze AS a příslušná stránka Helpu.</p>
+    <p><strong>U kódu</strong><br>Build, test chování a review člověkem.</p>
+    <p>Volání nástroje dokládá krok, ne správnost závěru.</p>
+  </aside>
 </div>
+<p class="ot-chat-disclaimer">Zkrácená rekonstrukce dodaného chatu. Zobrazeny jsou operace nástrojů, ne interní uvažování modelu. Podpora HW zde není ověřena.</p>
 </div>
 
 <!--
-Záměr a čas: 1:30. Použijte anonymizovaný příklad z Teams k ukázce, že ověřování patří k odpovědím AI i ke kódu.
-Počáteční stav: titulek a úvodní věta; tři kroky jsou skryté.
-[click]
-Původní otázka „Je v AS6 podporován C30?“ dostala sebejisté „Ano“. To nemusí být celé nepravdivé; bez přesného HW a konfigurace je ale odpověď příliš široká.
-[click]
-Požadavek hledat případy, kdy C30 podporován není, vedl k odpovědi, která rozlišovala standardní a upravené panely i C70. Změnil se rozsah otázky; novou odpověď stále ověřujeme.
-[click]
-U technické informace ověřte Help/Community, konkrétní HW a verzi. U kódu ověřte build i chování testem a člověkem.
-Konečný stav: viditelné tři kroky Dotaz → Doptání → Ověření; paralela mezi technickou informací a kódem je vyslovená.
-Přechod: od kontroly jednoho výstupu k agentnímu workflow.
+*Záměr a čas: 1:30. Od porovnání promptů přejít k ověření tvrzení a skutečně viditelným operacím nástrojů.*
+*Mapa odhalování: počáteční stav obsahuje rám chatu, předchozí tvrzení a upozornění. Skupina 1 odhalí námitku uživatele. Skupina 2 současně odhalí autora a oba nástroje; nejsou to tři různé kliky. Skupina 3 současně odhalí reakci asistenta a pravý blok ověření. Každý nástroj lze samostatně rozbalit bez posunu prezentace; na konci oba detaily zavřete.*
+
+[CLICK]
+
+Uživatel namítá, že Help uvádí C30 mezi nepodporovaným hardwarem. Je to důvod dohledat konkrétní zdroj, ne automaticky přijmout kteroukoli z obou odpovědí.
+[CLICK]
+
+Asistent spouští další hledání a načítá stránku podle ID. Počet výsledků ani breadcrumb nejsou nezávislým potvrzením závěru.
+
+*[Postupně rozbalte oba záznamy nástrojů a zase je zavřete. Neodvozujte z nich argumenty ani text stránky, které screenshot neukazuje.]*
+[CLICK]
+
+Asistent se omluví a navrhne další hledání, ale screenshot už neukazuje ověřený verdikt. Ověření proto musí provést člověk: u informace zkontrolovat přesný hardware, verzi a zdroj; u kódu oddělit build od testu chování.
+
+*Konečný stav: námitka, obě operace nástrojů, reakce asistenta i kontrolní postup jsou viditelné; podpora C30 zůstává nerozhodnutá.*
+
+Od kontroly jedné odpovědi teď přejděme k tomu, jak se mění rozsah práce asistenta.
 -->
 
 ---
@@ -191,17 +403,23 @@ Přechod: od kontroly jednoho výstupu k agentnímu workflow.
 </div>
 
 <!--
-Záměr a čas: 2 minuty. Vysvětlete posun rozsahu práce, nikoli žebříček kvality nástrojů.
-Počáteční stav: titulek, podtitul a ilustrace vývoje; tři stupně vpravo jsou skryté. Ilustrace je obecná metafora, nikoli srovnání konkrétních produktů.
-[click]
-Autocompletion nabízí další řádek či blok; člověk rozhoduje o každém kroku.
-[click]
-Chat asistent odpovídá nebo generuje ukázku, kterou člověk sám přenáší do projektu.
-[click]
-Agent může číst poskytnutý projektový kontext, plánovat změny a volat povolené nástroje. Rozsah závisí na prostředí a oprávněních.
-Konečný stav: všechny tři stupně jsou viditelné; člověk dál určuje cíl a posuzuje výsledek.
-Přechod: tento posun dává smysl jen tehdy, když máme jasná kritéria a ověřování.
-Zdroj pro přípravu: agentic-bridge/slides/s1/03-evolution.js.
+*Záměr a čas: 2 minuty. Vysvětlete posun rozsahu práce, nikoli žebříček kvality nástrojů.*
+*Počáteční stav: titulek, podtitul a ilustrace vývoje; tři stupně vpravo jsou skryté. Ilustrace je obecná metafora, nikoli srovnání konkrétních produktů.*
+
+[CLICK]
+
+Autocomplete navrhne další řádek nebo blok a vývojář rozhoduje o každém dalším kroku.
+[CLICK]
+
+Chatový asistent odpoví nebo připraví ukázku, kterou člověk sám přenese do projektu.
+[CLICK]
+
+Agent může pracovat s poskytnutým kontextem projektu, plánovat změny a volat povolené nástroje. Konkrétní rozsah závisí na prostředí a oprávněních.
+
+*Konečný stav: všechny tři stupně jsou viditelné; člověk dál stanovuje cíl a posuzuje výsledek.*
+
+Taková spolupráce má smysl, když máme jasná kritéria a ověřování.
+*Zdroj pro přípravu: agentic-bridge/slides/s1/03-evolution.js.*
 -->
 
 ---
@@ -238,17 +456,23 @@ Zdroj pro přípravu: agentic-bridge/slides/s1/03-evolution.js.
 </div>
 
 <!--
-Záměr a čas: 2 minuty. Srovnávejte pracovní postupy bez zesměšňování neformálního přístupu.
-Počáteční stav: titulek, vysvětlení, záhlaví obou přístupů a závěrečné upozornění; tři řádky srovnání jsou skryté.
-[click]
-První skupina porovná člověkem řízený další krok s kroky, které může agent provádět v rámci svých oprávnění.
-[click]
-Druhá skupina porovná kontext zadávaný v dialogu s projektovým kontextem dostupným agentovi.
-[click]
-Třetí skupina porovná ruční spouštění buildů a testů s možností, aby agent spustil povolené kontroly. Názvy přístupů nejsou pevné kategorie: i vibe coding může být použit v produkci, pokud následuje odpovídající ověření a lidské review.
-Konečný stav: všechny tři páry jsou viditelné.
-Přechod: automatizované kroky se propojí do pracovní smyčky.
-Zdroj pro přípravu: agentic-bridge/slides/s1/04-agentic-engineering.js; [B&R Community: Vibe Coding vs. Agentic Engineering](https://community.br-automation.com/t/vibe-coding-vs-agentic-engineering-what-is-the-difference/12094).
+*Záměr a čas: 2 minuty. Srovnávejte pracovní postupy bez zesměšňování neformálního přístupu.*
+*Počáteční stav: titulek, vysvětlení, záhlaví obou přístupů a závěrečné upozornění; tři řádky srovnání jsou skryté.*
+
+[CLICK]
+
+V prvním řádku je rozdíl v řízení dalších kroků: člověk je může zadávat jednotlivě, zatímco agent může provádět ty, které mu prostředí povolí.
+[CLICK]
+
+Druhý řádek porovnává kontext dodávaný v dialogu s kontextem projektu, který má agent skutečně k dispozici.
+[CLICK]
+
+Ve třetím řádku porovnáváme ruční spouštění kontrol s možností, aby agent spustil ty povolené. Vibe coding a Agentic Engineering nejsou pevné kategorie: o vhodnosti pro produkci rozhoduje ověření a lidské review, ne nálepka.
+
+*Konečný stav: všechny tři dvojice jsou viditelné.*
+
+Teď tyto kroky propojíme do jedné pracovní smyčky.
+*Zdroj pro přípravu: agentic-bridge/slides/s1/04-agentic-engineering.js; [B&R Community: Vibe Coding vs. Agentic Engineering](https://community.br-automation.com/t/vibe-coding-vs-agentic-engineering-what-is-the-difference/12094).*
 -->
 
 ---
@@ -272,20 +496,29 @@ class: ot-slide
 </div>
 
 <!--
-Záměr a čas: 3 minuty. Projděte řízenou smyčku a odlište Verify od Test.
-Počáteční stav: titulek, pořadí kroků v podtitulu; podrobnosti jsou skryté.
-[click]
-Plan: vymezí se cíl, rozsah a postup; člověk může plán schválit.
-[click]
-Implement: agent provede změnu v projektu.
-[click]
-Verify: build a kontrola konfigurace ověřují technickou konzistenci, ne chování.
-[click]
-Test: ověřuje očekávané chování. Chyba či výsledek testu se vrací do kontextu; oba prvky se odhalují společně jako jedna skupina.
-[click]
-Lidské review posoudí změnu i důkazy po testu. Konečný stav: celý tok včetně návratu a lidského review.
-Přechod: k agentní smyčce je potřeba dodat odborné znalosti, skutečný projekt a kontrolní hranice.
-Zdroj pro přípravu: agentic-bridge/slides/s2/07-agent-workflows.js a s5/11-full-loop.js.
+*Záměr a čas: 3 minuty. Projděte řízenou smyčku a odlište Verify od Test.*
+*Počáteční stav: titulek, pořadí kroků v podtitulu; podrobnosti jsou skryté.*
+
+[CLICK]
+
+Nejprve vymezíme cíl, rozsah a postup. Člověk může plán schválit ještě před změnou.
+[CLICK]
+
+Potom agent provede změnu v projektu.
+[CLICK]
+
+Ve fázi Verify kontrolujeme sestavení a konfiguraci. Tím ověříme technickou konzistenci, ne ještě očekávané chování.
+[CLICK]
+
+Test prověřuje očekávané chování. Výsledek nebo chyba se vrací do kontextu agenta k dalšímu kroku.
+[CLICK]
+
+Nakonec člověk posoudí změnu i důkazy z kontrol. Build, test a lidské review odpovídají na různé otázky.
+
+*Konečný stav: viditelný je celý tok včetně návratu chyby či výsledku testu a lidského review.*
+
+Aby taková smyčka fungovala, potřebuje odborné znalosti, skutečný projekt a jasné kontrolní hranice.
+*Zdroj pro přípravu: agentic-bridge/slides/s2/07-agent-workflows.js a s5/11-full-loop.js.*
 -->
 
 ---
@@ -321,57 +554,81 @@ class: ot-slide
 <div v-click="6" class="ot-callout" style="justify-content: center; margin-top: 20px;"><mdi-link-variant /><p><strong>Kontext + kontrola + zpětná vazba</strong></p></div>
 
 <!--
-Záměr a čas: 3 minuty. Ukažte, co musí být přítomno, aby agent mohl užitečně pracovat na skutečném B&R projektu; nic z toho samo nezaručuje správnost.
-Počáteční stav: titulek, stručné sdělení a pravý panel kontraktu READ → CHANGE → VERIFY jsou viditelné; pět předpokladů vlevo a závěrečná syntéza jsou skryté.
-[click]
-Doménová znalost: doplňte informace o B&R platformě i specifika OEM projektu.
-[click]
-Projektový kontext: agent potřebuje skutečné programy, konfiguraci, hardware, verze a závislosti.
-[click]
-Git/source control: verzování umožní změny dohledat, porovnat a vrátit.
-[click]
-Nástroje platformy: dostupné akce mohou zahrnovat build, diagnostiku nebo test; rozsah závisí na konkrétním prostředí.
-[click]
-Guardrails: pravidla omezují rozsah změny, chrání data a ponechávají schválení člověku. Samotná textová instrukce bezpečnostní hranici nevynucuje.
-[click]
-Syntéza: kontext, kontrola a zpětná vazba společně uzavírají rozdíl mezi obecným modelem a konkrétní inženýrskou prací.
-Konečný stav: viditelných je všech pět předpokladů, celý kontrakt i shrnující princip.
-Přechod: pojmenujme vrstvy, které dodávají tyto různé funkce.
-Inspirace: slide 11 prezentace EventAiAndDevOps. Obsah přizpůsoben této prezentaci; nejde o garanci produktových funkcí.
-Zdroj pro postup: AI_Event_CZ/Slides/topics/as-repository.md, část „Od požadavku k ověřené změně“.
+*Záměr a čas: 3 minuty. Ukažte, co musí být přítomno, aby agent mohl užitečně pracovat na skutečném B&R projektu; nic z toho samo nezaručuje správnost.*
+*Počáteční stav: titulek, stručné sdělení a pravý panel kontraktu READ → CHANGE → VERIFY jsou viditelné; pět předpokladů vlevo a závěrečná syntéza jsou skryté.*
+
+[CLICK]
+
+Začněme doménovou znalostí: agent musí rozumět B&R platformě i specifikům projektu výrobce stroje.
+[CLICK]
+
+Dále potřebuje skutečný projektový kontext: programy, konfiguraci, hardware, verze a závislosti.
+[CLICK]
+
+Source control umožňuje změny dohledat, porovnat a případně vrátit.
+[CLICK]
+
+Nástroje mohou zpřístupnit build, diagnostiku nebo testy, ale jejich rozsah závisí na konkrétním prostředí.
+[CLICK]
+
+Guardrails vymezují rozsah změn, ochranu dat a schvalování člověkem. Samotná textová instrukce ale bezpečnostní hranici technicky nevynucuje.
+[CLICK]
+
+Když se spojí kontext, kontrola a zpětná vazba, může agent pracovat na konkrétním inženýrském úkolu, ne jen odpovídat obecně.
+
+*Konečný stav: viditelných je všech pět předpokladů, celý kontrakt i shrnující princip.*
+
+Pojďme si rozdělit, které vrstvy tyto funkce dodávají.
+*Inspirace: slide 11 prezentace EventAiAndDevOps. Obsah přizpůsoben této prezentaci; nejde o garanci produktových funkcí.*
+*Zdroj pro postup: AI_Event_CZ/Slides/topics/as-repository.md, část „Od požadavku k ověřené změně“.*
 -->
 
 ---
 layout: default
-class: dark-slide ot-slide
+class: ot-slide agent-layers-slide
 ---
 
-# Model, harness, MCP a skills
-<p class="ot-lead">Čtyři různé role v agentním pracovním prostředí.</p>
+# Model, harness, tools a skills
+<p class="ot-lead">Čtyři vrstvy agentního prostředí — a kdo je dodává.</p>
 
-<div class="ot-stage">
-<div style="display: grid; gap: 12px;">
-  <section v-click="1" class="ot-layer"><span class="ot-icon is-lg"><mdi-brain /></span><div><p class="t-caption" style="font-weight: 700;">MODEL</p><h3 style="margin: 0;">Tvoří návrh</h3></div><p>Vychází z dostupného zadání a kontextu.</p></section>
-  <section v-click="2" class="ot-layer" style="--accent: var(--flow-blue);"><span class="ot-icon is-lg"><mdi-cog-transfer-outline /></span><div><p class="t-caption" style="font-weight: 700;">HARNESS</p><h3 style="margin: 0;">Řídí práci agenta</h3></div><p>Předává kontext, zprostředkuje povolená volání a vrací výsledky.</p></section>
-  <section v-click="3" class="ot-layer" style="--accent: var(--flow-green);"><span class="ot-icon is-lg"><mdi-connection /></span><div><p class="t-caption" style="font-weight: 700;">MCP</p><h3 style="margin: 0;">Propojuje nástroje a zdroje</h3></div><p>Je přístupové rozhraní, nikoli model ani znalostní báze.</p></section>
-  <section v-click="4" class="ot-layer" style="--accent: var(--flow-purple);"><span class="ot-icon is-lg"><mdi-school-outline /></span><div><p class="t-caption" style="font-weight: 700;">SKILLS</p><h3 style="margin: 0;">Dodávají odborný postup</h3></div><p>Instrukce a reference pro konkrétní typ úlohy.</p></section>
-</div>
+<div class="ot-stage agent-layers-stage">
+  <table class="ot-table agent-layers-table">
+    <colgroup><col><col><col><col></colgroup>
+    <thead><tr><th>Vrstva</th><th>Co to je</th><th>Kdo to dodává</th><th>Příspěvek B&amp;R</th></tr></thead>
+    <tbody>
+      <tr v-click="1"><th scope="row">LLM</th><td>Jazykový model, který uvažuje a píše.</td><td>OpenAI · Anthropic · Google · Mistral · DeepSeek · Qwen · …</td><td>—</td></tr>
+      <tr v-click="2"><th scope="row">Harness</th><td>Aplikace agenta: kontext, nástroje, schvalování.</td><td>GitHub Copilot · Claude Code · Codex · Cursor · OpenCode · …</td><td>—</td></tr>
+      <tr v-click="3"><th scope="row">Nástroje</th><td>MCP servery · CLI nástroje · jazykové servery (LSP).</td><td>B&amp;R · dodavatelé harnessů · komunita</td><td>as-cli · B&amp;R MCP Server (RAG) · jazykový server Structured Text</td></tr>
+      <tr v-click="4"><th scope="row">Přizpůsobení</th><td>Agents · AGENTS.md · skills · příkazy · plugins.</td><td>B&amp;R · váš tým · komunita</td><td>Skills, agenti a šablony projektů Automation Studio dodávané jako plugins</td></tr>
+    </tbody>
+  </table>
+  <div v-click="5" class="ot-callout agent-layers-promise">
+    <div><strong>Agentic Bridge slibuje</strong><p>Používáte harness dle vlastního výběru. Zajistíme, aby s Automation Studio fungoval.</p></div>
+  </div>
 </div>
 
 <!--
-Záměr a čas: 2 minuty. Oddělte funkce vrstev a nepřidávejte neověřený přehled dodavatelů.
-Počáteční stav: titulek a společný popis; čtyři vrstvy jsou skryté.
-[click]
-Model vytváří návrh z poskytnutého zadání a kontextu.
-[click]
-Harness organizuje běh agenta: předává kontext, zprostředkuje povolená volání a vrací výsledky.
-[click]
-MCP zpřístupňuje nástroje a zdroje. V příkladu Bridge propojuje agenta se znalostní službou; MCP samo nevyhledává jako RAG.
-[click]
-Skills přidávají postup a reference pro typ úlohy. Nejde o přeučení modelu ani o bezpečnostní oprávnění.
-Konečný stav: všechny čtyři role jsou viditelné a odlišené.
-Přechod: jak jejich kombinace omezuje variabilitu bez slibu totožného textu?
-Zdroj pro přípravu: agentic-bridge/slides/s1/05-who-offers-what.js, s3/02-mcp.js a s4/07-skills-what.js.
+*Záměr a čas: 2 minuty. Rozlište role i dodavatele jednotlivých vrstev; Bridge je příspěvek B&R nad touto skladbou.*
+*Mapa odhalování: před prvním klikem viditelné jsou nadpis, popis a hlavička tabulky. Skupiny 1–4 odhalují po jednom řádku: LLM, harness, nástroje, přizpůsobení. Skupina 5 odhalí spodní sdělení Bridge. Konečný stav: tabulka čtyř vrstev, dodavatelů i příspěvku B&R a spodní sdělení.*
+
+[CLICK]
+
+Jazykový model vytváří návrh. Uvedení dodavatelé jsou příklady, nikoli úplný seznam ani doporučení.
+[CLICK]
+
+Harness řídí běh agenta, například dostupný kontext, nástroje a schvalování. Uvedená prostředí nejsou automaticky zaměnitelná.
+[CLICK]
+
+Nástroje mohou být MCP servery, příkazové nástroje nebo jazykové servery. MCP je způsob propojení, ne další druh nástroje.
+[CLICK]
+
+Přizpůsobení mohou dodat B&R, vlastní tým i komunita. Skills popisují pracovní postupy, ale samy o sobě neudělují bezpečnostní oprávnění.
+[CLICK]
+
+Agentic Bridge má propojit Automation Studio s harnessy podle volby zákazníka. Rozsah podpory závisí na konfiguraci; neznamená to, že každý harness funguje bez integrace.
+
+Jak může kombinace těchto vrstev zlepšit opakovatelnost, aniž bychom slibovali totožný text?
+*Zdroj pro přípravu: agentic-bridge/slides/s1/05-who-offers-what.js, s3/02-mcp.js a s4/07-skills-what.js.*
 -->
 
 ---
@@ -393,17 +650,23 @@ class: ot-slide
 </div>
 
 <!--
-Záměr a čas: 2 minuty. Vysvětlete, jak proces pracuje s variabilitou, aniž by sliboval deterministický text.
-Počáteční stav: titulek a upozornění; tři kroky jsou skryté.
-[click]
-Model vytvoří pravděpodobný návrh podle zadání a dodaného projektového kontextu.
-[click]
-Kontrolní kritérium vrátí opakovatelný signál, například výsledek buildu nebo testu; samo nevyřeší všechny otázky kvality.
-[click]
-Chyba se vrací do kontextu k opravě a člověk rozhoduje o přijetí změny podle cíle a důkazů.
-Konečný stav: tři kroky tvoří krátkou smyčku řízení variability.
-Přechod: tyto vrstvy konkrétně propojuje Automation Studio Agentic Bridge.
-Zdroj pro přípravu: agentic-bridge/slides/s5/03-deterministic-vs-probabilistic.js a AI_Event_CZ/Slides/topics/as-repository.md.
+*Záměr a čas: 2 minuty. Vysvětlete, jak proces pracuje s variabilitou, aniž by sliboval deterministický text.*
+*Počáteční stav: titulek a upozornění; tři kroky jsou skryté.*
+
+[CLICK]
+
+Model vytvoří pravděpodobný návrh podle zadání a kontextu, který dostal.
+[CLICK]
+
+Build nebo test může vrátit opakovatelný výsledek. Takový signál pomáhá, ale sám neodpovídá na všechny otázky kvality.
+[CLICK]
+
+Chyba se vrátí do kontextu pro opravu a člověk rozhodne o přijetí změny podle cíle a dostupných důkazů.
+
+*Konečný stav: tři kroky tvoří krátkou smyčku pro řízení variability.*
+
+Tyto vrstvy pro práci s Automation Studiem propojuje Agentic Bridge.
+*Zdroj pro přípravu: agentic-bridge/slides/s5/03-deterministic-vs-probabilistic.js a AI_Event_CZ/Slides/topics/as-repository.md.*
 -->
 
 ---
@@ -419,11 +682,13 @@ class: ot-slide chapter-slide
 <p style="position: absolute; top: 590px; left: 35px; color: var(--steel);">Propojení agenta s odbornými znalostmi, projektovým postupem a nástroji Automation Studia.</p>
 
 <!--
-Záměr a čas: 1 minuta. Uveďte roli Bridge po obecném agentním workflow.
-Počáteční stav: název, podtitul a existující tematický obraz; nic se neodhaluje.
-Řečový tah: Bridge propojuje vybrané agentní prostředí s workflow, znalostmi a akcemi pro práci s Automation Studiem. Není to nový jazykový model. Konkrétní konfigurace a dostupnost závisí na prostředí.
-Přechod: rozdělit tuto roli na tři konkrétní části.
-Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md, architektura Bridge.
+*Záměr a čas: 1 minuta. Uveďte roli Bridge po obecném agentním workflow.*
+*Počáteční stav: název, podtitul a existující tematický obraz; nic se neodhaluje.*
+
+Automation Studio Agentic Bridge propojuje vybrané agentní prostředí s postupy, znalostmi a akcemi pro práci s Automation Studiem. Není to nový jazykový model a konkrétní dostupnost závisí na konfiguraci.
+
+Tuto roli si rozdělíme na tři konkrétní části.
+*Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md, architektura Bridge.*
 -->
 ---
 layout: default
@@ -445,17 +710,23 @@ class: ot-slide
 </div>
 
 <!--
-Záměr a čas: 1 minuta. Pojmenujte části Bridge jejich skutečnými názvy; role jsou vysvětlení pod názvy.
-Počáteční stav: agent s vybraným modelem a harness plus projekt Automation Studio; tři části jsou skryté.
-[click]
-Knowledge Hub dodává dohledané podklady se zdroji; relevance se posuzuje pro konkrétní dotaz a verzi.
-[click]
-AS Repository předává instrukce, skills a pracovní postup; nejde o nový model.
-[click]
-AS CLI poskytuje podporované operace a vrací jejich výsledky. Konkrétní konfigurace závisí na prostředí.
-Konečný stav: všechny tři části jsou zobrazené mezi agentem a projektem; diagram neslibuje jejich jednotnou dostupnost ve všech instalacích.
-Přechod: začít znalostní částí a oddělit MCP propojení od RAG vyhledávání.
-Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md, „Agentic Bridge: tři propojené části“.
+*Záměr a čas: 1 minuta. Pojmenujte části Bridge jejich skutečnými názvy; role jsou vysvětlení pod názvy.*
+*Počáteční stav: agent s vybraným modelem a harness plus projekt Automation Studio; tři části jsou skryté.*
+
+[CLICK]
+
+Knowledge Hub dohledává odborné podklady a vrací je se zdroji. Jejich relevanci je třeba posoudit pro konkrétní dotaz a verzi.
+[CLICK]
+
+AS Repository dodává instrukce, skills a pracovní postup pro projekt. Nejde o nový jazykový model.
+[CLICK]
+
+AS CLI zpřístupňuje podporované operace a vrací jejich výsledky. Dostupnost závisí na konkrétním prostředí.
+
+*Konečný stav: všechny tři části jsou zobrazené mezi agentem a projektem; diagram neslibuje stejnou dostupnost ve všech instalacích.*
+
+Začněme znalostní částí a rozlišme propojení MCP od vyhledávání RAG.
+*Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md, „Agentic Bridge: tři propojené části“.*
 -->
 
 ---
@@ -495,19 +766,21 @@ class: ot-slide
   </section>
 </div>
 
-<p class="t-caption" style="margin-top: 20px; color: var(--steel);">Dle interního podkladu: v produkci od červnového vydání Automation Studio Code · aktualizace čtvrtletně (rok vydání v podkladu neuveden).</p>
-<p class="t-caption" style="margin-top: 4px;"><strong>Zatím nezahrnuto:</strong> SAP support tickety. Aktualizace neznamená živou synchronizaci ani úplnost; zdroj i relevanci musí posoudit člověk.</p>
+<p class="t-caption" style="margin-top: 20px; color: var(--steel);">V produkci od červnového vydání Automation Studio Code · aktualizace čtvrtletně</p>
+<p class="t-caption" style="margin-top: 4px;"><strong>V plánu :</strong> SAP support tickety</p>
 
 <!--
-Záměr a čas: 2 minuty. Vysvětlete tok dotazu, roli MCP a RAG, zdroje služby a provozní hranice.
-Počáteční stav: celý statický tok, seznam zdrojů, ilustrativní dotaz a omezení jsou viditelné; nic se neodhaluje.
-Řečový tah: agent vybere, co hledat; MCP předá volání službě a RAG dohledá podklady, které se zdroji vrátí do kontextu. Agent sestaví odpověď a člověk posoudí relevanci i verzi. MCP je protokol/rozhraní, ne vyhledávač; přesné interní kroky RAG nepředjímat.
-Ilustrační otázka X20 SERVICE místo RUN pochází z podkladů ke školení; není to živé vyhledávání ani doložený diagnostický postup.
-Zdroje: Automation Help, příspěvky a komentáře B&R Community, informace o verzích a schválený interní zdrojový kód; nejde o libovolný interní nebo zákaznický kód.
-Interní podklady uvádějí produkci od červnového vydání Automation Studio Code a čtvrtletní aktualizace. Rok vydání není uveden; čtvrtletní aktualizace neznamená živou synchronizaci ani úplnost. SAP support tickety nejsou zahrnuté.
-Konečný stav: je vidět celý tok, typy zdrojů, příklad dotazu i hranice služby; žádná odpověď asistenta není vydávána za ověřený fakt.
-Přechod: statický postup a kontext projektu dodává AS Repository.
-Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md, část „MCP Knowledge Hub: znalosti se zdrojem“.
+*Záměr a čas: 2 minuty. Vysvětlete tok dotazu, roli MCP a RAG, zdroje služby a provozní hranice.*
+*Počáteční stav: celý statický tok, seznam zdrojů, ilustrativní dotaz a omezení jsou viditelné; nic se neodhaluje.*
+
+Agent rozhodne, co potřebuje dohledat. MCP předá požadavek službě a RAG vyhledá podklady, které se zdroji vrátí do kontextu. Agent připraví odpověď, ale člověk stále posuzuje relevanci i verzi. MCP je rozhraní pro propojení, nikoli vyhledávač. Příklad s X20, který po přenosu startuje do SERVICE místo RUN, je pouze ilustrativní otázka ze školení, ne živé hledání ani ověřený diagnostický postup.
+
+*Zdroje a hranice: k dispozici jsou Automation Help, B&R Community, informace o verzích a schválený interní zdrojový kód; nejde o libovolný interní nebo zákaznický kód. Interní podklady uvádějí produkci od červnového vydání Automation Studio Code a čtvrtletní aktualizace, bez uvedení roku. Čtvrtletní aktualizace neznamenají živou synchronizaci ani úplnost; SAP support tickety nejsou zahrnuté.*
+
+*Konečný stav: je vidět celý tok, typy zdrojů, příklad dotazu i hranice služby; žádná odpověď asistenta není vydávána za ověřený fakt.*
+
+Znalostní část doplňuje AS Repository, které dodává postup a kontext projektu.
+*Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md, část „MCP Knowledge Hub: znalosti se zdrojem“.*
 -->
 
 ---
@@ -542,17 +815,26 @@ Logical/ · Physical/ · *.apj</pre>
 </div>
 
 <!--
-Záměr a čas: 2 minuty. Ukažte, co AS Repository skutečně dodává: šablonu pro projekt, sdílené agentní pluginy a související nástroje/podklady.
-Počáteční stav: titulek a vysvětlení jsou viditelné; dvě obsahové části a závěrečné shrnutí jsou skryté.
-[click]
-Projektová šablona se kopíruje vedle Logical/, Physical/ a *.apj. AGENTS.md popisuje architekturu, neměnné zásady a směrování na odpovídající skill; .vscode/mcp.json nastavuje připojení, ale MCP servery je nutné instalovat samostatně.
-[click]
-Plugin as-skills poskytuje postupy a reference pro konkrétní B&R technologie, například Structured Text, ANSI C, Physical konfiguraci, OPC UA a mapp. Skills se vybírají podle práce; nejsou kopírovány do projektové šablony. Repo obsahuje také projektového agenta a příkaz pro review větve. Je zde rovněž MCP dokumentace, nástroje a školení.
-[click]
-Shrnutí: projektová pravidla směrují k odpovídajícímu skillu; harness podle něj pracuje s kontextem projektu. as-cli je samostatný nástroj. Dostupnost skillů/MCP závisí na instalaci a konfiguraci; textové instrukce samy nevynucují oprávnění ani bezpečnost. Lokální zdrojový README ještě uvádí as-script-task-skills, jeho README jej ale označuje za nahrazený as-cli; tuto starší větev proto nevydávat za aktuální doporučení.
-Konečný stav: rozlišena projektová šablona, pluginy a samostatný CLI nástroj bez tvrzení, že repo obsahuje nebo automaticky aktivuje vše v každém prostředí.
-Přechod: podívejme se na samostatný nástroj as-cli.
-Zdroj pro přípravu: C:\100_Projects\as-docs\agentic-engineering-in-automation-studio\README.md; plugins\as-skills\README.md; template\AGENTS.md; docs\agentic-bridge\slides\s4\03-project-structure.js.
+*Záměr a čas: 2 minuty. Ukažte, co AS Repository skutečně dodává: šablonu pro projekt, sdílené agentní pluginy a související nástroje/podklady.*
+
+*Počáteční stav: titulek a vysvětlení jsou viditelné; dvě obsahové části a závěrečné shrnutí jsou skryté.*
+
+[CLICK]
+
+Projektová šablona se používá vedle složek Logical a Physical a souboru projektu. AGENTS.md popisuje architekturu, zásady a vhodný skill. Konfigurace MCP nastaví připojení, ale samotné servery je třeba instalovat zvlášť.
+[CLICK]
+
+Plugin as-skills nabízí postupy a reference pro technologie, například Structured Text, ANSI C, Physical konfiguraci, OPC UA a mapp. Skills se vybírají podle úlohy, nekopírují se do projektové šablony. Repozitář obsahuje také projektového agenta, příkaz pro review větve a materiály k MCP.
+[CLICK]
+
+Projektová pravidla směrují agenta ke správnému skillu a harness podle něj pracuje s kontextem projektu. as-cli je samostatný nástroj. Dostupnost skillů a MCP závisí na instalaci a konfiguraci; textové instrukce samy nevynucují oprávnění ani bezpečnost.
+
+*Poznámka: zdrojový README ještě uvádí as-script-task-skills, jeho vlastní README ale označuje tento postup za nahrazený as-cli. Neuvádějte jej jako aktuální doporučení.*
+
+*Konečný stav: rozlišeny jsou projektová šablona, pluginy a samostatný CLI nástroj; netvrďte, že repozitář automaticky aktivuje všechny funkce v každém prostředí.*
+
+Teď se podívejme na samostatný nástroj as-cli.
+*Zdroj pro přípravu: C:\100_Projects\as-docs\agentic-engineering-in-automation-studio\README.md; plugins\as-skills\README.md; template\AGENTS.md; docs\agentic-bridge\slides\s4\03-project-structure.js.*
 -->
 
 ---
@@ -589,11 +871,14 @@ class: ot-slide
 <p class="t-caption" style="margin-top: 16px; color: var(--steel);">Přehled a příklady převzaté z podkladů S5; dostupnost příkazů se může lišit podle verze.</p>
 
 <!--
-Záměr a čas: 1 minuta. Představte as-cli jako příkazové rozhraní k práci s projektem Automation Studia.
-Počáteční stav: vysvětlení, tabulka problémů a příkladové oblasti jsou viditelné; nic se neodhaluje.
-Řečový tah: CLI umožňuje zadávat příkazy člověkem nebo agentem. S5 zdůrazňuje, že práci s projektem zprostředkuje Automation Studio a as-cli čte schémata instalované verze. Neznamená to, že každý příkaz nebo změna jsou bez kontroly správné.
-Přechod: ukázat konkrétní příklady příkazových skupin.
-Zdroj pro přípravu: agentic-engineering-in-automation-studio/docs/agentic-bridge/slides/s5/07-what-is-as-cli.js.
+*Záměr a čas: 1 minuta. Představte as-cli jako příkazové rozhraní k práci s projektem Automation Studia.*
+
+*Počáteční stav: vysvětlení, tabulka problémů a příkladové oblasti jsou viditelné; nic se neodhaluje.*
+
+as-cli je příkazové rozhraní pro práci s projektem Automation Studia. Příkazy může zadávat člověk i agent a změny zprostředkovává Automation Studio, které pracuje se schématy instalované verze. Ani to ale neznamená, že každý příkaz nebo výsledek je automaticky správný.
+
+Na dalším slidu uvidíme příklady oblastí, které příkazy pokrývají.
+*Zdroj pro přípravu: agentic-engineering-in-automation-studio/docs/agentic-bridge/slides/s5/07-what-is-as-cli.js.*
 -->
 
 ---
@@ -630,12 +915,16 @@ class: dark-slide ot-slide
 </div>
 
 <!--
-Záměr a čas: 1 minuta. Ukažte šíři příkazových skupin a jeden příklad jejich zápisu.
-Počáteční stav: obě tematické skupiny a všech jedenáct příkladů jsou viditelné; nic se neodhaluje.
-Řečový tah: Projekt a tvorba pokrývá projekt, Logical view, hardware, konfiguraci technologií, mappView a symboly. Build a provoz zahrnuje ARsim, transfer, online PLC a síť. Příklady jsou převzaté z materiálů S5; nejde o příkazy skutečně spuštěné ani o záruku dostupnosti ve všech verzích. Transfer používá zástupný symbol adresy, nikoli skutečnou PLC adresu.
-Závěr: před použitím ověřit přesnou syntaxi a dostupné možnosti přes `as --help`.
-Přechod: od přehledu možností k plánované ukázce, jejíž běh stále není doložen.
-Zdroj pro přípravu: agentic-engineering-in-automation-studio/docs/agentic-bridge/slides/s5/09-capabilities.js.
+*Záměr a čas: 1 minuta. Ukažte šíři příkazových skupin a jeden příklad jejich zápisu.*
+
+*Počáteční stav: obě tematické skupiny a všech jedenáct příkladů jsou viditelné; nic se neodhaluje.*
+
+Příkazy pokrývají tvorbu projektu, Logical view, hardware, konfiguraci technologií, mappView i symboly. Druhá skupina se týká buildu, simulace, transferu, online PLC a sítě. Jsou to příklady z materiálů, nikoli příkazy, které jsme zde spustili. Dostupnost se může lišit podle verze.
+
+Před použitím ověřte aktuální syntaxi přes `as --help`. Adresa PLC v příkladu je jen zástupný symbol.
+
+Následující slide popisuje plán ukázky, nikoli důkaz, že už proběhla.
+*Zdroj pro přípravu: agentic-engineering-in-automation-studio/docs/agentic-bridge/slides/s5/09-capabilities.js.*
 -->
 
 ---
@@ -659,14 +948,20 @@ class: ot-slide
 <div class="ot-callout" style="margin-top: 32px;"><mdi-information-outline /><p>Bez ověřeného běhu neukazujeme úspěch ani simulované výstupy.</p></div>
 
 <!--
-Záměr a čas: 5 minut vyhrazených pro demonstraci; tento slide je zatím plán, nikoli dokončené demo.
-Počáteční stav: štítek „plán, běh neověřen“, ilustrační zadání a všech pět kroků jsou viditelné. Nic se neodhaluje.
-Příprava: potřebný skutečný Automation Studio projekt, ověřená verze AS CLI, připravené ARsim, přístupová oprávnění a předem definovaná očekávání.
-Řečový tah: postupně předat kontext, navrhnout změnu, sestavit projekt a pak samostatně testovat chování. Očekávání z podkladů je, že počítadlo po události vzroste a po resetu bude nula; dokud to neproběhne, jde jen o kritérium, ne výsledek.
-Ověřitelný výsledek: autentický výpis buildu a skutečné runtime hodnoty před i po resetu; člověk následně kontroluje změnu a test.
-Plán B: pokud není připravený projekt, CLI nebo ARsim, zůstat u tohoto plánu a vysvětlit kontroly. Nepoužívat statické výstupy z ukázkové komponenty jako důkaz.
-Přechod: ani úspěšný build a test samy neznamenají bezpečné nasazení.
-Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md; scénář je tam výslovně ilustrační.
+*Záměr a čas: 5 minut vyhrazených pro demonstraci; tento slide je zatím plán, nikoli dokončené demo.*
+
+*Počáteční stav: štítek „plán, běh neověřen“, ilustrační zadání a všech pět kroků jsou viditelné. Nic se neodhaluje.*
+
+Toto je plán pětiminutové demonstrace, nikoli dokončené demo. Ukázali bychom předání projektového kontextu, návrh změny, build a samostatný test chování. Očekávání je, že počítadlo po události vzroste a po resetu se vrátí na nulu. Dokud test skutečně neproběhne, je to pouze kritérium, ne výsledek.
+
+*Příprava: skutečný Automation Studio projekt, ověřená verze AS CLI, připravené ARsim, potřebná oprávnění a předem definovaná očekávání.*
+
+*Ověřitelný výsledek: autentický výpis buildu a skutečné runtime hodnoty před i po resetu; člověk následně kontroluje změnu i test.*
+
+*Plán B: pokud nejsou připravené projekt, CLI nebo ARsim, zůstaňte u plánu a vysvětlete kontroly. Statické výstupy z ukázkové komponenty nejsou důkazem.*
+
+A i úspěšný build a test samy o sobě ještě neznamenají bezpečné nasazení.
+*Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-agentic-bridge.md; scénář je tam výslovně ilustrační.*
 -->
 
 ---
@@ -688,12 +983,14 @@ class: ot-slide
 </div>
 
 <!--
-Záměr a čas: 1 minuta. Vymezte limity pracovního postupu bez nepodložených produktových slibů.
-Počáteční stav: všechny čtyři kontrolní výroky a obecná nabídka workshopu jsou viditelné; bez odhalení.
-Řečový tah: build kontroluje sestavení, nikoli automaticky runtime chování. Instrukce pomáhají vést agenta, ale samy nevynucují oprávnění nebo ochranu dat. I po testu člověk posuzuje jeho rozsah, změnu a rozhodnutí o nasazení. Jde o procesní hranice, ne o vyčerpávající seznam produktových limitů.
-Workshop nabídnout jako možnost navázat na konkrétní téma; cenu, termín ani obsah nespecifikovat.
-Přechod: další příležitostí k hlubšímu setkání je AI & Agentic Engineering Day v Telči.
-Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-repository.md, část „Guardrails“; nabídka workshopu vychází z README zadání.
+*Záměr a čas: 1 minuta. Vymezte limity pracovního postupu bez nepodložených produktových slibů.*
+
+*Počáteční stav: všechny čtyři kontrolní výroky a obecná nabídka workshopu jsou viditelné; bez odhalení.*
+
+Build ověřuje sestavení, ne automaticky chování za běhu. Instrukce pomáhají agenta vést, ale samy nevynucují oprávnění ani ochranu dat. I po testu člověk posoudí rozsah kontroly, provedenou změnu a rozhodne o nasazení. Jsou to hranice pracovního postupu, nikoli úplný seznam limitů produktu. Pokud chcete některé téma rozpracovat pro svůj projekt, můžeme navázat workshopem.
+
+Další příležitostí k setkání je AI & Agentic Engineering Day v Telči.
+*Zdroj pro přípravu: AI_Event_CZ/Slides/topics/as-repository.md, část „Guardrails“; nabídka workshopu vychází z README zadání.*
 -->
 
 ---
@@ -709,10 +1006,13 @@ class: ot-slide chapter-slide
 <p style="position: absolute; top: 590px; left: 35px; color: var(--steel);">Interní AI asistent pro práci B&amp;R support inženýrů</p>
 
 <!--
-Záměr a čas: 30 sekund. Uveďte konkrétní interní nástroj jako příklad AI v práci podpory.
-Počáteční stav: obraz, název a podtitul jsou viditelné; nic se neodhaluje.
-Řečový tah: nejde o produkt nabízený zákazníkům ani o návod k instalaci. Ukážeme schválenou ukázku rozhraní a pracovní možnosti podpory, ne přístup k nástroji.
-Přechod: začít tím, jaké typy dotazů lze z úvodní obrazovky otevřít.
+*Záměr a čas: 30 sekund. Uveďte konkrétní interní nástroj jako příklad AI v práci podpory.*
+
+*Počáteční stav: obraz, název a podtitul jsou viditelné; nic se neodhaluje.*
+
+Teď se podívejme na interního Support Agenta jako příklad AI v práci podpory. Nejde o produkt nabízený zákazníkům ani o návod k instalaci; ukážeme pouze schválenou ukázku rozhraní.
+
+Začněme tím, jaké typy dotazů nabízí úvodní obrazovka.
 -->
 
 ---
@@ -736,11 +1036,15 @@ class: ot-slide
 </div>
 
 <!--
-Záměr a čas: 2 minuty. Ukázkou schváleného screenshotu vysvětlete, jak support inženýr zahájí práci s asistentem.
-Počáteční stav: čtyři příklady témat i celý screenshot jsou viditelné; nic se neodhaluje.
-Řečový tah: rozhraní nabízí dotazy k ACOPOS servopohonu, struktuře AS6, ladění motion programu a hledání ve fóru. Jsou to pouze předsazené návrhy; screenshot neukazuje konverzaci, správnost odpovědi ani úspěšný výsledek.
-Hranice: použít pouze screenshot schválený zadavatelem pro externí prezentaci. Nezobrazovat ani nesdílet přístup, instalátor nebo interní oznámení.
-Přechod: přínos pracovního postupu spočívá také v kontextu, který může inženýr předat.
+*Záměr a čas: 2 minuty. Ukázkou schváleného screenshotu vysvětlete, jak support inženýr zahájí práci s asistentem.*
+
+*Počáteční stav: čtyři příklady témat i celý screenshot jsou viditelné; nic se neodhaluje.*
+
+Úvodní obrazovka nabízí několik návrhů: otázku k ACOPOS servopohonu, strukturu Automation Studia 6, ladění motion programu nebo hledání ve fóru. Jsou to jen návrhy začátku práce. Screenshot neukazuje konverzaci, správnost odpovědi ani výsledek řešení.
+
+*Hranice: používejte pouze screenshot schválený pro externí prezentaci. Nezobrazujte přístup, instalátor ani interní oznámení.*
+
+Důležitou součástí postupu je také kontext, který může inženýr asistentovi předat.
 -->
 
 ---
@@ -762,10 +1066,13 @@ class: ot-slide
 </div>
 
 <!--
-Záměr a čas: 3 minuty. Vysvětlete tři zdroje kontextu uvedené v interním oznámení Support Agenta.
-Počáteční stav: všechny tři zdroje a upozornění jsou viditelné; nic se neodhaluje.
-Řečový tah: nápověda AS4/AS6 se indexuje z lokální instalace; nástroj také křížově odkazuje Community a lze mu připojit AS projekt. Nezaměňujte tyto možnosti za garanci úplnosti či správnosti. Volitelnou integraci WorkIQ zde neukazujeme.
-Přechod: i s více kontextem zůstává odborné posouzení na člověku.
+*Záměr a čas: 3 minuty. Vysvětlete tři zdroje kontextu uvedené v interním oznámení Support Agenta.*
+
+*Počáteční stav: všechny tři zdroje a upozornění jsou viditelné; nic se neodhaluje.*
+
+Podle interního oznámení může Support Agent využít nápovědu AS4 a AS6 indexovanou z lokální instalace, odkazy do B&R Community a připojený projekt Automation Studia. Tyto zdroje rozšiřují kontext, ale nezaručují úplnost ani správnost odpovědi. Volitelnou integraci WorkIQ zde neukazujeme.
+
+Ani s více kontextem nepřechází odborné posouzení z inženýra na asistenta.
 -->
 
 ---
@@ -795,10 +1102,13 @@ class: ot-slide
 </div>
 
 <!--
-Záměr a čas: 2:30. Uzavřete téma přínosem v pracovním postupu a jasnou odpovědností inženýra.
-Počáteční stav: obě strany rozdělení a upozornění na chybějící metriky jsou viditelné; nic se neodhaluje.
-Řečový tah: asistent zjednodušuje dohledání materiálů a práci s kontextem; inženýr dál posuzuje verzi, relevanci, bezpečnost doporučení i další postup. Neuvádět konkrétní úsporu nebo úspěšnost — zdrojové materiály je neměří a screenshot neukazuje výsledek.
-Přechod: po příkladu interního nástroje se vraťte k pozvánce na AI & Agentic Engineering Day.
+*Záměr a čas: 2:30. Uzavřete téma přínosem v pracovním postupu a jasnou odpovědností inženýra.*
+
+*Počáteční stav: obě strany rozdělení a upozornění na chybějící metriky jsou viditelné; nic se neodhaluje.*
+
+Asistent může usnadnit dohledání materiálů a práci s kontextem. Inženýr ale dál posuzuje verzi, relevanci a bezpečnost doporučení a rozhoduje o dalším kroku. Nemáme zde doložené metriky úspory ani úspěšnosti a screenshot neukazuje výsledek konkrétního řešení, proto je nebudu tvrdit.
+
+Po příkladu z interní podpory se vraťme k pozvánce na AI & Agentic Engineering Day.
 -->
 
 ---
@@ -808,28 +1118,31 @@ class: ot-slide
 
 # Další akce <span style="color: var(--br-orange);">2026</span>
 
-<div class="ot-stage" style="gap: 32px;">
-  <div class="ot-photo" style="height: 320px;"><img src="/topics/ai-management/chapter.jpg" alt="Ilustrační fotografie: dva kolegové spolupracují u počítače"></div>
-  <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: center;">
+<div class="ot-stage">
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 32px; align-items: center;">
     <div>
-      <h2 style="margin: 0;">AI & Agentic Engineering Day</h2>
+      <div class="ot-photo" style="height: 320px;"><img src="/topics/ai-management/chapter.jpg" alt="Ilustrační fotografie: dva kolegové spolupracují u počítače"></div>
+      <h2 style="margin: 24px 0 0;">AI & Agentic Engineering Day</h2>
       <div style="display: flex; gap: 40px; margin-top: 12px;">
         <div><p class="t-caption">Datum</p><p class="t-block">4. listopadu 2026</p></div>
         <div><p class="t-caption">Místo</p><p class="t-block">Panský dvůr · Telč</p></div>
       </div>
     </div>
-    <div class="ot-row" style="max-width: 340px; border: 0;">
-      <span class="ot-icon"><mdi-qrcode /></span>
-      <div><p style="font-weight: 700;">Registrace</p><p>Odkaz nebo QR čeká na potvrzení pořadatelem.</p></div>
+    <div style="display: grid; justify-items: center; gap: 12px;">
+      <a href="https://events.bizzabo.com/AgenticEngineeringDay" target="_blank" rel="noreferrer" aria-label="Otevřít registraci na AI &amp; Agentic Engineering Day">
+        <img src="/topics/zaver/agentic-engineering-day-registration.svg" alt="QR kód pro registraci na AI &amp; Agentic Engineering Day" style="display: block; width: 450px; height: 450px;">
+      </a>
+      <p><a href="https://events.bizzabo.com/AgenticEngineeringDay" target="_blank" rel="noreferrer">Otevřít registraci</a></p>
     </div>
   </div>
 </div>
 
 <!--
-Záměr a čas: 1:30. Pozvěte publikum na navazující event a stručně zopakujte ověřené údaje.
-Počáteční stav: název akce, datum, místo a otevřený registrační údaj; bez odhalení.
-Řečový tah: AI & Agentic Engineering Day se podle schváleného banneru a programu koná 4. listopadu 2026 v Panském dvoře v Telči. Registrační adresu ani QR nezobrazujeme, dokud je nepotvrdí pořadatel.
-Přechod: poděkovat publiku a případné otázky směřovat k navazujícímu eventu nebo workshopu; bez tvrzení, že rezervované bloky prezentace byly dopracovány.
-Otevřená příprava: dodat oficiální URL/QR a banner umístěný v Slides/public. Současná grafika z lokálních podkladů leží mimo tento repozitář a není zde přibalená.
-Zdroj pro přípravu: AI_Event_CZ/Slides/slides.md, program 4. 11. 2026; schválený event banner.
+*Záměr a čas: 1:30. Pozvěte publikum na navazující event a stručně zopakujte ověřené údaje.*
+
+*Počáteční stav: název akce, datum, místo a velký registrační QR kód; bez odhalení.*
+
+Pokud vás témata zaujala, navazující AI & Agentic Engineering Day se podle schváleného banneru a programu koná 4. listopadu 2026 v Panském dvoře v Telči. Registrovat se můžete naskenováním QR kódu nebo otevřením odkazu na slidu. Děkuji za pozornost; případné otázky můžeme navázat na tuto akci nebo na workshop ke konkrétnímu tématu.
+
+*Zdroj pro přípravu: AI_Event_CZ/Slides/slides.md, program 4. 11. 2026; schválený event banner.*
 -->

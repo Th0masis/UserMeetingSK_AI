@@ -31,7 +31,7 @@ const slideTitles = [
   'Kvalitu určuje postup, ne nálepka',
   'Agentic workflow',
   'Close the gap',
-  'Model, harness, MCP a skills',
+  'Model, harness, tools a skills',
   'Jak vést k opakovatelnému výsledku',
   'Automation Studio Agentic Bridge',
   'Agentic Bridge: tři propojené části',
@@ -64,9 +64,74 @@ assert.ok(deck.slides[7].content.includes('nejsou ostrým protikladem'), 'Vibe c
 assert.ok(deck.slides[7].content.includes('produkční vhodnost určuje ověření, ne nálepka'), 'Production suitability must depend on verification, not the approach label')
 assert.ok(existsSync(resolve(root, 'public/topics/support-agent/support-agent-start-screen.png')), 'Support Agent screenshot must be available locally')
 assert.ok(deck.slides[21].content.includes('/topics/support-agent/support-agent-start-screen.png'), 'Support Agent screenshot must be included in its slide')
+const registrationSlide = deck.entry.slides[24].content
+assert.ok(registrationSlide.includes('href="https://events.bizzabo.com/AgenticEngineeringDay"'), 'Registration slide must link to the supplied event URL')
+assert.ok(registrationSlide.includes('src="/topics/zaver/agentic-engineering-day-registration.svg"'), 'Registration slide must include its local QR code')
+assert.ok(registrationSlide.includes('width: 450px; height: 450px;'), 'Registration QR code must be large enough for the projected room')
+assert.ok(existsSync(resolve(root, 'public/topics/zaver/agentic-engineering-day-registration.svg')), 'Registration QR code must be available locally')
 
 const source = readFileSync(resolve(root, 'slides.md'), 'utf8')
-const presenterNotes = source.match(/<!--\s*\r?\nZáměr a čas:[\s\S]*?-->/g) ?? []
+const presenterNotes = source.match(/<!--\s*\r?\n\*?Záměr a čas:[\s\S]*?-->/g) ?? []
 assert.equal(presenterNotes.length, deck.entry.slides.length, 'Every slide must have presenter notes')
+assert.ok(!presenterNotes.some(note => /Řekněte:/.test(note)), 'Spoken text must not be prefixed with “Řekněte:”')
+
+for (const [index, note] of presenterNotes.entries()) {
+  const cueLabels = [
+    'Záměr a čas',
+    'Počáteční stav',
+    'Mapa interakcí',
+    'Mapa odhalování',
+    'Konečný stav',
+    'Příprava',
+    'Ověřitelný výsledek',
+    'Plán B',
+    'Poznámka',
+    'Hranice',
+    'Zdroje a hranice',
+    'Inspirace',
+    'Otevřená příprava',
+    'Zdroj pro přípravu',
+    'Zdroj pro postup',
+  ]
+  for (const label of cueLabels) {
+    assert.ok(!new RegExp(`^${label}:`, 'm').test(note), `Slide ${index + 1} must italicize supplementary “${label}” notes`)
+  }
+  assert.ok(!/^Přechod:|^Závěr:/m.test(note), `Slide ${index + 1} must present spoken transitions without labels`)
+
+  const lines = note.split(/\r?\n/)
+  assert.ok(
+    lines.some(line => line.trim() && line !== '[CLICK]' && !line.startsWith('*') && line !== '<!--' && line !== '-->'),
+    `Slide ${index + 1} must include unitalicized presenter speech`,
+  )
+  for (const line of lines) {
+    if (line.startsWith('*') && line.endsWith('*')) {
+      const content = line.slice(1, -1)
+      assert.ok(
+        cueLabels.some(label => content.startsWith(`${label}:`))
+          || content.startsWith('Odkaz pro registraci dodal uživatel;')
+          || /^\[.+\]$/.test(content),
+        `Slide ${index + 1} must reserve italics for supplementary notes and interaction cues`,
+      )
+    }
+    assert.ok(line === '[CLICK]' || !/^\[.+\]$/.test(line), `Slide ${index + 1} must italicize interaction instructions`)
+  }
+
+  const clickMarkers = note.match(/^\[CLICK\]\r?$/gm) ?? []
+  const revealGroups = new Set(
+    [...deck.entry.slides[index].content.matchAll(/\bv-click="(\d+)"/g)].map(([, group]) => group),
+  )
+  assert.equal(clickMarkers.length, revealGroups.size, `Slide ${index + 1} must have one [CLICK] marker per reveal group`)
+  assert.ok(!/^\[click\]\r?$/m.test(note), `Slide ${index + 1} must use uppercase [CLICK] markers`)
+
+  for (const [lineIndex, line] of lines.entries()) {
+    if (line.trimEnd() === '[CLICK]') {
+      assert.equal(lines[lineIndex + 1], '', `Slide ${index + 1} must separate [CLICK] from its narration`)
+      assert.ok(
+        lines[lineIndex + 2] && !/^(?:\*|>|\[CLICK\])/.test(lines[lineIndex + 2]),
+        `Slide ${index + 1} must put spoken text, without a cue or quote block, after [CLICK]`,
+      )
+    }
+  }
+}
 
 console.log(`Content checks passed: ${deck.slides.length} slides, ${durationTotal} planned minutes, ${presenterNotes.length} presenter notes`)

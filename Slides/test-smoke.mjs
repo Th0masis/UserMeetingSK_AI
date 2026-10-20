@@ -273,6 +273,17 @@ async function checkDesign(layout, label) {
 
 async function checkRevealSequence(layout, slide, click) {
   const classes = String(slide.frontmatter.class ?? '').split(/\s+/)
+  if (classes.includes('agent-layers-slide')) {
+    const visible = await layout.locator('.agent-layers-table tbody tr').evaluateAll(rows =>
+      rows.filter(row => row.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }))
+        .map(row => row.querySelector('th').textContent.trim()),
+    )
+    assert.deepEqual(visible, ['LLM', 'Harness', 'Nástroje', 'Přizpůsobení'].slice(0, click),
+      `Wrong supplier-layer sequence after click ${click}`)
+    assert.equal(await layout.locator('.agent-layers-promise').evaluate(node =>
+      node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })), click >= 5,
+      'Agentic Bridge promise must appear after the four supplier layers')
+  }
   if (classes.includes('as-cli-slide')) {
     const visible = await layout.locator('.demo-steps > div:not(.slidev-vclick-hidden) b').allTextContents()
     assert.deepEqual(visible, asCliRevealSequence.slice(0, click),
@@ -288,6 +299,120 @@ async function checkRevealSequence(layout, slide, click) {
     assert.equal(await layout.locator('.bridge-knowledge-popup').count(), 0, 'Details must start closed after a reveal change')
     if (click === 4 || click === 5) await checkKnowledgeInteractions(layout, click)
   }
+}
+
+async function checkMechanismInteractions(layout) {
+  const cards = layout.locator('.ot-mechanism-card')
+  if (await cards.count() === 0) return
+  const page = layout.page()
+  const url = page.url()
+  const details = ['tokens', 'attention', 'output']
+  for (const [index, name] of details.entries()) {
+    const cardAccent = await cards.nth(index).evaluate(node => getComputedStyle(node).borderTopColor)
+    await cards.nth(index).click()
+    assert.equal(await layout.locator('.ot-mechanism-detail').getAttribute('data-mechanism'), name)
+    const key = layout.locator('.ot-mechanism-key > span')
+    assert.equal(await key.count(), 3)
+    assert.equal(await key.nth(index).getAttribute('aria-current'), 'step')
+    assert.equal(await key.nth(index).evaluate(node => getComputedStyle(node).borderTopColor), cardAccent,
+      'Diagram phase strip must match its overview card')
+    if (name !== 'tokens') {
+      assert.equal(await layout.locator('.ot-attention-row i').first().evaluate(node => getComputedStyle(node).backgroundColor), cardAccent,
+        'Diagram weights must match their phase color')
+    }
+    assert.equal(await layout.locator('.ot-mechanism-detail img').count(), 0, 'LLM details must use diagrams, not screenshots')
+    if (name === 'tokens') {
+      assert.equal(await layout.locator('.ot-token').count(), 13)
+      assert.equal(await layout.locator('.ot-token[data-in-context="true"]').count(), 8)
+      assert.equal(await layout.locator('.ot-token.is-outside').count(), 5)
+      await layout.getByRole('button', { name: '13 tokenů', exact: true }).click()
+      assert.equal(await layout.locator('.ot-token[data-in-context="true"]').count(), 13)
+      assert.equal(await layout.locator('.ot-token.is-outside').count(), 0)
+      await checkDesign(layout, `${activeViewport.name}, LLM full context`)
+      await page.screenshot({
+        path: fileURLToPath(new URL(`${activeViewport.name}/llm-tokens-full.png`, screenshotRoot)),
+        clip: await layout.boundingBox(),
+        animations: 'disabled',
+      })
+      await layout.getByRole('button', { name: '8 tokenů', exact: true }).click()
+    } else if (name === 'attention') {
+      assert.equal(await layout.locator('.ot-vector-map').count(), 1)
+      assert.deepEqual(await layout.locator('.ot-vector-row .is-updated b').allTextContents(), ['0.54', '0.22', '0.28', '0.17'])
+    } else {
+      const advance = layout.getByRole('button', { name: 'Přidat token', exact: false })
+      const weights = await layout.locator('[data-weight]').evaluateAll(nodes => nodes.map(node => Number(node.dataset.weight)))
+      assert.deepEqual(weights, [34, 22, 18, 26])
+      for (const [step, answer] of ['Prosím', 'Prosím pošlete', 'Prosím pošlete trace'].entries()) {
+        await advance.click()
+        assert.equal(await layout.locator('.ot-generation-answer').textContent(), answer)
+        const updated = await layout.locator('[data-weight]').evaluateAll(nodes => nodes.map(node => Number(node.dataset.weight)))
+        assert.equal(updated.reduce((sum, weight) => sum + weight, 0), 100)
+        if (step === 0) assert.notDeepEqual(updated, weights, 'Weights must change with generated context')
+        await checkDesign(layout, `${activeViewport.name}, LLM generation step ${step + 1}`)
+        await page.screenshot({
+          path: fileURLToPath(new URL(`${activeViewport.name}/llm-output-step-${step + 1}.png`, screenshotRoot)),
+          clip: await layout.boundingBox(),
+          animations: 'disabled',
+        })
+      }
+      assert.equal(await advance.isDisabled(), true)
+      await layout.getByRole('button', { name: 'Od začátku', exact: true }).click()
+      assert.equal(await layout.locator('.ot-generated-context .ot-chip').count(), 0)
+      assert.deepEqual(await layout.locator('[data-weight]').evaluateAll(nodes => nodes.map(node => Number(node.dataset.weight))), weights)
+    }
+    await checkDesign(layout, `${activeViewport.name}, LLM ${name} detail`)
+    await page.screenshot({
+      path: fileURLToPath(new URL(`${activeViewport.name}/llm-${name}.png`, screenshotRoot)),
+      clip: await layout.boundingBox(),
+      animations: 'disabled',
+    })
+    await layout.locator('.ot-mechanism-back').click()
+    assert.equal(await cards.count(), 3)
+    assert.equal(page.url(), url, 'LLM detail controls must not advance the slide')
+  }
+}
+
+async function checkChatInteractions(layout, slideNumber, click) {
+  if (![5, 6].includes(slideNumber)) return
+  const page = layout.page()
+  const url = page.url()
+  const groups = slideNumber === 5
+    ? [['.ot-chat-agent', 1], ['.ot-chat-user', 2], ['.ot-chat-agent', 3]]
+    : [['.ot-chat-user', 1], ['.ot-chat-tools', 2], ['.ot-chat-verification', 3]]
+  const targets = slideNumber === 5
+    ? [layout.locator(groups[0][0]).nth(0), layout.locator(groups[1][0]).nth(1), layout.locator(groups[2][0]).nth(1)]
+    : groups.map(([selector]) => layout.locator(selector))
+  for (const [index, target] of targets.entries()) {
+    assert.equal(await target.evaluate(node => node.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })),
+      click >= groups[index][1], `Chat slide ${slideNumber}: wrong reveal group ${index + 1}`)
+  }
+  if (click === 3) {
+    const tools = layout.locator('.ot-chat-tool')
+    assert.equal(await tools.count(), slideNumber === 5 ? 1 : 2)
+    for (const tool of await tools.all()) {
+      await tool.locator('summary').focus()
+      await tool.locator('summary').press('Enter')
+      assert.equal(await tool.getAttribute('open'), '')
+      assert.equal(await tool.locator('p').isVisible(), true)
+      assert.equal(page.url(), url, 'Opening a tool must not advance the slide')
+    }
+    await checkDesign(layout, `${activeViewport.name}, chat ${slideNumber}, expanded tools`)
+    await page.screenshot({
+      path: fileURLToPath(new URL(`${activeViewport.name}/chat-${slideNumber}-tools.png`, screenshotRoot)),
+      clip: await layout.boundingBox(),
+      animations: 'disabled',
+    })
+    for (const tool of await tools.all()) {
+      await tool.locator('summary').click()
+      assert.equal(await tool.getAttribute('open'), null)
+    }
+    assert.equal(page.url(), url, 'Closing a tool must not advance the slide')
+  }
+  await page.screenshot({
+    path: fileURLToPath(new URL(`${activeViewport.name}/chat-${slideNumber}-click-${click}.png`, screenshotRoot)),
+    clip: await layout.boundingBox(),
+    animations: 'disabled',
+  })
 }
 
 async function checkKnowledgeInteractions(layout, click) {
@@ -402,6 +527,8 @@ try {
       await page.waitForFunction(() => document.fonts.status === 'loaded', null, { timeout: 15000 })
       await checkRevealSequence(layout, slide, 0)
       await checkDesign(layout, `${viewport.name}, slide ${slideNumber}, initial`)
+      await checkChatInteractions(layout, slideNumber, 0)
+      await checkMechanismInteractions(layout)
       const clicks = Math.max(Number(slide.frontmatter.clicks) || 0, await layout.locator('[data-slidev-clicks-start]').evaluateAll(nodes =>
         Math.max(0, ...nodes.map(node => Number(node.getAttribute('data-slidev-clicks-start')) || 0)),
       ))
@@ -417,6 +544,7 @@ try {
         }, slideNumber, { timeout: 15000 })
         await checkRevealSequence(layout, slide, click)
         await checkDesign(layout, `${viewport.name}, slide ${slideNumber}, click ${click}`)
+        await checkChatInteractions(layout, slideNumber, click)
       }
       await layout.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())))
       const brokenImages = await layout.locator('img').evaluateAll(images =>

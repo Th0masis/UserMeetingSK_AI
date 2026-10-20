@@ -99,3 +99,18 @@ interakce, obrázky, poznámky prezentujícího, čitelnost na menším rozliše
 a délku vystoupení. CI navíc kontroluje build, produkční preview a screenshoty.
 Automatické kontroly nenahrazují vizuální kontrolu. Grafická pravidla jsou v
 [grafických poznámkách](../docs/graphic-notes.md).
+
+Na slidu „LLM není kouzelná skříňka“ smoke test otevírá všechny tři karty,
+ověřuje diagramy bez screenshotů, rozpočet 8 / 13 tokenů, update vektoru
+a tři kroky generování včetně změny vah, koncového stavu a resetu.
+Barevné pruhy v detailech musí odpovídat kartám: oranžová tokenizace,
+modrý transformer a zelené generování; aktivní fáze je označena také textově.
+Kontroluje také návrat do přehledu bez posunu slidu. Snímky detailů ukládá
+jako `llm-*.png`. Ručně ověřte čitelnost popisků a soulad grafiky s poznámkami.
+
+Na slidech 5 a 6 smoke test kontroluje tři skupiny odhalování chatů.
+V konečném stavu otevře záznamy nástrojů klávesnicí, ověří jejich obsah
+a layout i při současném rozbalení a zavře je kliknutím bez posunu slidu.
+Snímky všech kroků a rozbalených nástrojů ukládá jako `chat-*.png`.
+Ukázky jsou zkrácené rekonstrukce dodaných chatů, nikoli ověření podpory HW;
+pravý chat na slidu 5 neobsahuje nedoložená volání nástrojů.
