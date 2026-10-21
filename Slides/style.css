@@ -1732,6 +1732,11 @@
   border-radius: 3px;
 }
 
+.ot-cli-groups.has-large-commands .ot-cli-command-row code {
+  --text-role: command-large;
+  --text-size: 16px;
+}
+
 /* Dark technical variant: same layout hierarchy, inverted contrast. */
 .slidev-layout.dark-slide {
   --steel: #d9e0e3;

@@ -156,13 +156,24 @@ async function checkDesign(layout, label) {
         }
       }
     }
+    const capabilityCommands = [...element.querySelectorAll('.ot-cli-command-row code')]
+    const largeCommandRoles = [...element.querySelectorAll('*')].filter(node =>
+      getComputedStyle(node).getPropertyValue('--text-role').trim() === 'command-large',
+    )
+    const largeCommandGroups = element.querySelectorAll('.ot-cli-groups.has-large-commands')
+    check(largeCommandGroups.length === 0
+      ? largeCommandRoles.length === 0
+      : largeCommandGroups.length === 1 && element.querySelector('h1')?.textContent.trim() === 'Co umí as-cli?'
+        && capabilityCommands.length === 11 && largeCommandRoles.length === 11
+        && capabilityCommands.every(node => getComputedStyle(node).getPropertyValue('--text-role').trim() === 'command-large'),
+    'The large command role must be limited to the as-cli capability examples')
     const heading = element.querySelector('h1')
     for (const rule of rules.wrapping) {
       for (const text of element.querySelectorAll(rule.selector)) {
         const style = getComputedStyle(text)
         check(style.whiteSpace === rule.whiteSpace && style.wordBreak === rule.wordBreak && style.overflowWrap === rule.overflowWrap, `Wrong text wrapping: ${text.className || text.localName}`)
         check(style.textOverflow !== 'ellipsis' && ['none', ''].includes(style.webkitLineClamp), `Essential text is truncated: ${text.className || text.localName}`)
-        if (['command', 'code', 'technical'].includes(style.getPropertyValue('--text-role').trim())) {
+        if (['command', 'command-large', 'code', 'technical'].includes(style.getPropertyValue('--text-role').trim())) {
           check(style.hyphens === 'none', 'Technical text must not insert hyphens')
         }
       }

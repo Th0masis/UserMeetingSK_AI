@@ -970,7 +970,7 @@ class: dark-slide ot-slide
 
 <h1>Co umí as-cli?</h1>
 <div class="ot-stage" style="gap: 20px;">
-  <div class="ot-cli-groups">
+  <div class="ot-cli-groups has-large-commands">
     <section class="ot-card is-feature ot-cli-group" style="--accent: var(--flow-blue);">
       <div class="ot-card-head" style="justify-content: flex-start;"><span class="ot-icon is-lg"><mdi-file-cog-outline /></span><h2>Projekt a tvorba</h2></div>
       <div class="ot-cli-command-list">

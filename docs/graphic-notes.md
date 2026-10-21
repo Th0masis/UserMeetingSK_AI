@@ -157,7 +157,8 @@ accent. Do not communicate status by color alone.
    `technical`: dense log tables and full command-help output. These two roles
    are explicit density variants, not permission to shrink arbitrary prose.
    `command`: essential demonstration commands and test-script paths, 14px mono;
-   longer command results remain the code role and wrap.
+   longer command results remain the code role and wrap. `command-large` is a
+   16px mono variant used only for the capability examples on the as-cli slide.
 - Do not shrink text to fit. Reflow or increase the available content region;
    terminal output must keep the same code size and fit without scrolling.
 - Main h1 is at most two lines and 1050px wide (1140px on the cover).
@@ -188,7 +189,8 @@ line-height of 1.
       "minor": [10, 1.2, "mono"],
       "compact": [14, 1.3, "brand"],
       "technical": [10, 1.35, "mono"],
-      "command": [14, 1.35, "mono"]
+      "command": [14, 1.35, "mono"],
+      "command-large": [16, 1.35, "mono"]
    },
    "headings": {
       "content": [70, 34, 1050],
