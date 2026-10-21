@@ -191,8 +191,8 @@
 
 .talk-agenda > div {
   display: grid;
-  grid-template-columns: 100px 1fr;
-  align-items: baseline;
+  grid-template-columns: 44px 50px minmax(0, 1fr);
+  align-items: center;
   gap: 14px;
   min-height: 38px;
   padding-bottom: 8px;
@@ -200,8 +200,7 @@
 }
 
 .talk-agenda span,
-.section-duration,
-.agenda-total {
+.section-duration {
   color: var(--br-orange);
   --text-role: caption;
   --text-size: var(--type-caption);
@@ -209,11 +208,6 @@
 }
 
 .talk-agenda strong {
-  font-weight: 700;
-}
-
-.agenda-total {
-  margin-top: 20px !important;
   font-weight: 700;
 }
 
@@ -1113,7 +1107,7 @@
   grid-template-columns: 1.08fr 0.92fr;
   align-items: center;
   gap: var(--space-3xl);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-2xl);
 }
 
 .it-ot-points {
@@ -1626,30 +1620,6 @@
 
 .slidev-vclick-hidden .ot-icon {
   scale: 0.7;
-}
-
-/* Agenda: icon, title and a bar proportional to the block length (--m minutes). */
-.talk-agenda > div.has-bar {
-  grid-template-columns: 44px 72px minmax(0, 1fr) 280px;
-  align-items: center;
-}
-
-.agenda-bar {
-  display: block;
-  width: calc(var(--m) / 14 * 100%);
-  height: 10px;
-  background: var(--br-orange);
-  border-radius: 5px;
-}
-
-.agenda-bar.is-reserve {
-  background: repeating-linear-gradient(135deg, var(--br-orange-hot) 0 6px, var(--paper) 6px 10px);
-  border: 1px solid var(--br-orange-hot);
-}
-
-.agenda-bars {
-  display: flex;
-  gap: 2px;
 }
 
 /* Token probability bars: grow when their reveal group is shown. */

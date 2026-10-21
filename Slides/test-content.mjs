@@ -27,7 +27,7 @@ const slideTitles = [
   'AI znovu rozevírá rozdíl mezi IT a OT',
   'Základy LLM',
   "{{ selectedMechanism === null ? 'LLM není kouzelná skříňka' : mechanismTitles[selectedMechanism] }}",
-  'Probabilističtí agenti, deterministické nástroje',
+  'Pravděpodobnostní návrhy, ověřitelné kontroly',
   'Od vágní otázky k ověření',
   'Od autocomplete k agentovi',
   'Agentic Engineering',
@@ -84,9 +84,13 @@ assert.ok(!deck.slides.some(slide => /<h1\b[^>]*>Jak vést k opakovatelnému vý
 const sectionMinutes = [3, 5, 14, 14, 8, 6]
 const durationTotal = sectionMinutes.reduce((total, duration) => total + duration, 0)
 assert.equal(durationTotal, 50, 'The programme including reservations must total 50 minutes')
-assert.ok(deck.slides[1].content.includes('50 minut celkem'), 'Outline must show the 50-minute programme')
-assert.ok(deck.slides[1].content.includes('aktivní část 45:30'), 'Outline must show the active 45:30')
-assert.ok(deck.slides[1].content.includes('rezervace 4:30'), 'Outline must preserve the 4:30 reservation')
+const agenda = deck.slides[1].content
+assert.equal((agenda.match(/<i class="ot-icon"/g) ?? []).length, 5, 'Outline must show five numbered sections')
+for (const number of ['01', '02', '03', '04', '05']) {
+  assert.ok(agenda.includes(`<span>${number}</span>`), `Outline must include section number ${number}`)
+}
+assert.ok(!agenda.includes('min</span>'), 'Outline must show section numbers instead of durations')
+assert.ok(!agenda.includes('Příklady z praxe'), 'Outline must omit the examples-from-practice section')
 const agenticChapterIndex = deck.slides.findIndex(slide => /<h1[^>]*>Agentic Engineering<\/h1>/.test(slide.content))
 const vibeCodingIndex = deck.slides.findIndex(slide => slide.content.includes('# Kvalitu určuje postup, ne nálepka'))
 assert.ok(agenticChapterIndex < vibeCodingIndex, 'Agentic Engineering chapter must precede the Vibe coding slide')

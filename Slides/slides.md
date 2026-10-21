@@ -48,22 +48,19 @@ class: agenda-slide
 # Osnova
 
 <div class="talk-agenda">
-  <div class="has-bar"><i class="ot-icon"><mdi-hand-wave-outline /></i><span>03 min</span><strong>Úvod</strong><i class="agenda-bar" style="--m: 3;"></i></div>
-  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-blue);"><mdi-brain /></i><span>05 min</span><strong>Základy LLM</strong><i class="agenda-bar" style="--m: 5;"></i></div>
-  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-cyan);"><mdi-cog-play-outline /></i><span>14 min</span><strong>Agentic Engineering</strong><i class="agenda-bar" style="--m: 14;"></i></div>
-  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-purple);"><mdi-bridge /></i><span>14 min</span><strong>Automation Studio Agentic Bridge</strong><i class="agenda-bar" style="--m: 14;"></i></div>
-  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-green);"><mdi-face-agent /></i><span>08 min</span><strong>Support Agent</strong><i class="agenda-bar" style="--m: 8;"></i></div>
-  <div class="has-bar"><i class="ot-icon" style="--accent: var(--flow-amber);"><mdi-factory /></i><span>06 min</span><strong>Příklady z praxe <span class="agenda-reservation">rezervace 4:30</span> + pozvánka 1:30</strong><i class="agenda-bars"><i class="agenda-bar is-reserve" style="--m: 4.5;"></i><i class="agenda-bar" style="--m: 1.5;"></i></i></div>
+  <div><i class="ot-icon"><mdi-hand-wave-outline /></i><span>01</span><strong>Úvod</strong></div>
+  <div><i class="ot-icon" style="--accent: var(--flow-blue);"><mdi-brain /></i><span>02</span><strong>Základy LLM</strong></div>
+  <div><i class="ot-icon" style="--accent: var(--flow-cyan);"><mdi-cog-play-outline /></i><span>03</span><strong>Agentic Engineering</strong></div>
+  <div><i class="ot-icon" style="--accent: var(--flow-purple);"><mdi-bridge /></i><span>04</span><strong>Automation Studio Agentic Bridge</strong></div>
+  <div><i class="ot-icon" style="--accent: var(--flow-green);"><mdi-face-agent /></i><span>05</span><strong>Support Agent</strong></div>
 </div>
 
-<p class="agenda-total">50 minut celkem · aktivní část 45:30 · rezervace 4:30</p>
-
 <!--
-*Záměr a čas: 30 sekund. Orientujte publikum v šestidílném programu a ukažte, že 4:30 zůstává rezervováno.*
+*Záměr a čas: 30 sekund. Orientujte publikum v pěti částech programu.*
 
-*Počáteční stav: všech šest řádků a součet 50 minut jsou viditelné; nic se neodhaluje.*
+*Počáteční stav: všech pět očíslovaných částí programu je viditelných; nic se neodhaluje.*
 
-Program včetně úvodu a pozvánky má 50 minut. Z toho je připraveno 45 minut a 30 sekund obsahu; 4 minuty a 30 sekund zůstávají rezervované na příklady z praxe. Support Agentu věnujeme osm minut a závěr s pozvánkou minutu a půl.
+Začneme úvodem a základy LLM, potom přejdeme k Agentic Engineeringu, Agentic Bridge a Support Agentu. Na závěr pozvu zájemce na AI event v Telči nebo na workshop k vybranému tématu.
 
 Začněme otázkou: podle čeho poznáme, že je návrh AI použitelný?
 -->
@@ -338,7 +335,7 @@ layout: default
 class: ot-slide agent-stability-slide
 ---
 
-<h1>Probabilističtí agenti, deterministické nástroje</h1>
+<h1>Pravděpodobnostní návrhy, ověřitelné kontroly</h1>
 <p class="ot-lead">Stejný text negarantujeme. Vedeme záměr a ověřujeme výsledek.</p>
 
 <div class="ot-stage agent-stability-stage">
